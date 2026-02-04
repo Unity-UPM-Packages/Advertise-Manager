@@ -9,6 +9,7 @@ using GoogleMobileAds.Api;
 using TheLegends.Base.AppsFlyer;
 using AppsFlyerSDK;
 #endif
+using TheLegends.Base.Databuckets;
 using TheLegends.Base.UI;
 #if USE_FIREBASE
 using TheLegends.Base.Firebase;
@@ -1143,7 +1144,7 @@ namespace TheLegends.Base.Ads
             ShowAppOpen(PlacementOrder.One, "Pause");
         }
 
-        public void LogImpressionData(AdsNetworks network, AdsType adsType, string adsUnitID, object value)
+        public void LogImpressionData(AdsNetworks network, AdsType adsType, string adsUnitID, string network_platform, string position, object value)
         {
             AdCount++;
 
@@ -1153,6 +1154,8 @@ namespace TheLegends.Base.Ads
             string ad_format = "";
             string country = "";
             string currency = "USD";
+            string placement = position;
+
 #if USE_APPSFLYER
             MediationNetwork mediation = MediationNetwork.Custom;
 #endif
@@ -1233,7 +1236,8 @@ namespace TheLegends.Base.Ads
                     {"ad_unit_name", impressionData.AdUnitIdentifier},
                     {"ad_format", impressionData.AdFormat},
                     {"value", revenue},
-                    {"currency", "USD"}
+                    {"currency", "USD"},
+                    {"placement", ad_position}
                 };
 
                 FirebaseManager.Instance.LogEvent("ad_impression", impressionParameters);
@@ -1265,6 +1269,20 @@ namespace TheLegends.Base.Ads
                 { AdRevenueScheme.AD_UNIT, ad_unit_name },
                 { AdRevenueScheme.AD_TYPE, ad_format },
                 { AdRevenueScheme.COUNTRY, country },
+            });
+#endif
+
+
+#if USE_DATABUCKETS
+
+            DatabucketsManager.Instance.RecordEvent("ad_impression", new Dictionary<string, object>
+            {
+                { "ad_format", ad_format },
+                { "ad_platform", mediation.ToString() },
+                { "ad_network", network_platform},
+                { "ad_unit_id", adsUnitID },
+                { "placement", placement },
+                { "value", revenue }
             });
 #endif
 

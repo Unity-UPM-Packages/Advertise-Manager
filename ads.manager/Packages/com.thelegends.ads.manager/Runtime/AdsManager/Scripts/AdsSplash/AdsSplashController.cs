@@ -10,6 +10,7 @@ using TheLegends.Base.AppsFlyer;
 using TheLegends.Base.Firebase;
 #endif
 using TheLegends.Base.UI;
+using TheLegends.Base.Databuckets;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -48,6 +49,8 @@ namespace TheLegends.Base.Ads
             }
         }
 
+        private Dictionary<string, object> conversionDataDictionary = new Dictionary<string, object>();
+
         [Space(10)]
         [SerializeField]
         private UnityEvent OnInitFirebaseDone = new UnityEvent();
@@ -85,6 +88,8 @@ namespace TheLegends.Base.Ads
             yield return FetchAndUpdateRemoteConfigs();
             OnInitFirebaseDone?.Invoke();
 #endif
+
+            InitDatabuckets();
 
             // Initialize Ads Manager
             yield return AdsManager.Instance.DoInit();
@@ -136,8 +141,7 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-#if USE_FIREBASE
-            Dictionary<string, object> conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
+            conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
 
             try
             {
@@ -246,6 +250,25 @@ namespace TheLegends.Base.Ads
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
         }
 #endif
+
+        private void InitDatabuckets()
+        {
+            DatabucketsManager.Instance.Init();
+
+            var ua_network = conversionDataDictionary.FirstOrDefault(k => k.Key == "media_source").Value as string;
+            var ua_campaign = conversionDataDictionary.FirstOrDefault(k => k.Key == "campaign").Value as string;
+            var ua_adgroup = conversionDataDictionary.FirstOrDefault(k => k.Key == "adgroup").Value as string;
+            var ua_creative = conversionDataDictionary.FirstOrDefault(k => k.Key == "adset").Value as string;
+
+            DatabucketsManager.Instance.SetCommonProperties(new Dictionary<string, object>
+            {
+                { "ua_network", ua_network ?? "Unavailable" },
+                { "ua_campaign", ua_campaign ?? "Unavailable" },
+                { "ua_adgroup", ua_adgroup ?? "Unavailable" },
+                { "ua_creative", ua_creative ?? "Unavailable" }
+            });
+
+        }
 
         private IEnumerator LoadInitialAds()
         {
