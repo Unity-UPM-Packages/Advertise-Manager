@@ -29,7 +29,7 @@ namespace TheLegends.Base.Ads
             get { return adsCamera; }
         }
 
-        private List<AdsNetworkBase> adsNetworks = new List<AdsNetworkBase>();
+        private List<AdsMediationBase> adsMediations = new List<AdsMediationBase>();
 
         private readonly WaitForSeconds _initDelay = new WaitForSeconds(0.25f);
         private readonly WaitForSeconds _showAppOpenDelay = new WaitForSeconds(0.5f);
@@ -38,7 +38,7 @@ namespace TheLegends.Base.Ads
 
         public AdsConfigs adsConfigs;
 
-        public Action<AdsNetworks, AdsType, double> OnImpressionRecored;
+        public Action<AdsMediation, AdsType, double> OnImpressionRecored;
 
         public AdsSettings SettingsAds
         {
@@ -61,9 +61,9 @@ namespace TheLegends.Base.Ads
             private set => settingsAds = value;
         }
 
-        protected AdsNetworks DefaultMediation
+        protected AdsMediation DefaultMediation
         {
-            get { return SettingsAds.AdsNetworks.FirstOrDefault(); }
+            get { return SettingsAds.AdsMediations.FirstOrDefault(); }
         }
 
         private DateTime lastTimeShowAd = DateTime.Now.AddSeconds(-600);
@@ -104,9 +104,9 @@ namespace TheLegends.Base.Ads
                 {
                     PlayerPrefs.SetInt("IsCanShowAds", 0);
 
-                    foreach (var network in adsNetworks)
+                    foreach (var mediation in adsMediations)
                     {
-                        network.RemoveAds();
+                        mediation.RemoveAds();
                     }
                 }
 
@@ -141,9 +141,9 @@ namespace TheLegends.Base.Ads
 
         public IEnumerator DoInit()
         {
-            if (SettingsAds.AdsNetworks == null || SettingsAds.AdsNetworks.Count == 0)
+            if (SettingsAds.AdsMediations == null || SettingsAds.AdsMediations.Count == 0)
             {
-                LogError("AdsNetworks NULL or Empty --> return");
+                LogError("AdsMediations NULL or Empty --> return");
                 status = InitiationStatus.Failed;
                 yield break;
             }
@@ -156,11 +156,11 @@ namespace TheLegends.Base.Ads
 
             status = InitiationStatus.Initializing;
 
-            adsNetworks = GetComponentsInChildren<AdsNetworkBase>().ToList();
+            adsMediations = GetComponentsInChildren<AdsMediationBase>().ToList();
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                yield return network.DoInit();
+                yield return mediation.DoInit();
                 yield return _initDelay;
             }
 
@@ -179,9 +179,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.LoadInterstitial(interType, order);
+                mediation.LoadInterstitial(interType, order);
             }
 
 
@@ -204,11 +204,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = GetNetworkToShow(interType, order);
+            var mediation = GetMediationToShow(interType, order);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowInterstitial(interType, order, position, OnClose);
+                mediation.ShowInterstitial(interType, order, position, OnClose);
             }
         }
 
@@ -223,9 +223,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.LoadRewarded(order);
+                mediation.LoadRewarded(order);
             }
         }
 
@@ -236,11 +236,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = GetNetworkToShow(AdsType.Rewarded, order);
+            var mediation = GetMediationToShow(AdsType.Rewarded, order);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowRewarded(order, position, OnRewarded);
+                mediation.ShowRewarded(order, position, OnRewarded);
 
                 if (GetAdsStatus(AdsType.Rewarded, order) != AdsEvents.LoadAvailable)
                 {
@@ -260,9 +260,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.LoadAppOpen(order);
+                mediation.LoadAppOpen(order);
             }
 
         }
@@ -285,11 +285,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = GetNetworkToShow(AdsType.AppOpen, order);
+            var mediation = GetMediationToShow(AdsType.AppOpen, order);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowAppOpen(order, position, OnClose);
+                mediation.ShowAppOpen(order, position, OnClose);
             }
         }
 
@@ -304,9 +304,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.LoadBanner(order);
+                mediation.LoadBanner(order);
             }
 
         }
@@ -318,11 +318,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = GetNetworkToShow(AdsType.Banner, order);
+            var mediation = GetMediationToShow(AdsType.Banner, order);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowBanner(order, position);
+                mediation.ShowBanner(order, position);
             }
         }
 
@@ -333,9 +333,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.HideBanner(order);
+                mediation.HideBanner(order);
             }
 
             var config = bannerShowedConfigs.FirstOrDefault(x => x.order == order);
@@ -344,9 +344,9 @@ namespace TheLegends.Base.Ads
 
         public void HideAllBanner()
         {
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.HideAllBanner();
+                mediation.HideAllBanner();
             }
         }
 
@@ -387,9 +387,9 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.LoadMrec(mrecType, order);
+                mediation.LoadMrec(mrecType, order);
             }
 
         }
@@ -401,11 +401,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = GetNetworkToShow(mrecType, order);
+            var mediation = GetMediationToShow(mrecType, order);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowMrec(mrecType, order, mrecPosition, offset, position);
+                mediation.ShowMrec(mrecType, order, mrecPosition, offset, position);
             }
         }
 
@@ -416,17 +416,17 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.HideMrec(mrecType, order);
+                mediation.HideMrec(mrecType, order);
             }
         }
 
         public void HideAllMrec()
         {
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
-                network.HideAllMrec();
+                mediation.HideAllMrec();
             }
         }
 
@@ -445,11 +445,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeOverlay(order);
+                mediation.LoadNativeOverlay(order);
             }
         }
 
@@ -460,11 +460,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.ShowNativeOverlay(order, style, nativeOverlayposition, size, offset, position, OnShow, OnClose);
+                mediation.ShowNativeOverlay(order, style, nativeOverlayposition, size, offset, position, OnShow, OnClose);
             }
         }
 
@@ -475,11 +475,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeOverlay(order);
+                mediation.HideNativeOverlay(order);
             }
         }
 
@@ -494,11 +494,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeBanner(order);
+                mediation.LoadNativeBanner(order);
             }
         }
 
@@ -510,11 +510,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeBanner(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeBanner(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -527,11 +527,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeBanner(order);
+                mediation.HideNativeBanner(order);
             }
 
             var config = nativeBannerShowedConfigs.FirstOrDefault(x => x.order == order);
@@ -540,10 +540,10 @@ namespace TheLegends.Base.Ads
 
         public void HideAllNativeBanner()
         {
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
-            if (netWork != null)
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+            if (mediation != null)
             {
-                netWork.HideAllNativeBanner();
+                mediation.HideAllNativeBanner();
             }
         }
 
@@ -587,11 +587,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeInter(order);
+                mediation.LoadNativeInter(order);
             }
         }
 
@@ -603,11 +603,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeInter(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeInter(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -620,11 +620,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeInter(order);
+                mediation.HideNativeInter(order);
             }
         }
 
@@ -639,11 +639,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeReward(order);
+                mediation.LoadNativeReward(order);
             }
         }
 
@@ -655,11 +655,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeReward(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeReward(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -672,11 +672,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeReward(order);
+                mediation.HideNativeReward(order);
             }
         }
 
@@ -691,11 +691,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeMrec(order);
+                mediation.LoadNativeMrec(order);
             }
         }
 
@@ -707,11 +707,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeMrec(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeMrec(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -724,20 +724,20 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeMrec(order);
+                mediation.HideNativeMrec(order);
             }
         }
 
         public void HideAllNativeMrec()
         {
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
-            if (netWork != null)
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+            if (mediation != null)
             {
-                netWork.HideAllNativeMrec();
+                mediation.HideAllNativeMrec();
             }
         }
 
@@ -753,11 +753,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeAppOpen(order);
+                mediation.LoadNativeAppOpen(order);
             }
         }
 
@@ -769,11 +769,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeAppOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeAppOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -786,11 +786,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeAppOpen(order);
+                mediation.HideNativeAppOpen(order);
             }
         }
 
@@ -805,11 +805,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeInterOpen(order);
+                mediation.LoadNativeInterOpen(order);
             }
         }
 
@@ -821,11 +821,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeInterOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeInterOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -838,11 +838,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeInterOpen(order);
+                mediation.HideNativeInterOpen(order);
             }
         }
 
@@ -857,11 +857,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeMrecOpen(order);
+                mediation.LoadNativeMrecOpen(order);
             }
         }
 
@@ -873,11 +873,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeMrecOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeMrecOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -890,11 +890,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeMrecOpen(order);
+                mediation.HideNativeMrecOpen(order);
             }
         }
 
@@ -909,11 +909,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.LoadNativeVideo(order);
+                mediation.LoadNativeVideo(order);
             }
         }
 
@@ -925,11 +925,11 @@ namespace TheLegends.Base.Ads
                 return null;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                return netWork.ShowNativeVideo(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeVideo(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
             }
 
             return null;
@@ -942,11 +942,11 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            var netWork = (AdmobNetworkController)GetNetwork(AdsNetworks.Admob);
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-            if (netWork != null)
+            if (mediation != null)
             {
-                netWork.HideNativeVideo(order);
+                mediation.HideNativeVideo(order);
             }
         }
 
@@ -957,16 +957,16 @@ namespace TheLegends.Base.Ads
 
         #region Common
 
-        public void SetStatus(AdsNetworks AdsNetworks, AdsType adsType, string adsUnitID, string position, AdsEvents adEvent, AdsNetworks networks)
+        public void SetStatus(AdsMediation AdsMediation, AdsType adsType, string adsUnitID, string position, AdsEvents adEvent)
         {
-            string eventName = $"{AdsNetworks}_{adsType} | {adEvent.ToString()} | {adsUnitID} | {position}";
+            string eventName = $"{AdsMediation}_{adsType} | {adEvent.ToString()} | {adsUnitID} | {position}";
             string eventFirebaseName = $"{adsType}_{adEvent.ToString()}";
             Log(eventName);
 
 #if USE_FIREBASE
             FirebaseManager.Instance.LogEvent(eventFirebaseName, new Dictionary<string, object>()
             {
-                { "network", networks.ToString() },
+                { "mediation", AdsMediation.ToString() },
                 { "type", adsType.ToString() },
                 { "position", position },
                 { "adUnitID", adsUnitID }
@@ -996,22 +996,22 @@ namespace TheLegends.Base.Ads
 
             AdsEvents bestStatus = AdsEvents.None;
 
-            foreach (var network in adsNetworks)
+            foreach (var mediation in adsMediations)
             {
 
-                if (network.GetNetworkType() == AdsNetworks.Max && (adsType == AdsType.Mrec || adsType == AdsType.MrecOpen))
+                if (mediation.GetMediationType() == AdsMediation.Max && (adsType == AdsType.Mrec || adsType == AdsType.MrecOpen))
                 {
                     return AdsEvents.LoadAvailable;
                 }
 
-                AdsEvents networkStatus = network.GetAdsStatus(adsType, order);
+                AdsEvents mediationStatus = mediation.GetAdsStatus(adsType, order);
 
-                if (networkStatus == AdsEvents.LoadAvailable)
+                if (mediationStatus == AdsEvents.LoadAvailable)
                 {
                     return AdsEvents.LoadAvailable;
                 }
 
-                switch (networkStatus)
+                switch (mediationStatus)
                 {
                     case AdsEvents.LoadRequest:
                         if (bestStatus != AdsEvents.LoadRequest)
@@ -1025,7 +1025,7 @@ namespace TheLegends.Base.Ads
                     case AdsEvents.LoadNotAvailable:
                         if (bestStatus == AdsEvents.None)
                         {
-                            bestStatus = networkStatus;
+                            bestStatus = mediationStatus;
                         }
                         break;
                 }
@@ -1043,30 +1043,30 @@ namespace TheLegends.Base.Ads
                 return 0;
             }
 
-            var netWork = GetNetwork(SettingsAds.primaryNetwork) ?? adsNetworks.FirstOrDefault();
+            var mediation = GetMediation(SettingsAds.primaryMediation) ?? adsMediations.FirstOrDefault();
 
-            if (netWork == null)
+            if (mediation == null)
             {
                 return 0;
             }
 
-            return netWork.GetPlacementInfo(adsType, out placementOrders);
+            return mediation.GetPlacementInfo(adsType, out placementOrders);
         }
 
-        private AdsNetworkBase GetNetwork(AdsNetworks network)
+        private AdsMediationBase GetMediation(AdsMediation mediation)
         {
-            return adsNetworks.FirstOrDefault(x => x.GetNetworkType() == network);
+            return adsMediations.FirstOrDefault(x => x.GetMediationType() == mediation);
         }
 
-        private AdsNetworkBase GetNetworkToShow(AdsType adsType, PlacementOrder order)
+        private AdsMediationBase GetMediationToShow(AdsType adsType, PlacementOrder order)
         {
-            var primaryNetwork = SettingsAds.primaryNetwork;
+            var primaryMediation = SettingsAds.primaryMediation;
 
-            var primary = adsNetworks.FirstOrDefault(n => n.GetNetworkType() == primaryNetwork);
+            var primary = adsMediations.FirstOrDefault(n => n.GetMediationType() == primaryMediation);
             if (primary != null)
             {
                 bool isControllerExist = primary.IsAdsControllerExist(adsType, order);
-                if (primaryNetwork == AdsNetworks.Max)
+                if (primaryMediation == AdsMediation.Max)
                 {
                     bool isMrec = adsType == AdsType.Mrec || adsType == AdsType.MrecOpen;
                     if (isMrec && isControllerExist)
@@ -1084,7 +1084,7 @@ namespace TheLegends.Base.Ads
                 }
             }
 
-            var fallback = adsNetworks.FirstOrDefault(n => n.GetNetworkType() != primaryNetwork && n.IsAdsControllerExist(adsType, order) && n.IsAdsReady(adsType, order));
+            var fallback = adsMediations.FirstOrDefault(n => n.GetMediationType() != primaryMediation && n.IsAdsControllerExist(adsType, order) && n.IsAdsReady(adsType, order));
             if (fallback != null)
             {
                 return fallback;
@@ -1144,7 +1144,7 @@ namespace TheLegends.Base.Ads
             ShowAppOpen(PlacementOrder.One, "Pause");
         }
 
-        public void LogImpressionData(AdsNetworks network, AdsType adsType, string adsUnitID, string network_platform, string position, object value)
+        public void LogImpressionData(AdsMediation ad_mediation, AdsType adsType, string adsUnitID, string network, string position, object value)
         {
             AdCount++;
 
@@ -1237,7 +1237,7 @@ namespace TheLegends.Base.Ads
                     {"ad_format", impressionData.AdFormat},
                     {"value", revenue},
                     {"currency", "USD"},
-                    {"placement", ad_position}
+                    {"placement", placement}
                 };
 
                 FirebaseManager.Instance.LogEvent("ad_impression", impressionParameters);
@@ -1279,15 +1279,14 @@ namespace TheLegends.Base.Ads
             {
                 { "ad_format", ad_format },
                 { "ad_platform", mediation.ToString() },
-                { "ad_network", network_platform},
+                { "ad_network", network},
                 { "ad_unit_id", adsUnitID },
                 { "placement", placement },
                 { "value", revenue }
             });
 #endif
 
-            OnImpressionRecored?.Invoke(network, adsType, revenue);
-
+            OnImpressionRecored?.Invoke(ad_mediation, adsType, revenue);
         }
 
         public void Log(string message)

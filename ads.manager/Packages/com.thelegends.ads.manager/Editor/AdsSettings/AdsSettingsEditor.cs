@@ -72,17 +72,17 @@ namespace TheLegends.Base.Ads
             // ╚══════════════════════════════════════════════════════════════╝
             var titleStyle = new GUIStyle(EditorStyles.boldLabel)
             {
-                normal  = { textColor = Color.cyan },
+                normal = { textColor = Color.cyan },
                 fontSize = 12,
             };
 
             var sectionHeaderStyle = new GUIStyle(EditorStyles.foldoutHeader)
             {
                 fontStyle = FontStyle.Bold,
-                fontSize  = 11,
+                fontSize = 11,
             };
 
-            Color panelBg   = EditorGUIUtility.isProSkin
+            Color panelBg = EditorGUIUtility.isProSkin
                 ? new Color(0.18f, 0.18f, 0.18f)
                 : new Color(0.88f, 0.88f, 0.88f);
 
@@ -90,7 +90,7 @@ namespace TheLegends.Base.Ads
             // ║              SECTION 1 — AD NETWORKS                        ║
             // ╚══════════════════════════════════════════════════════════════╝
             int activeNetworkCount = CountActiveNetworks();
-            string networksHeader  = $"AD NETWORKS  ({activeNetworkCount} active)";
+            string networksHeader = $"AD NETWORKS  ({activeNetworkCount} active)";
 
             DrawSectionBackground(panelBg, () =>
             {
@@ -108,9 +108,9 @@ namespace TheLegends.Base.Ads
                         if (!active.Contains(Instance.primaryNetwork))
                             Instance.primaryNetwork = active[0];
 
-                        var names  = active.Select(n => n.ToString()).ToArray();
+                        var names = active.Select(n => n.ToString()).ToArray();
                         var values = active.Select(n => (int)n).ToArray();
-                        int idx    = Array.IndexOf(values, (int)Instance.primaryNetwork);
+                        int idx = Array.IndexOf(values, (int)Instance.primaryNetwork);
                         int newIdx = EditorGUILayout.Popup(
                             new GUIContent("  Primary Network",
                                 "The network used as the main ad source when multiple are enabled."),
@@ -124,8 +124,8 @@ namespace TheLegends.Base.Ads
                     }
 
                     // Inline symbol warnings
-                    DrawSymbolWarning(AdsNetworks.Iron,  "USE_IRON");
-                    DrawSymbolWarning(AdsNetworks.Max,   "USE_MAX");
+                    DrawSymbolWarning(AdsNetworks.Iron, "USE_IRON");
+                    DrawSymbolWarning(AdsNetworks.Max, "USE_MAX");
                     DrawSymbolWarning(AdsNetworks.Admob, "USE_ADMOB");
                 }
             });
@@ -136,7 +136,7 @@ namespace TheLegends.Base.Ads
             // ║            SECTION 2 — SERVICES (Firebase / AF)             ║
             // ╚══════════════════════════════════════════════════════════════╝
             int activeServiceCount = (Instance.useFirebase ? 1 : 0) + (Instance.useAppsFlyer ? 1 : 0);
-            string servicesHeader  = $"SERVICES  ({activeServiceCount} active)";
+            string servicesHeader = $"SERVICES  ({activeServiceCount} active)";
 
             DrawSectionBackground(panelBg, () =>
             {
@@ -160,10 +160,10 @@ namespace TheLegends.Base.Ads
                 GUI.backgroundColor = Color.white;
                 Save(Instance);
 
-                PackagesManagerIntergration.SetSymbolEnabled("USE_IRON",      Instance.showIRON);
-                PackagesManagerIntergration.SetSymbolEnabled("USE_MAX",       Instance.showMAX);
-                PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB",     Instance.showADMOB);
-                PackagesManagerIntergration.SetSymbolEnabled("USE_FIREBASE",  Instance.useFirebase);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_IRON", Instance.showIRON);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_MAX", Instance.showMAX);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB", Instance.showADMOB);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_FIREBASE", Instance.useFirebase);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_APPSFLYER", Instance.useAppsFlyer);
 
                 PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY",
@@ -183,10 +183,10 @@ namespace TheLegends.Base.Ads
             EditorGUILayout.LabelField("General Settings", titleStyle);
             EditorGUILayout.Space(2);
 
-            Instance.bannerPosition     = (BannerPos)EditorGUILayout.EnumPopup("Banner Position", Instance.bannerPosition);
+            Instance.bannerPosition = (BannerPos)EditorGUILayout.EnumPopup("Banner Position", Instance.bannerPosition);
             Instance.fixBannerSmallSize = EditorGUILayout.Toggle("Fix Banner Small Size 320x50", Instance.fixBannerSmallSize);
-            Instance.autoReLoadMax      = EditorGUILayout.IntField("Max Auto Reload If No Ads", Instance.autoReLoadMax);
-            Instance.isTest             = EditorGUILayout.Toggle("Is Testing", Instance.isTest);
+            Instance.autoReLoadMax = EditorGUILayout.IntField("Max Auto Reload If No Ads", Instance.autoReLoadMax);
+            Instance.isTest = EditorGUILayout.Toggle("Is Testing", Instance.isTest);
 
             EditorGUILayout.Space(6);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("preloadSettings"), true);
@@ -257,7 +257,7 @@ namespace TheLegends.Base.Ads
 
             #region MAX
 #if USE_MAX
-            if ((Instance.FlagNetWorks & AdsNetworks.Max) != 0)
+            if ((Instance.FlagMediations & AdsMediation.Max) != 0)
             {
                 EditorGUILayout.Space(6);
                 EditorGUILayout.LabelField("MAX AppLovin", titleStyle);
@@ -271,16 +271,16 @@ namespace TheLegends.Base.Ads
 
             #region ADMOB
 #if USE_ADMOB
-            if ((Instance.FlagNetWorks & AdsNetworks.Admob) != 0)
+            if ((Instance.FlagMediations & AdsMediation.Admob) != 0)
             {
                 EditorGUILayout.Space(6);
                 EditorGUILayout.LabelField("Google Admob", titleStyle);
-                Instance.isShowAdmobNativeValidator  = EditorGUILayout.Toggle("Show Admob Validator",       Instance.isShowAdmobNativeValidator);
-                Instance.isUseNativeUnity            = EditorGUILayout.Toggle("Use Native Unity",           Instance.isUseNativeUnity);
-                Instance.isHideWhenFullscreenShowed  = EditorGUILayout.Toggle("Hide When Fullscreen Showed", Instance.isHideWhenFullscreenShowed);
+                Instance.isShowAdmobNativeValidator = EditorGUILayout.Toggle("Show Admob Validator", Instance.isShowAdmobNativeValidator);
+                Instance.isUseNativeUnity = EditorGUILayout.Toggle("Use Native Unity", Instance.isUseNativeUnity);
+                Instance.isHideWhenFullscreenShowed = EditorGUILayout.Toggle("Hide When Fullscreen Showed", Instance.isHideWhenFullscreenShowed);
                 EditorGUILayout.Space(2);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("ADMOB_Android"), new GUIContent("Android Unit IDs"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("ADMOB_IOS"),     new GUIContent("iOS Unit IDs"),     true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("ADMOB_IOS"), new GUIContent("iOS Unit IDs"), true);
             }
 #endif
             #endregion
@@ -330,14 +330,14 @@ namespace TheLegends.Base.Ads
                 if (newEnabled != enabled)
                 {
                     // Sync AdsSettings flags
-                    if (newEnabled)  Instance.FlagNetWorks |= network;
-                    else             Instance.FlagNetWorks &= ~network;
+                    if (newEnabled) Instance.FlagNetWorks |= network;
+                    else Instance.FlagNetWorks &= ~network;
 
                     switch (network)
                     {
                         case AdsNetworks.Admob: Instance.showADMOB = newEnabled; break;
-                        case AdsNetworks.Max:   Instance.showMAX   = newEnabled; break;
-                        case AdsNetworks.Iron:  Instance.showIRON  = newEnabled; break;
+                        case AdsNetworks.Max: Instance.showMAX = newEnabled; break;
+                        case AdsNetworks.Iron: Instance.showIRON = newEnabled; break;
                     }
                 }
 
@@ -457,7 +457,7 @@ namespace TheLegends.Base.Ads
             EditorGUILayout.Space(10);
         }
 
-        private void FetchDataFromGoogleSheet(string url, string networkPrefix)
+        private void FetchDataFromGoogleSheet(string url, string mediationPrefix)
         {
             Debug.Log("Fetching data from Google Sheet...");
             UnityWebRequest www = UnityWebRequest.Get(url);
@@ -471,19 +471,19 @@ namespace TheLegends.Base.Ads
                 if (www.result == UnityWebRequest.Result.Success)
                 {
                     Debug.Log("Fetch successful!");
-                    ParseAndApplyData(www.downloadHandler.text, networkPrefix);
+                    ParseAndApplyData(www.downloadHandler.text, mediationPrefix);
                 }
                 else
                 {
                     Debug.LogError("Fetch failed: " + www.error);
                     EditorUtility.DisplayDialog("Error", "Failed to fetch data from URL. Check console for details.", "OK");
                 }
-                
+
                 EditorApplication.update = null;
             };
         }
 
-        private void ParseAndApplyData(string csvData, string networkPrefix)
+        private void ParseAndApplyData(string csvData, string mediationPrefix)
         {
             if (string.IsNullOrEmpty(csvData)) return;
 
@@ -545,18 +545,18 @@ namespace TheLegends.Base.Ads
                 }
             };
 
-            if (networkPrefix.Equals("ADMOB", StringComparison.OrdinalIgnoreCase))
+            if (mediationPrefix.Equals("ADMOB", StringComparison.OrdinalIgnoreCase))
             {
                 applyDataToUnitId(Instance.ADMOB_Android, "Android");
                 applyDataToUnitId(Instance.ADMOB_IOS, "iOS");
             }
-            else if (networkPrefix.Equals("MAX", StringComparison.OrdinalIgnoreCase))
+            else if (mediationPrefix.Equals("MAX", StringComparison.OrdinalIgnoreCase))
             {
                 applyDataToUnitId(Instance.MAX_Android, "Android");
                 applyDataToUnitId(Instance.MAX_iOS, "iOS");
             }
 
-            Debug.Log($"Successfully applied data for {networkPrefix} from Google Sheet!");
+            Debug.Log($"Successfully applied data for {mediationPrefix} from Google Sheet!");
             EditorUtility.SetDirty(Instance);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
