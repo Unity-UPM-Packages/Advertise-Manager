@@ -89,8 +89,9 @@ namespace TheLegends.Base.Ads
             OnInitFirebaseDone?.Invoke();
 #endif
 
+#if USE_DATABUCKETS
             InitDatabuckets();
-
+#endif
             // Initialize Ads Manager
             yield return AdsManager.Instance.DoInit();
 
@@ -257,6 +258,8 @@ namespace TheLegends.Base.Ads
 
         private void InitDatabuckets()
         {
+#if USE_DATABUCKETS
+
             DatabucketsManager.Instance.Init();
 
             try
@@ -282,8 +285,8 @@ namespace TheLegends.Base.Ads
                 AdsManager.Instance.LogError("Cannot get AppsFlyer Property: " + e.Message);
 #endif
             }
-
-
+            
+#endif
         }
 
         private IEnumerator LoadInitialAds()
