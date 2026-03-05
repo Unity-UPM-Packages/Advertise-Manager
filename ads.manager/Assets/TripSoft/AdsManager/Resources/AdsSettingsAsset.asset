@@ -76,7 +76,7 @@ MonoBehaviour:
     mrecOpenIds: []
     appOpenIds: []
   showADMOB: 1
-  isUseNativeUnity: 1
+  isUseNativeUnity: 0
   isShowAdmobNativeValidator: 0
   isHideWhenFullscreenShowed: 0
   ADMOB_Android:
