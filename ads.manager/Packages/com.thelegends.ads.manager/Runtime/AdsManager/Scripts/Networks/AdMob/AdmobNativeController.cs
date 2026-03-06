@@ -352,7 +352,7 @@ namespace TheLegends.Base.Ads
         private void OnNativeLoaded(object sender, NativeAdEventArgs args)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 if (_loadRequestId != _currentLoadRequestId)
                 {
@@ -391,7 +391,7 @@ namespace TheLegends.Base.Ads
 #pragma warning restore CS0618 // Type or member is obsolete
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 if (_loadRequestId != _currentLoadRequestId)
                 {
@@ -421,7 +421,7 @@ namespace TheLegends.Base.Ads
         private void OnNativeClose(object sender, EventArgs args)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClosed();
                 LoadAds();
@@ -432,7 +432,7 @@ namespace TheLegends.Base.Ads
         private void OnNativeClick(object sender, EventArgs args)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
                 CancelReloadAds();
@@ -444,7 +444,7 @@ namespace TheLegends.Base.Ads
         private void OnNativeImpression(object sender, EventArgs args)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -456,7 +456,7 @@ namespace TheLegends.Base.Ads
 #pragma warning restore CS0618 // Type or member is obsolete
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, args.AdValue);
             });

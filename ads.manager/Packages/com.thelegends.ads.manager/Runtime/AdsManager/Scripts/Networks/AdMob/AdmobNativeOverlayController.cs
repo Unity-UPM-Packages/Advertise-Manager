@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -274,7 +275,7 @@ namespace TheLegends.Base.Ads
 
         private void OnNativeOverlayClick()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
             });
@@ -282,7 +283,7 @@ namespace TheLegends.Base.Ads
 
         private void OnNativeOverlayImpression()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -290,7 +291,7 @@ namespace TheLegends.Base.Ads
 
         private void OnNativeOverlayShowSuccess()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsShowSuccess();
             });
@@ -304,7 +305,7 @@ namespace TheLegends.Base.Ads
 
         private void OnNativeOverlayClosed()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 HideAds();
             });
@@ -313,7 +314,7 @@ namespace TheLegends.Base.Ads
 
         private void OnNativeOverlayPaid(AdValue value)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });

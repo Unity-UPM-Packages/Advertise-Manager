@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using TheLegends.Base.Firebase;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ namespace TheLegends.Base.Ads
 
             AdmobNativePlatform.Load(adsUnitID.Trim(), request, (native, error) =>
             {
-                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                MobileAdsEventExecutor.ExecuteInUpdate(() =>
                 {
                     if (_loadRequestId != _currentLoadRequestId)
                     {
@@ -273,7 +274,7 @@ namespace TheLegends.Base.Ads
         private void OnAdsPaid(AdValue adValue)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, adValue);
             });
@@ -283,7 +284,7 @@ namespace TheLegends.Base.Ads
         private void OnNativePlatformClick()
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
             });
@@ -293,7 +294,7 @@ namespace TheLegends.Base.Ads
         private void OnNativePlatformImpression(object sender, EventArgs args)
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -338,7 +339,7 @@ namespace TheLegends.Base.Ads
         protected virtual void OnNativePlatformClosed()
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClosed();
                 OnClose?.Invoke();
@@ -349,7 +350,7 @@ namespace TheLegends.Base.Ads
         protected virtual void OnNativePlatformShow()
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsShowSuccess();
                 OnShow?.Invoke();
@@ -360,7 +361,7 @@ namespace TheLegends.Base.Ads
         private void OnNativePlatformShowedFullScreenContent()
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsShowSuccess();
             });
@@ -370,7 +371,7 @@ namespace TheLegends.Base.Ads
         private void OnNativePlatformDismissedFullScreenContent()
         {
 #if USE_ADMOB
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdDismissedFullScreenContent?.Invoke();
             });

@@ -1,6 +1,7 @@
 #if USE_ADMOB
 using System;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -187,7 +188,7 @@ namespace TheLegends.Base.Ads
         private void PreShow()
         {
 #if UNITY_EDITOR
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 SetAdCustomPosition(mrecPosition, offset);
             });
@@ -206,7 +207,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecClick()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
             });
@@ -214,7 +215,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecPaid(AdValue value)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
@@ -222,7 +223,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecImpression()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -230,7 +231,7 @@ namespace TheLegends.Base.Ads
 
         public void OnMRecLoaded()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 _mrecView.Hide();
                 
@@ -258,7 +259,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecLoadFailed(AdError error)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 if (_loadRequestId != _currentLoadRequestId)
                 {
