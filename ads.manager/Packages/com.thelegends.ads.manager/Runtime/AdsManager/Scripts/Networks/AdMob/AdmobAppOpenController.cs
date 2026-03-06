@@ -2,12 +2,14 @@
 
 using System;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
 {
     public class AdmobAppOpenController : AdsPlacementBase
     {
+        private PreloadConfiguration preloadConfiguration;
         private AppOpenAd _appOpenAd;
         protected Action OnClose;
 
@@ -32,12 +34,14 @@ namespace TheLegends.Base.Ads
         public override bool IsAdsReady()
         {
 #if USE_ADMOB
-            if (_appOpenAd != null)
-            {
-                return _appOpenAd.CanShowAd();
-            }
+            // if (_appOpenAd != null)
+            // {
+            //     return _appOpenAd.CanShowAd();
+            // }
 
-            return false;
+            // return false;
+
+            return AppOpenAdPreloader.IsAdAvailable(adsUnitID);
 #else
         return false;
 #endif
@@ -46,6 +50,8 @@ namespace TheLegends.Base.Ads
         public override void LoadAds()
         {
 #if USE_ADMOB
+            AppOpenAdPreloader.Destroy(adsUnitID);
+
             if (!IsCanLoadAds())
             {
                 return;
@@ -56,47 +62,58 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
+            preloadConfiguration = new PreloadConfiguration
+            {
+                AdUnitId = adsUnitID,
+                Request = new AdRequest(),
+                BufferSize = 2
+            };
+
             base.LoadAds();
-            AdRequest request = new AdRequest();
+            // AdRequest request = new AdRequest();
 
-            AppOpenAd.Load(adsUnitID.Trim(), request,
-                (AppOpenAd ad, LoadAdError error) =>
-                {
-                    if (_loadRequestId != _currentLoadRequestId)
-                    {
-                        // If the load request ID does not match, this callback is from a previous request
-                        return;
-                    }
+            // AppOpenAd.Load(adsUnitID.Trim(), request,
+            //     (AppOpenAd ad, LoadAdError error) =>
+            //     {
+            //         if (_loadRequestId != _currentLoadRequestId)
+            //         {
+            //             // If the load request ID does not match, this callback is from a previous request
+            //             return;
+            //         }
 
-                    StopHandleTimeout();
+            //         StopHandleTimeout();
 
-                    // if error is not null, the load request failed.
-                    if (error != null)
-                    {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "failed to load with error : " + error);
-                        OnAppOpenLoadFailed(error);
-                        return;
-                    }
+            //         // if error is not null, the load request failed.
+            //         if (error != null)
+            //         {
+            //             AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "failed to load with error : " + error);
+            //             OnAppOpenLoadFailed(error);
+            //             return;
+            //         }
 
-                    if (ad == null)
-                    {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
-                        OnAppOpenLoadFailed(error);
-                        return;
-                    }
+            //         if (ad == null)
+            //         {
+            //             AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
+            //             OnAppOpenLoadFailed(error);
+            //             return;
+            //         }
 
-                    AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
+            //         AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
 
-                    _appOpenAd = ad;
+            //         _appOpenAd = ad;
 
-                    OnAdsLoadAvailable();
+            //         OnAdsLoadAvailable();
 
-                });
+            //     });
+
+            AppOpenAdPreloader.Preload(
+                adsUnitID,
+                preloadConfiguration,
+                OnAdPreloaded,
+                OnAdFailedToPreload,
+                OnAdsExhausted);
         }
 #endif
-
-        
-
 
         public void ShowAds(string showPosition, Action OnClose = null)
         {
@@ -105,13 +122,26 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             if (IsReady && IsAvailable)
             {
-                _appOpenAd.OnAdClicked += OnAppOpenClick;
-                _appOpenAd.OnAdPaid += OnAdsPaid;
-                _appOpenAd.OnAdImpressionRecorded += OnAppOpenImpression;
-                _appOpenAd.OnAdFullScreenContentClosed += OnAppOpenClosed;
-                _appOpenAd.OnAdFullScreenContentFailed += OnAppOpenShowFailed;
-                _appOpenAd.OnAdFullScreenContentOpened += OnAppOpenShowSuccess;
-                _appOpenAd.Show();
+                // _appOpenAd.OnAdClicked += OnAppOpenClick;
+                // _appOpenAd.OnAdPaid += OnAdsPaid;
+                // _appOpenAd.OnAdImpressionRecorded += OnAppOpenImpression;
+                // _appOpenAd.OnAdFullScreenContentClosed += OnAppOpenClosed;
+                // _appOpenAd.OnAdFullScreenContentFailed += OnAppOpenShowFailed;
+                // _appOpenAd.OnAdFullScreenContentOpened += OnAppOpenShowSuccess;
+                // _appOpenAd.Show();
+
+                _appOpenAd = AppOpenAdPreloader.DequeueAd(adsUnitID);
+
+                if (_appOpenAd != null)
+                {
+                    _appOpenAd.OnAdClicked += OnAppOpenClick;
+                    _appOpenAd.OnAdPaid += OnAdsPaid;
+                    _appOpenAd.OnAdImpressionRecorded += OnAppOpenImpression;
+                    _appOpenAd.OnAdFullScreenContentClosed += OnAppOpenClosed;
+                    _appOpenAd.OnAdFullScreenContentFailed += OnAppOpenShowFailed;
+                    _appOpenAd.OnAdFullScreenContentOpened += OnAppOpenShowSuccess;
+                    _appOpenAd.Show();
+                }
             }
             else
             {
@@ -127,7 +157,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenClick()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
             });
@@ -135,7 +165,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenShowSuccess()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsShowSuccess();
                 AdsManager.Instance.OnFullScreenAdsShow();
@@ -144,7 +174,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenImpression()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -153,12 +183,19 @@ namespace TheLegends.Base.Ads
         private void OnAppOpenLoadFailed(AdError error)
         {
             var errorDescription = error?.GetMessage();
-            OnAdsLoadFailed(errorDescription);
+            // OnAdsLoadFailed(errorDescription);
+
+            AdsManager.Instance.LogError($"{AdsNetworks.ToString()}_{AdsType.ToString()} " + "OnAdsLoadFailed " + adsUnitID + " Error: " + errorDescription);
+
+            if (AppOpenAdPreloader.GetNumAdsAvailable(adsUnitID) == 0)
+            {
+                Status = AdsEvents.LoadNotAvailable;
+            }
         }
 
         private void OnAppOpenShowFailed(AdError error)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 var errorDescription = error?.GetMessage();
                 OnAdsShowFailed(errorDescription);
@@ -167,7 +204,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenClosed()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 UILoadingController.Show(1f, () =>
                 {
@@ -196,11 +233,43 @@ namespace TheLegends.Base.Ads
 
         private void OnAdsPaid(AdValue value)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
         }
+
+        public override void OnAdsClosed()
+        {
+            Status = AdsEvents.Close;
+        }
+
+
+        #endregion
+
+        #region Preload Callbacks
+        private void OnAdPreloaded(string preloadId, ResponseInfo responseInfo)
+        {
+            OnAdsLoadAvailable();
+        }
+
+        private void OnAdFailedToPreload(string preloadId, AdError adError)
+        {
+            AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} ad failed to load with error : {adError}");
+            OnAppOpenLoadFailed(adError);
+        }
+
+        private void OnAdsExhausted(string preloadId)
+        {
+            AdsManager.Instance.LogWarning($"{AdsNetworks}_{AdsType} Preload ad configuration {preloadId} was exhausted");
+            LoadAds();
+        }
+
+        protected override bool IsAdsAvailable()
+        {
+            return AppOpenAdPreloader.IsAdAvailable(adsUnitID) && AdsManager.Instance.IsCanShowAds;
+        }
+
 
         #endregion
     }

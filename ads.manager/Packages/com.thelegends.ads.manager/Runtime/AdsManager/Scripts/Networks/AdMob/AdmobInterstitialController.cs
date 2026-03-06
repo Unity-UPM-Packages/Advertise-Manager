@@ -1,11 +1,13 @@
 #if USE_ADMOB
 using System;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using TheLegends.Base.UI;
 namespace TheLegends.Base.Ads
 {
     public class AdmobInterstitialController : AdsPlacementBase
     {
+        private PreloadConfiguration preloadConfiguration;
         private InterstitialAd _interstitialAd;
 
         protected Action OnClose;
@@ -13,6 +15,8 @@ namespace TheLegends.Base.Ads
         public override void LoadAds()
         {
 #if USE_ADMOB
+            InterstitialAdPreloader.Destroy(adsUnitID);
+
             if (!IsCanLoadAds())
             {
                 return;
@@ -23,41 +27,55 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
+            preloadConfiguration = new PreloadConfiguration
+            {
+                AdUnitId = adsUnitID,
+                Request = new AdRequest(),
+                BufferSize = 2
+            };
+
             base.LoadAds();
-            AdRequest request = new AdRequest();
+            // AdRequest request = new AdRequest();
 
-            InterstitialAd.Load(adsUnitID.Trim(), request,
-                (InterstitialAd ad, LoadAdError error) =>
-                {
-                    if (_loadRequestId != _currentLoadRequestId)
-                    {
-                        // If the load request ID does not match, this callback is from a previous request
-                        return;
-                    }
+            // InterstitialAd.Load(adsUnitID.Trim(), request,
+            //     (InterstitialAd ad, LoadAdError error) =>
+            //     {
+            //         if (_loadRequestId != _currentLoadRequestId)
+            //         {
+            //             // If the load request ID does not match, this callback is from a previous request
+            //             return;
+            //         }
 
-                    StopHandleTimeout();
+            //         StopHandleTimeout();
 
-                    // if error is not null, the load request failed.
-                    if (error != null)
-                    {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "ad failed to load with error : " + error);
-                        OnInterLoadFailed(error);
-                        return;
-                    }
+            //         // if error is not null, the load request failed.
+            //         if (error != null)
+            //         {
+            //             AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "ad failed to load with error : " + error);
+            //             OnInterLoadFailed(error);
+            //             return;
+            //         }
 
-                    if (ad == null)
-                    {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
-                        OnInterLoadFailed(error);
-                        return;
-                    }
+            //         if (ad == null)
+            //         {
+            //             AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
+            //             OnInterLoadFailed(error);
+            //             return;
+            //         }
 
-                    AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
+            //         AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
 
-                    _interstitialAd = ad;
+            //         _interstitialAd = ad;
 
-                    OnAdsLoadAvailable();
-                });
+            //         OnAdsLoadAvailable();
+            //     });
+
+            InterstitialAdPreloader.Preload(
+                adsUnitID,
+                preloadConfiguration,
+                OnAdPreloaded,
+                OnAdFailedToPreload,
+                OnAdsExhausted);
 #else
 
 #endif
@@ -71,13 +89,26 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             if (IsReady && IsAvailable)
             {
-                _interstitialAd.OnAdClicked += OnInterClick;
-                _interstitialAd.OnAdPaid += OnInterPaid;
-                _interstitialAd.OnAdImpressionRecorded += OnInterImpression;
-                _interstitialAd.OnAdFullScreenContentClosed += OnInterClosed;
-                _interstitialAd.OnAdFullScreenContentFailed += OnInterShowFailed;
-                _interstitialAd.OnAdFullScreenContentOpened += OnInterShowSuccess;
-                _interstitialAd.Show();
+                // _interstitialAd.OnAdClicked += OnInterClick;
+                // _interstitialAd.OnAdPaid += OnInterPaid;
+                // _interstitialAd.OnAdImpressionRecorded += OnInterImpression;
+                // _interstitialAd.OnAdFullScreenContentClosed += OnInterClosed;
+                // _interstitialAd.OnAdFullScreenContentFailed += OnInterShowFailed;
+                // _interstitialAd.OnAdFullScreenContentOpened += OnInterShowSuccess;
+                // _interstitialAd.Show();
+
+                _interstitialAd = InterstitialAdPreloader.DequeueAd(adsUnitID);
+
+                if (_interstitialAd != null)
+                {
+                    _interstitialAd.OnAdClicked += OnInterClick;
+                    _interstitialAd.OnAdPaid += OnInterPaid;
+                    _interstitialAd.OnAdImpressionRecorded += OnInterImpression;
+                    _interstitialAd.OnAdFullScreenContentClosed += OnInterClosed;
+                    _interstitialAd.OnAdFullScreenContentFailed += OnInterShowFailed;
+                    _interstitialAd.OnAdFullScreenContentOpened += OnInterShowSuccess;
+                    _interstitialAd.Show();
+                }
             }
             else
             {
@@ -110,12 +141,14 @@ namespace TheLegends.Base.Ads
         public override bool IsAdsReady()
         {
 #if USE_ADMOB
-            if (_interstitialAd != null)
-            {
-                return _interstitialAd.CanShowAd();
-            }
+            // if (_interstitialAd != null)
+            // {
+            //     return _interstitialAd.CanShowAd();
+            // }
 
-            return false;
+            // return false;
+
+            return InterstitialAdPreloader.IsAdAvailable(adsUnitID);
 #else
             return false;
 #endif
@@ -126,7 +159,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterClick()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsClick();
             });
@@ -134,7 +167,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterImpression()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnImpression();
             });
@@ -142,7 +175,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterShowSuccess()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 OnAdsShowSuccess();
                 AdsManager.Instance.OnFullScreenAdsShow();
@@ -152,12 +185,19 @@ namespace TheLegends.Base.Ads
         private void OnInterLoadFailed(AdError error)
         {
             var errorDescription = error?.GetMessage();
-            OnAdsLoadFailed(errorDescription);
+            // OnAdsLoadFailed(errorDescription);
+
+            AdsManager.Instance.LogError($"{AdsNetworks.ToString()}_{AdsType.ToString()} " + "OnAdsLoadFailed " + adsUnitID + " Error: " + errorDescription);
+
+            if (InterstitialAdPreloader.GetNumAdsAvailable(adsUnitID) == 0)
+            {
+                Status = AdsEvents.LoadNotAvailable;
+            }
         }
 
         private void OnInterShowFailed(AdError error)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 var errorDescription = error?.GetMessage();
                 OnAdsShowFailed(errorDescription);
@@ -166,7 +206,7 @@ namespace TheLegends.Base.Ads
 
         protected virtual void OnInterClosed()
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 UILoadingController.Show(1f, () =>
                 {
@@ -195,12 +235,43 @@ namespace TheLegends.Base.Ads
 
         private void OnInterPaid(AdValue value)
         {
-            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            MobileAdsEventExecutor.ExecuteInUpdate(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
 
         }
+
+        public override void OnAdsClosed()
+        {
+            Status = AdsEvents.Close;
+        }
+
+        #endregion
+
+        #region Preload Callbacks
+        private void OnAdPreloaded(string preloadId, ResponseInfo responseInfo)
+        {
+            OnAdsLoadAvailable();
+        }
+
+        private void OnAdFailedToPreload(string preloadId, AdError adError)
+        {
+            AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} ad failed to load with error : {adError}");
+            OnInterLoadFailed(adError);
+        }
+
+        private void OnAdsExhausted(string preloadId)
+        {
+            AdsManager.Instance.LogWarning($"{AdsNetworks}_{AdsType} Preload ad configuration {preloadId} was exhausted");
+            LoadAds();
+        }
+
+        protected override bool IsAdsAvailable()
+        {
+            return InterstitialAdPreloader.IsAdAvailable(adsUnitID) && AdsManager.Instance.IsCanShowAds;
+        }
+
 
         #endregion
 

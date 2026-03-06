@@ -27,11 +27,11 @@ namespace TheLegends.Base.Ads
             get => status;
             protected set
             {
-                if (status != value)
-                {
+                // if (status != value)
+                // {
                     status = value;
                     AdsManager.Instance.SetStatus(AdsNetworks, AdsType, adsUnitID, position, value, AdsNetworks);
-                }
+                // }
             }
         }
 
@@ -131,7 +131,7 @@ namespace TheLegends.Base.Ads
             reloadCount = 0;
         }
 
-        public bool IsAdsAvailable()
+        protected virtual bool IsAdsAvailable()
         {
             return Status == AdsEvents.LoadAvailable && (AdsType == AdsType.Rewarded || AdsManager.Instance.IsCanShowAds);
         }

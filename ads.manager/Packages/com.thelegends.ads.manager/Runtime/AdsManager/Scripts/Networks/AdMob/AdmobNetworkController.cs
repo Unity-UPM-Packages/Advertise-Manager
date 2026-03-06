@@ -578,11 +578,9 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        public override void LoadInterstitial(AdsType interType, PlacementOrder order)
+        private void ProcessInterstitial<T>(List<T> list, AdsType adsType, PlacementOrder order, Action<T> action) where T : AdsPlacementBase
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
-            var list = interType == AdsType.InterOpen ? (new List<AdmobInterstitialController>(interOpenList)) : interList;
-
             if (!IsListExist(list))
             {
                 return;
@@ -592,34 +590,39 @@ namespace TheLegends.Base.Ads
 
             if (placementIndex == -1)
             {
-                AdsManager.Instance.LogError($"{TagLog.ADMOB} {interType} {order} is not exist");
+                AdsManager.Instance.LogError($"{TagLog.ADMOB} {adsType} {order} is not exist");
                 return;
             }
 
-            list[placementIndex].LoadAds();
+            action(list[placementIndex]);
+#endif
+        }
+
+        public override void LoadInterstitial(AdsType interType, PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
+            if (interType == AdsType.InterOpen)
+            {
+                ProcessInterstitial(interOpenList, interType, order, ad => ad.LoadAds());
+            }
+            else
+            {
+                ProcessInterstitial(interList, interType, order, ad => ad.LoadAds());
+            }
 #endif
         }
 
         public override void ShowInterstitial(AdsType interType, PlacementOrder order, string position, Action OnClose = null)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
-
-            var list = interType == AdsType.InterOpen ? (new List<AdmobInterstitialController>(interOpenList)) : interList;
-
-            if (!IsListExist(list))
+            if (interType == AdsType.InterOpen)
             {
-                return;
+                ProcessInterstitial(interOpenList, interType, order, ad => ad.ShowAds(position, OnClose));
             }
-
-            var placementIndex = GetPlacementIndex((int)order, list.Count);
-
-            if (placementIndex == -1)
+            else
             {
-                AdsManager.Instance.LogError($"{TagLog.ADMOB} {interType} {order} is not exist");
-                return;
+                ProcessInterstitial(interList, interType, order, ad => ad.ShowAds(position, OnClose));
             }
-
-            list[placementIndex].ShowAds(position, OnClose);
 #endif
         }
 
