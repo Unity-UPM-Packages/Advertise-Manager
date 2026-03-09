@@ -1,7 +1,6 @@
 #if USE_ADMOB
 using System;
 using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -188,7 +187,7 @@ namespace TheLegends.Base.Ads
         private void PreShow()
         {
 #if UNITY_EDITOR
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 SetAdCustomPosition(mrecPosition, offset);
             });
@@ -207,7 +206,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecClick()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
             });
@@ -215,7 +214,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
@@ -223,7 +222,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnImpression();
             });
@@ -231,7 +230,7 @@ namespace TheLegends.Base.Ads
 
         public void OnMRecLoaded()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 _mrecView.Hide();
                 
@@ -259,7 +258,7 @@ namespace TheLegends.Base.Ads
 
         private void OnMRecLoadFailed(AdError error)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_loadRequestId != _currentLoadRequestId)
                 {

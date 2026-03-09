@@ -220,7 +220,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdLoadedCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -234,7 +234,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(ErrorCallback))]
         private static void OnAdFailedToLoadCallback(IntPtr nativeClient, string errorMessage)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -250,7 +250,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdShowCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -264,7 +264,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdClosedCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -278,7 +278,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(PaidEventCallback))]
         private static void OnPaidEventCallback(IntPtr nativeClient, int precisionType, long valueMicros, string currencyCode)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -293,7 +293,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdDidRecordImpressionCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -307,7 +307,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdClickedCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -321,7 +321,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoStartCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -335,7 +335,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoEndCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -349,7 +349,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VideoMuteCallback))]
         private static void OnVideoMuteCallback(IntPtr nativeClient, bool isMuted)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -363,7 +363,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoPlayCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -377,7 +377,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoPauseCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -391,7 +391,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdShowedFullScreenContentCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
@@ -405,7 +405,7 @@ namespace TheLegends.Base.Ads
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdDismissedFullScreenContentCallback(IntPtr nativeClient)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate.Enqueue(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {

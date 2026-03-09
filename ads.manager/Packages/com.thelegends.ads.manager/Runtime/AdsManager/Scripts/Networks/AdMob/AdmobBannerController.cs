@@ -1,7 +1,6 @@
 #if USE_ADMOB
 using System;
 using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -151,7 +150,7 @@ namespace TheLegends.Base.Ads
 
         private void OnBannerClick()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
             });
@@ -159,7 +158,7 @@ namespace TheLegends.Base.Ads
 
         private void OnBannerPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
@@ -167,7 +166,7 @@ namespace TheLegends.Base.Ads
 
         private void OnBannerImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnImpression();
             });
@@ -175,7 +174,7 @@ namespace TheLegends.Base.Ads
 
         public void OnBannerLoaded()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 _bannerView.Hide();
                 
@@ -203,7 +202,7 @@ namespace TheLegends.Base.Ads
 
         private void OnBannerLoadFailed(AdError error)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_loadRequestId != _currentLoadRequestId)
                 {

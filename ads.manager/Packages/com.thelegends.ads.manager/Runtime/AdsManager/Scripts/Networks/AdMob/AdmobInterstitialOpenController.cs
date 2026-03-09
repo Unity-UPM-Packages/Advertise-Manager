@@ -1,7 +1,6 @@
 #if USE_ADMOB
 using System;
 using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
 using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
@@ -128,7 +127,7 @@ namespace TheLegends.Base.Ads
 
 		private void OnInterClick()
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				OnAdsClick();
 			});
@@ -136,7 +135,7 @@ namespace TheLegends.Base.Ads
 
 		private void OnInterImpression()
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				OnImpression();
 			});
@@ -144,7 +143,7 @@ namespace TheLegends.Base.Ads
 
 		private void OnInterShowSuccess()
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				OnAdsShowSuccess();
 				AdsManager.Instance.OnFullScreenAdsShow();
@@ -159,7 +158,7 @@ namespace TheLegends.Base.Ads
 
 		private void OnInterShowFailed(AdError error)
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				var errorDescription = error?.GetMessage();
 				OnAdsShowFailed(errorDescription);
@@ -168,7 +167,7 @@ namespace TheLegends.Base.Ads
 
 		protected virtual void OnInterClosed()
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				_interstitialAd.OnAdClicked -= OnInterClick;
 				_interstitialAd.OnAdPaid -= OnInterPaid;
@@ -192,7 +191,7 @@ namespace TheLegends.Base.Ads
 
 		private void OnInterPaid(AdValue value)
 		{
-			MobileAdsEventExecutor.ExecuteInUpdate(() =>
+			PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
 			{
 				AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
 			});

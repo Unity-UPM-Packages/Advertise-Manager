@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
 using GoogleMobileAds.Ump.Api;
 using UnityEngine;
 
@@ -129,7 +128,7 @@ namespace TheLegends.Base.Ads
             {
                 MobileAds.Initialize(initStatus =>
                 {
-                    MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
                     {
                         if (initStatus == null)
                         {
@@ -208,7 +207,7 @@ namespace TheLegends.Base.Ads
             // Check the current consent information status.
             ConsentInformation.Update(request, (updateError =>
             {
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
                     if (updateError != null)
                     {

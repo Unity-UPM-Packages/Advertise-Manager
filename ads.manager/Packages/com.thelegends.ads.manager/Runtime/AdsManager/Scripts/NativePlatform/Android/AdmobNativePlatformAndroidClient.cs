@@ -73,7 +73,7 @@ namespace TheLegends.Base.Ads
 
         void onAdLoaded()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdLoaded?.Invoke(this, EventArgs.Empty);
             });
@@ -92,14 +92,14 @@ namespace TheLegends.Base.Ads
 
         void onAdClosed()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdClosed?.Invoke();
             });
         }
         void onAdShow()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdShow?.Invoke();
             });
@@ -107,7 +107,7 @@ namespace TheLegends.Base.Ads
 
         void onPaidEvent(int precision, long valueInMicros, string currencyCode)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdValue adValue = new AdValue()
                 {
@@ -121,63 +121,63 @@ namespace TheLegends.Base.Ads
         }
         void onAdDidRecordImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                     OnAdDidRecordImpression?.Invoke(this, EventArgs.Empty);
             });
         }
         void onAdClicked()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdClicked?.Invoke();
             });
         }
         void onVideoStart()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnVideoStart?.Invoke();
             });
         }
         void onVideoEnd()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnVideoEnd?.Invoke();
             });
         }
         void onVideoMute(bool isMuted)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnVideoMute?.Invoke(this, isMuted);
             });
         }
         void onVideoPlay()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnVideoPlay?.Invoke();
             });
         }
         void onVideoPause()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnVideoPause?.Invoke();
             });
         }
         void onAdShowedFullScreenContent()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdShowedFullScreenContent?.Invoke();
             });
         }
         void onAdDismissedFullScreenContent()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdDismissedFullScreenContent?.Invoke();
             });
