@@ -157,7 +157,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenClick()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
             });
@@ -165,7 +165,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenShowSuccess()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
                 AdsManager.Instance.OnFullScreenAdsShow();
@@ -174,7 +174,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnImpression();
             });
@@ -195,7 +195,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenShowFailed(AdError error)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 var errorDescription = error?.GetMessage();
                 OnAdsShowFailed(errorDescription);
@@ -204,7 +204,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAppOpenClosed()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 UILoadingController.Show(1f, () =>
                 {
@@ -233,7 +233,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAdsPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });

@@ -159,7 +159,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterClick()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
             });
@@ -167,7 +167,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnImpression();
             });
@@ -175,7 +175,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterShowSuccess()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
                 AdsManager.Instance.OnFullScreenAdsShow();
@@ -197,7 +197,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterShowFailed(AdError error)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 var errorDescription = error?.GetMessage();
                 OnAdsShowFailed(errorDescription);
@@ -206,7 +206,7 @@ namespace TheLegends.Base.Ads
 
         protected virtual void OnInterClosed()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 UILoadingController.Show(1f, () =>
                 {
@@ -235,7 +235,7 @@ namespace TheLegends.Base.Ads
 
         private void OnInterPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
