@@ -34,7 +34,8 @@ namespace TheLegends.Base.Ads
                 BufferSize = 2
             };
 
-            base.LoadAds();
+            Status = AdsEvents.LoadRequest;
+            
             // AdRequest request = new AdRequest();
 
             // InterstitialAd.Load(adsUnitID.Trim(), request,

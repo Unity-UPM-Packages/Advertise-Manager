@@ -70,7 +70,8 @@ namespace TheLegends.Base.Ads
             };
 
 
-            base.LoadAds();
+            Status = AdsEvents.LoadRequest;
+            
             // AdRequest request = new AdRequest();
 
             // RewardedAd.Load(adsUnitID.Trim(), request,
@@ -171,7 +172,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardClick()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
             });
@@ -179,7 +180,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsPaid(value);
             });
@@ -187,7 +188,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardImpression()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnImpression();
             });
@@ -195,7 +196,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardShowSuccess()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
                 AdsManager.Instance.OnFullScreenAdsShow();
@@ -218,7 +219,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardedShowFailed(AdError error)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 var errorDescription = error?.GetMessage();
                 OnAdsShowFailed(errorDescription);
@@ -227,7 +228,7 @@ namespace TheLegends.Base.Ads
 
         private void OnRewardedClosed()
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 UILoadingController.Show(1f, () =>
                 {
@@ -256,7 +257,7 @@ namespace TheLegends.Base.Ads
 
         private void OnAdsPaid(AdValue value)
         {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
             });
