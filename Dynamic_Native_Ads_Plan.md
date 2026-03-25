@@ -60,6 +60,43 @@ Sử dụng **Composite Pattern**: mỗi Element có thể chứa đồng thời
 }
 ```
 
+### Bước 1.3: Hướng Dẫn Thiết Kế Cơ Bản (Dành cho Designer)
+
+Để lớp C# trích xuất hoạt động hoàn hảo, Layout vẽ trên Unity Canvas nên tuân thủ sơ đồ cấp bậc (Hierarchy) và cách bố trí Component tương ứng. Dưới đây là bảng tra cứu:
+
+**Mẫu Sơ Đồ Cây (Tree Hierarchy) Của Một Banner Điển Hình:**
+```text
+Canvas (Có thể là Canvas trống hoặc Screen Space)
+└── Khung_Banner_Tổng (Gắn Tag: RootAdView) (Có: Image làm nền xanh đen)
+    │
+    ├── Hinh_Bieu_Tuong (Gắn Tag: IconView) (Có: Image khung vuông)
+    │
+    ├── Chu_Tieu_De_Game (Gắn Tag: Headline) (Có: Text "Quảng cáo thử nghiệm")
+    │
+    ├── Chu_Mo_Ta (Gắn Tag: Body) (Có: Text "Cài đặt ngay...", Font nhỏ)
+    │
+    ├── Nut_Bam_Cai_Dat (Gắn Tag: CallToAction) (Có: Image màu nổi)
+    │   └── Text_Action (Có: Text "Install") 
+    │       -> LƯU Ý: Không cần gắn Tag, Exporter tự động nội suy xuyên thấu lấy Font của con.
+    │
+    └── Nhan_AdMob_Luat (Gắn Tag: AdAttribution) (Có: Image nền phụ)
+        └── Text_Ad (Có: Text "Ad", Chữ trắng) 
+            -> LƯU Ý: Không cần gắn Tag, tương tự như trên.
+```
+
+**Bảng Tra Cứu Ánh Xạ UI Component Sang Native:**
+
+| Giá trị Thẻ (`NativeAdElement`) | Yêu cầu Component (Của Cha hoặc Con) | Vai trò sau khi sang Native Android (`AdMob`) |
+| :--- | :--- | :--- |
+| `RootAdView` | **`Image`** (Phông nền, Bo góc) | Neo kích thước tổng & Bắt Click Event phủ toàn quảng cáo. Kích thước động mượt mà bằng Canvas Anchors. |
+| `IconView` | **`Image`** (Hình Avatar vuông) | OS Override đè hoàn toàn bằng Logo App thực tế kéo từ Internet. |
+| `Headline` | **`Text`** (Cỡ chữ to) | OS Override đè TEXT bằng Tên Game, nhưng **GIỮ NGUYÊN** cấu trúc Font/Size/Màu mà Unity đã nặn. |
+| `CallToAction` | **`Image`** (Box Nút) + **`Text`** (Chữ) | Rất linh hoạt: OS Override đoạt TEXT ghi đè ("Install"), nhưng mượn Font của Text Con và Màu/Bo Viền của Image Cha. |
+| `Body` | **`Text`** (Chữ nhỏ, Wrap đoạn) | OS Override đè TEXT bằng miêu tả Game tải từ Google về. |
+| `MediaView` | **`Image`** (Tỷ lệ 16:9, Cực to) | Đây là chỗ Video Gameplay hoặc Ảnh Bia ngang được bắn vào (Thường dùng cho Fullscreen/MREC). |
+| `AdAttribution` | **`Image`** + **`Text`** (Chữ "Ad") | TĨNH. Giữ nguyên gốc 100% tài sản Unity (không gán biến Override) để lách Policy. |
+| `Decorator_...` | Tùy biên độ thiết kế | Chạy logic độc lập (Vòng xoay thời gian, Nút tắt Game). Không đụng độ với luồng SDK Google. |
+
 ---
 
 ## GIAI ĐOẠN 2: HỆ THỐNG SMART EXPORTER (UNITY C# RUNTIME)
