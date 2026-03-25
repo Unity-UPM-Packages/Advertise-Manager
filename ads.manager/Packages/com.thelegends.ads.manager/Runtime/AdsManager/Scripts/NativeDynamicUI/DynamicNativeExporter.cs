@@ -9,17 +9,24 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     {
         public static NativeAdLayoutConfig GenerateConfig(string layoutId, RectTransform rootCanvasRect)
         {
-            var config = new NativeAdLayoutConfig { 
-                layoutId = layoutId,
-                referenceWidth = rootCanvasRect.rect.width,
-                referenceHeight = rootCanvasRect.rect.height
-            };
-            
-            // Collect all marked parts of the Native Ad
-            var marks = rootCanvasRect.GetComponentsInChildren<DynamicNativeMark>(true); 
+            // CHỮA LỖI MẤT TỶ LỆ (Distortion / Fullscreen Stretch):
+            // Lấy Root Canvas làm hệ quy chiếu tuyệt đối thay vì chính cái Banner.
+            Canvas rootCanvas = rootCanvasRect.GetComponentInParent<Canvas>();
+            if (rootCanvas != null) rootCanvas = rootCanvas.rootCanvas;
+            RectTransform canvasRect = rootCanvas != null ? rootCanvas.GetComponent<RectTransform>() : rootCanvasRect;
 
-            float screenW = rootCanvasRect.rect.width;
-            float screenH = rootCanvasRect.rect.height;
+            float screenW = canvasRect.rect.width;
+            float screenH = canvasRect.rect.height;
+
+            var config = new NativeAdLayoutConfig
+            {
+                layoutId = layoutId,
+                referenceWidth = screenW,
+                referenceHeight = screenH
+            };
+
+            // Collect all marked parts of the Native Ad
+            var marks = rootCanvasRect.GetComponentsInChildren<DynamicNativeMark>(true);
 
             foreach (var mark in marks)
             {
@@ -36,15 +43,15 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 RectTransform rt = mark.GetComponent<RectTransform>();
                 Vector3[] corners = new Vector3[4];
                 rt.GetWorldCorners(corners);
-                
-                // Convert to Root bounds
-                Vector3 bl = rootCanvasRect.InverseTransformPoint(corners[0]);
-                Vector3 tr = rootCanvasRect.InverseTransformPoint(corners[2]);
 
-                float xMin = (bl.x + screenW * rootCanvasRect.pivot.x) / screenW;
-                float yMin = (bl.y + screenH * rootCanvasRect.pivot.y) / screenH;
-                float xMax = (tr.x + screenW * rootCanvasRect.pivot.x) / screenW;
-                float yMax = (tr.y + screenH * rootCanvasRect.pivot.y) / screenH;
+                // Convert to Root bounds
+                Vector3 bl = canvasRect.InverseTransformPoint(corners[0]);
+                Vector3 tr = canvasRect.InverseTransformPoint(corners[2]);
+
+                float xMin = (bl.x + screenW * canvasRect.pivot.x) / screenW;
+                float yMin = (bl.y + screenH * canvasRect.pivot.y) / screenH;
+                float xMax = (tr.x + screenW * canvasRect.pivot.x) / screenW;
+                float yMax = (tr.y + screenH * canvasRect.pivot.y) / screenH;
 
                 elementConfig.rectTransform = new RectTransformConfig
                 {
@@ -54,7 +61,8 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                     offsetMax = Vector2.zero,
                     pivot = rt.pivot,
                     rotationZ = rt.eulerAngles.z,
-                    scaleX = 1f, scaleY = 1f 
+                    scaleX = 1f,
+                    scaleY = 1f
                 };
 
                 // Extract Visual Shapes and Fonts (Background Colors, Tints, text content)
@@ -73,6 +81,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
             {
                 elementConfig.image = new ImageConfig
                 {
+                    hasData = true,
                     color = "#" + ColorUtility.ToHtmlStringRGBA(img.color),
                     cornerRadius = mark.customCornerRadius,
                     isRadialFill = mark.isRadialFill,
@@ -80,12 +89,22 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 };
             }
 
-            // Cải tiến: Quét cả text ở GameObject con (Vì Unity Button thường thiết kế lớp Nền (Image) bao bọc Text (Con))
-            var txt = mark.GetComponentInChildren<Text>(true);
+            // GỠ LỖI CỐT LÕI: Phải quét đúng cục gắn script hoặc con CỦA NÓ, nhưng KHÔNG ĐƯỢC QUÉT TOÀN BỘ CÂY CON CHÁU (Phòng Background lấy cắp Text của mọi View).
+            var txt = mark.GetComponent<Text>();
+            if (txt == null)
+            {
+                foreach (Transform child in mark.transform)
+                {
+                    txt = child.GetComponent<Text>();
+                    if (txt != null && txt.enabled) break;
+                }
+            }
+
             if (txt != null && txt.enabled)
             {
                 elementConfig.text = new TextConfig
                 {
+                    hasData = true,
                     textContent = txt.text,
                     color = "#" + ColorUtility.ToHtmlStringRGBA(txt.color),
                     fontSize = txt.fontSize,
@@ -100,7 +119,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
         private static string ProcessAndCacheImage(Sprite sprite)
         {
             if (sprite == null) return null;
-            if (sprite.name == "Background" || sprite.name == "UISprite") return null; 
+            if (sprite.name == "Background" || sprite.name == "UISprite") return null;
 
             string cacheDir = Path.Combine(Application.persistentDataPath, "DynamicAdsCache");
             if (!Directory.Exists(cacheDir)) Directory.CreateDirectory(cacheDir);
@@ -117,8 +136,8 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                     Texture2D tex = DuplicateReadableTexture(sprite.texture);
                     byte[] bytes = tex.EncodeToPNG();
                     File.WriteAllBytes(filePath, bytes);
-                    
-                    if(Application.isPlaying) GameObject.Destroy(tex);
+
+                    if (Application.isPlaying) GameObject.Destroy(tex);
                 }
                 catch (System.Exception e)
                 {
@@ -141,11 +160,11 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
             Graphics.Blit(source, renderTex);
             RenderTexture previous = RenderTexture.active;
             RenderTexture.active = renderTex;
-            
+
             Texture2D readableText = new Texture2D(source.width, source.height);
             readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
             readableText.Apply();
-            
+
             RenderTexture.active = previous;
             RenderTexture.ReleaseTemporary(renderTex);
             return readableText;
