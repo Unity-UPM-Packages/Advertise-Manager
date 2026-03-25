@@ -21,6 +21,9 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
         // Advanced Decorators (Handled Natively)
         Decorator_CloseButton = 11,
         Decorator_CountdownText = 12,
-        Decorator_RadialTimer = 13
+        Decorator_RadialTimer = 13,
+        
+        // Custom Elements
+        Background = 14
     }
 }

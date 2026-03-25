@@ -39,6 +39,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class ImageConfig
     {
+        public bool hasData;
         public string color; // Hex format #RRGGBBAA
         public float cornerRadius;
         public string imagePath; // Absolute path to physical file
@@ -48,6 +49,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class TextConfig
     {
+        public bool hasData;
         public string textContent;
         public string color;
         public float fontSize;
