@@ -35,6 +35,8 @@ namespace TheLegends.Base.Ads
         // === BUILDER PATTERN SUPPORT ===
         void WithCountdown(float initialDelaySeconds, float countdownDurationSeconds, float closeButtonDelaySeconds);
         void WithPosition(int positionX, int positionY);
+        void WithLayoutJson(string jsonPayload);
+        void WithZLayer(string zLayer);
     }
 }
 

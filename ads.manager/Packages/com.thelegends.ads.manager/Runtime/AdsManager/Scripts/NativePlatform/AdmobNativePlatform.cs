@@ -80,6 +80,16 @@ namespace TheLegends.Base.Ads
             _client?.WithPosition(positionX, positionY);
         }
 
+        public void WithLayoutJson(string jsonPayload)
+        {
+            _client?.WithLayoutJson(jsonPayload);
+        }
+
+        public void WithZLayer(string zLayer)
+        {
+            _client?.WithZLayer(zLayer);
+        }
+
         #endregion
 
         public IResponseInfoClient GetResponseInfo()

@@ -214,6 +214,16 @@ namespace TheLegends.Base.Ads
             AdmobNative_WithPosition(_nativeControllerPtr, positionX, positionY);
         }
 
+        public void WithLayoutJson(string jsonPayload)
+        {
+            // TODO (Stage 8): Implement iOS DllImport AdmobNative_WithLayoutJson
+        }
+
+        public void WithZLayer(string zLayer)
+        {
+            // TODO (Stage 8): Implement iOS DllImport AdmobNative_WithZLayer
+        }
+
         // MARK: - MonoPInvokeCallback Methods (Static callbacks từ native)
 
         [MonoPInvokeCallback(typeof(VoidCallback))]

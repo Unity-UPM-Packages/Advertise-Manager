@@ -78,6 +78,16 @@ namespace TheLegends.Base.Ads
         {
             Debug.Log("DummyNativeClient: WithPosition " + positionX + "x" + positionY);
         }
+
+        public void WithLayoutJson(string jsonPayload)
+        {
+            Debug.Log("DummyNativeClient: WithLayoutJson");
+        }
+
+        public void WithZLayer(string zLayer)
+        {
+            Debug.Log("DummyNativeClient: WithZLayer " + zLayer);
+        }
     }
 }
 #endif
