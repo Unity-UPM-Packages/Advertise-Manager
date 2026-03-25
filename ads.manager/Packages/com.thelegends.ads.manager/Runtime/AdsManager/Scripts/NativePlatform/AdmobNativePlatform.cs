@@ -95,6 +95,16 @@ namespace TheLegends.Base.Ads
             _client?.updateAdViewSize(width, height);
         }
 
+        public void WithLayoutJson(string jsonPayload)
+        {
+            _client?.WithLayoutJson(jsonPayload);
+        }
+
+        public void WithZLayer(string zLayer)
+        {
+            _client?.WithZLayer(zLayer);
+        }
+
         #endregion
 
         public IResponseInfoClient GetResponseInfo()

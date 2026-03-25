@@ -165,6 +165,15 @@ namespace TheLegends.Base.Ads
                     SetAdCustomPosition(_storedPosition.AdsPos, _storedPosition.Offset);
                 }
 
+                // --- DYNAMIC NATIVE ADS INJECTION ---
+                string jsonBlueprint = NativeDynamicUI.DynamicAdsCacheManager.GetLayoutJson(layoutName);
+                if (!string.IsNullOrEmpty(jsonBlueprint))
+                {
+                    _nativePlatformAd.WithLayoutJson(jsonBlueprint);
+                    _nativePlatformAd.WithZLayer(NativeName.GetZLayerAssigned(layoutName));
+                }
+                // ------------------------------------
+
                 _nativePlatformAd.Show(layoutName);
 
                 if (_customViewWidth != -1 && _customViewHeight != -1)

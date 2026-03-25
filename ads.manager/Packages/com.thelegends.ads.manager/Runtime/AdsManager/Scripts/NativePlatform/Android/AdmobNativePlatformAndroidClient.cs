@@ -66,6 +66,16 @@ namespace TheLegends.Base.Ads
             _kotlinController?.Call<AndroidJavaObject>("withPosition", positionX, positionY);
         }
 
+        public void WithLayoutJson(string jsonPayload)
+        {
+            _kotlinController?.Call<AndroidJavaObject>("withLayoutJson", jsonPayload);
+        }
+
+        public void WithZLayer(string zLayer)
+        {
+            _kotlinController?.Call<AndroidJavaObject>("withZLayer", zLayer);
+        }
+
 
         #endregion
 
