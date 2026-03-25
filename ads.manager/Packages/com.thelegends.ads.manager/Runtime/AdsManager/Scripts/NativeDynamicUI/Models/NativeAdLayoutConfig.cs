@@ -8,6 +8,8 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     public class NativeAdLayoutConfig
     {
         public string layoutId;
+        public float referenceWidth;
+        public float referenceHeight;
         public List<NativeAdElementConfig> elements = new List<NativeAdElementConfig>();
     }
 
