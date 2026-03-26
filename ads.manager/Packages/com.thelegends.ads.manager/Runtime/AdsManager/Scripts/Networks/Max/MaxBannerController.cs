@@ -52,19 +52,21 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            if (!IsReady)
+            if (IsReady)
             {
-                base.LoadAds();
-
-                CreateBanner();
-
-                MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnBannerLoadedEvent;
-                MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnBannerLoadFailedEvent;
-                MaxSdkCallbacks.Banner.OnAdClickedEvent += OnBannerClickedEvent;
-                MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnBannerRevenuePaidEvent;
-
-                MaxSdk.LoadBanner(adsUnitID);
+                return;
             }
+
+            base.LoadAds();
+
+            CreateBanner();
+
+            MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnBannerLoadedEvent;
+            MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnBannerLoadFailedEvent;
+            MaxSdkCallbacks.Banner.OnAdClickedEvent += OnBannerClickedEvent;
+            MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnBannerRevenuePaidEvent;
+
+            MaxSdk.LoadBanner(adsUnitID);
 #endif
         }
 
@@ -180,7 +182,7 @@ namespace TheLegends.Base.Ads
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, adInfo);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, adInfo);
             });
         }
 

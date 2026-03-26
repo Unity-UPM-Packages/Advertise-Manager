@@ -45,21 +45,23 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            if (!IsReady)
+            if (IsReady)
             {
-                base.LoadAds();
-
-                MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedLoadedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedLoadFailedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedDisplayedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedRevenuePaidEvent;
-                MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedClickedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedHiddenEvent;
-                MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
-                MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
-
-                MaxSdk.LoadRewardedAd(adsUnitID);
+                return;
             }
+
+            base.LoadAds();
+
+            MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedLoadedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedLoadFailedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedDisplayedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedRevenuePaidEvent;
+            MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedClickedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedHiddenEvent;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
+            MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
+
+            MaxSdk.LoadRewardedAd(adsUnitID);
 #endif
         }
 
@@ -114,7 +116,7 @@ namespace TheLegends.Base.Ads
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, adInfo);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, adInfo);
             });
         }
 

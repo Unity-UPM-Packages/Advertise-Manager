@@ -26,8 +26,8 @@ namespace TheLegends.Base.Ads
         // ─── Build targets we care about ────────────────────────────────────────
         protected static readonly BuildTargetGroup[] targetGroups =
         {
-            BuildTargetGroup.Android,
-            BuildTargetGroup.iOS
+            NamedBuildTarget.Android,
+            NamedBuildTarget.iOS
         };
 
         // ─── Auto-run on every compilation ──────────────────────────────────────
@@ -63,7 +63,7 @@ namespace TheLegends.Base.Ads
             bool android = false;
             bool ios = false;
 
-            foreach (var group in targetGroups)
+            foreach (var target in targetGroups)
             {
                 var defines = GetDefinesList(group);
                 if (!defines.Contains(defineName)) continue;
@@ -98,9 +98,7 @@ namespace TheLegends.Base.Ads
 
         private static void SetSymbolEnabledInternal(string defineName, bool enable)
         {
-            bool updated = false;
-
-            foreach (var group in targetGroups)
+            foreach (var target in targetGroups)
             {
                 var defines = GetDefinesList(group);
 
@@ -277,11 +275,11 @@ namespace TheLegends.Base.Ads
         /// </summary>
         private static void SyncSymbolsFromSettings(AdsSettings settings)
         {
-            SetSymbolEnabled("USE_IRON",        settings.showIRON);
-            SetSymbolEnabled("USE_MAX",         settings.showMAX);
-            SetSymbolEnabled("USE_ADMOB",       settings.showADMOB);
-            SetSymbolEnabled("USE_FIREBASE",    settings.useFirebase);
-            SetSymbolEnabled("USE_APPSFLYER",   settings.useAppsFlyer);
+            SetSymbolEnabled("USE_IRON", settings.showIRON);
+            SetSymbolEnabled("USE_MAX", settings.showMAX);
+            SetSymbolEnabled("USE_ADMOB", settings.showADMOB);
+            SetSymbolEnabled("USE_FIREBASE", settings.useFirebase);
+            SetSymbolEnabled("USE_APPSFLYER", settings.useAppsFlyer);
 
             bool shouldEnableNativeUnity = settings.showADMOB && settings.isUseNativeUnity;
             SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY", shouldEnableNativeUnity);
