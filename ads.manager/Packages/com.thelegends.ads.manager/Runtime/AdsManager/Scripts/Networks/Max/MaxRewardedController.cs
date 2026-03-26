@@ -1,5 +1,8 @@
 #if USE_MAX
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using TheLegends.Base.Databuckets;
 using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
@@ -176,6 +179,18 @@ namespace TheLegends.Base.Ads
                     }
 
                     isRewarded = false;
+
+#if USE_DATABUCKETS
+                    DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
+                    {
+                        { "ad_format", AdsType.ToString() },
+                        { "ad_platform", AdsMediation.ToString() },
+                        { "ad_network", networkName},
+                        { "ad_unit_id", adsUnitID },
+                        { "end_type", "done"},
+                        { "placement", position}
+                    });
+#endif
 
                     AdsManager.Instance.OnFullScreenAdsClosed();
                 });
