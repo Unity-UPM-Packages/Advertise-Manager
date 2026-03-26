@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using TheLegends.Base.Ads.NativeDynamicUI;
+using Newtonsoft.Json;
 
 namespace TheLegends.Base.Ads.NativeDynamicUI
 {
@@ -46,7 +46,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 if (rectTransform != null)
                 {
                     NativeAdLayoutConfig config = DynamicNativeExporter.GenerateConfig(layoutId, rectTransform);
-                    string jsonString = JsonUtility.ToJson(config);
+                    string jsonString = JsonConvert.SerializeObject(config);
                     
                     _layoutJsonCache[layoutId] = jsonString;
                 }

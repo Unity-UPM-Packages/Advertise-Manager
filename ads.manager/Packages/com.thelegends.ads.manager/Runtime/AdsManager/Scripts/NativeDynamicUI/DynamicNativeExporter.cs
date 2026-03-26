@@ -55,14 +55,14 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
 
                 elementConfig.rectTransform = new RectTransformConfig
                 {
-                    anchorMin = new Vector2(xMin, yMin),
-                    anchorMax = new Vector2(xMax, yMax),
-                    offsetMin = Vector2.zero, // Zero absolute scaling, eliminating device DPI differences!
-                    offsetMax = Vector2.zero,
-                    pivot = rt.pivot,
-                    rotationZ = rt.eulerAngles.z,
-                    scaleX = 1f,
-                    scaleY = 1f
+                    anchorMin = new SerializableVector2(xMin, yMin),
+                    anchorMax = new SerializableVector2(xMax, yMax),
+                    offsetMin = new SerializableVector2(0, 0), 
+                    offsetMax = new SerializableVector2(0, 0),
+                    pivot = new SerializableVector2(rt.pivot.x, rt.pivot.y),
+                    rotationZ = rt.localEulerAngles.z,
+                    scaleX = rt.localScale.x,
+                    scaleY = rt.localScale.y
                 };
 
                 // Extract Visual Shapes and Fonts (Background Colors, Tints, text content)
@@ -77,11 +77,11 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
         private static void ExtractGraphicComponents(DynamicNativeMark mark, NativeAdElementConfig elementConfig)
         {
             var img = mark.GetComponent<Image>();
-            if (img != null && img.enabled)
+            // Loại trừ trường hợp là IconView, không xuất ra image json
+            if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView)
             {
                 elementConfig.image = new ImageConfig
                 {
-                    hasData = true,
                     color = "#" + ColorUtility.ToHtmlStringRGBA(img.color),
                     cornerRadius = mark.customCornerRadius,
                     isRadialFill = mark.isRadialFill,
@@ -89,7 +89,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 };
             }
 
-            // GỠ LỖI CỐT LÕI: Phải quét đúng cục gắn script hoặc con CỦA NÓ, nhưng KHÔNG ĐƯỢC QUÉT TOÀN BỘ CÂY CON CHÁU (Phòng Background lấy cắp Text của mọi View).
+            // GỠ LỖI CỐT LÕI: Chỉ quét đúng bản thân và CON TRỰC TIẾP, không cào toàn bộ cây cháu chắt
             var txt = mark.GetComponent<Text>();
             if (txt == null)
             {
@@ -104,7 +104,6 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
             {
                 elementConfig.text = new TextConfig
                 {
-                    hasData = true,
                     textContent = txt.text,
                     color = "#" + ColorUtility.ToHtmlStringRGBA(txt.color),
                     fontSize = txt.fontSize,

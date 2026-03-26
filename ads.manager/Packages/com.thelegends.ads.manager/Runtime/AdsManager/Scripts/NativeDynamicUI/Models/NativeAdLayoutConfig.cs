@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace TheLegends.Base.Ads.NativeDynamicUI
 {
@@ -16,21 +17,33 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class NativeAdElementConfig
     {
-        public string elementType; // String representation of NativeAdElement
-        
+        public string elementType; 
         public RectTransformConfig rectTransform;
+        
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ImageConfig image;
+        
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TextConfig text;
+    }
+
+    [Serializable]
+    public class SerializableVector2
+    {
+        public float x;
+        public float y;
+        public SerializableVector2(float x, float y) { this.x = x; this.y = y; }
+        public SerializableVector2() { }
     }
 
     [Serializable]
     public class RectTransformConfig
     {
-        public Vector2 anchorMin;
-        public Vector2 anchorMax;
-        public Vector2 offsetMin;
-        public Vector2 offsetMax;
-        public Vector2 pivot;
+        public SerializableVector2 anchorMin;
+        public SerializableVector2 anchorMax;
+        public SerializableVector2 offsetMin;
+        public SerializableVector2 offsetMax;
+        public SerializableVector2 pivot;
         public float rotationZ;
         public float scaleX;
         public float scaleY;
@@ -39,7 +52,6 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class ImageConfig
     {
-        public bool hasData;
         public string color; // Hex format #RRGGBBAA
         public float cornerRadius;
         public string imagePath; // Absolute path to physical file
@@ -49,7 +61,6 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class TextConfig
     {
-        public bool hasData;
         public string textContent;
         public string color;
         public float fontSize;
