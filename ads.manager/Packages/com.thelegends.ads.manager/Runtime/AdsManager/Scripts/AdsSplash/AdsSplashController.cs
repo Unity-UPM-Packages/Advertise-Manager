@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
+#if USE_APPSFLYER
 using TheLegends.Base.AppsFlyer;
+#endif
+#if USE_FIREBASE
 using TheLegends.Base.Firebase;
+#endif
 using TheLegends.Base.UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -66,15 +70,21 @@ namespace TheLegends.Base.Ads
         {
             UILoadingController.SetProgress(0.2f, null);
 
+#if USE_FIREBASE
             // Initialize Firebase with remote config
             yield return InitializeFirebase();
+#endif
 
+#if USE_APPSFLYER
             // Initialize AppsFlyer
             yield return InitAppsFlyer();
+#endif
 
+#if USE_FIREBASE
             // Fetch remote data and update configs
             yield return FetchAndUpdateRemoteConfigs();
             OnInitFirebaseDone?.Invoke();
+#endif
 
             // Initialize Ads Manager
             yield return AdsManager.Instance.DoInit();
@@ -97,6 +107,7 @@ namespace TheLegends.Base.Ads
             CompleteInitialization();
         }
 
+#if USE_APPSFLYER
         private IEnumerator InitAppsFlyer()
         {
             bool isFetching = true;
@@ -125,6 +136,7 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
+#if USE_FIREBASE
             Dictionary<string, object> conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
 
             try
@@ -158,7 +170,11 @@ namespace TheLegends.Base.Ads
             {
                 AdsManager.Instance.LogError("Cannot get AppsFlyer Caimpaign: " + e.Message);
             }
+#endif
         }
+#endif
+
+#if USE_FIREBASE
         private IEnumerator InitializeFirebase()
         {
             var defaultRemoteConfig = CreateDefaultRemoteConfig();
@@ -229,6 +245,7 @@ namespace TheLegends.Base.Ads
             configs.adMrecOpenTimeOut = FirebaseManager.Instance.RemoteGetValueFloat("adMrecOpenTimeOut", configs.adMrecOpenTimeOut);
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
         }
+#endif
 
         private IEnumerator LoadInitialAds()
         {

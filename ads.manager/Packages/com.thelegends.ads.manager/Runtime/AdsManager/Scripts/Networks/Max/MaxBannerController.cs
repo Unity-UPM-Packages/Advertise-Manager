@@ -1,7 +1,5 @@
 #if USE_MAX
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static MaxSdkBase;
 
@@ -194,7 +192,7 @@ namespace TheLegends.Base.Ads
                 try
                 {
                     MaxSdk.DestroyBanner(adsUnitID);
-                CancelReloadAds();
+                    CancelReloadAds();
                 }
                 catch (Exception ex)
                 {

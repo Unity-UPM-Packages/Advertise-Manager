@@ -789,8 +789,8 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: USE_FIREBASE;USE_APPSFLYER;USE_ADMOB;USE_ADMOB_NATIVE_UNITY
-    iPhone: USE_FIREBASE;USE_APPSFLYER;USE_ADMOB;USE_ADMOB_NATIVE_UNITY
+    Android: USE_FIREBASE;USE_ADMOB;USE_APPSFLYER
+    iPhone: USE_FIREBASE;USE_ADMOB;USE_APPSFLYER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -888,10 +888,10 @@ PlayerSettings:
       PointOfService: False
       RecordedCallsFolder: False
       Contacts: False
+      Proximity: False
       InternetClient: False
       CodeGeneration: False
       BackgroundMediaPlayback: False
-      Proximity: False
   metroTargetDeviceFamilies:
     Desktop: False
     Holographic: False

@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AppsFlyerSDK;
 #if USE_ADMOB
 using GoogleMobileAds.Api;
 #endif
+#if USE_APPSFLYER
 using TheLegends.Base.AppsFlyer;
-using TheLegends.Base.Firebase;
+using AppsFlyerSDK;
+#endif
 using TheLegends.Base.UI;
+#if USE_FIREBASE
+using TheLegends.Base.Firebase;
+#endif
 using TheLegends.Base.UnitySingleton;
 using UnityEngine;
 
@@ -131,7 +135,7 @@ namespace TheLegends.Base.Ads
             get { return adCount; }
             private set { adCount = value; }
         }
-        
+
         Dictionary<string, object> impressionParameters = new Dictionary<string, object>();
 
         public IEnumerator DoInit()
@@ -958,6 +962,7 @@ namespace TheLegends.Base.Ads
             string eventFirebaseName = $"{adsType}_{adEvent.ToString()}";
             Log(eventName);
 
+#if USE_FIREBASE
             FirebaseManager.Instance.LogEvent(eventFirebaseName, new Dictionary<string, object>()
             {
                 { "network", networks.ToString() },
@@ -965,6 +970,7 @@ namespace TheLegends.Base.Ads
                 { "position", position },
                 { "adUnitID", adsUnitID }
             });
+#endif
 
             if ((adsType == AdsType.Interstitial ||
                 adsType == AdsType.AppOpen ||
@@ -1035,7 +1041,7 @@ namespace TheLegends.Base.Ads
             {
                 return 0;
             }
-        
+
             var netWork = GetNetwork(SettingsAds.primaryNetwork) ?? adsNetworks.FirstOrDefault();
 
             if (netWork == null)
@@ -1147,8 +1153,9 @@ namespace TheLegends.Base.Ads
             string ad_format = "";
             string country = "";
             string currency = "USD";
+#if USE_APPSFLYER
             MediationNetwork mediation = MediationNetwork.Custom;
-
+#endif
             if (value == null)
             {
                 LogWarning("LogImpressionData: " + "data NULL");
@@ -1161,7 +1168,9 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
+#if USE_APPSFLYER
                     mediation = MediationNetwork.GoogleAdMob;
+#endif
                     monetizationNetwork = "googleadmob";
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
@@ -1179,7 +1188,9 @@ namespace TheLegends.Base.Ads
 
                 impressionParameters = new Dictionary<string, object>
                 {
+#if USE_APPSFLYER
                     { "mediation", mediation.ToString() },
+#endif
                     { "monetizationNetwork", monetizationNetwork },
                     { "ad_format", ad_format },
                     { "ad_unit_name", ad_unit_name },
@@ -1199,7 +1210,9 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
+#if USE_APPSFLYER
                     mediation = MediationNetwork.ApplovinMax;
+#endif
                     monetizationNetwork = "applovinmax";
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
@@ -1256,7 +1269,7 @@ namespace TheLegends.Base.Ads
 #endif
 
             OnImpressionRecored?.Invoke(network, adsType, revenue);
-            
+
         }
 
         public void Log(string message)

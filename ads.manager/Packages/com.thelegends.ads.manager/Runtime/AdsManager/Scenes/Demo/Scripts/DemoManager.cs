@@ -1,12 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 #if USE_ADMOB
 using GoogleMobileAds.Api;
 #endif
 using TheLegends.Base.Ads;
+#if USE_APPSFLYER
 using TheLegends.Base.AppsFlyer;
+#endif
+#if USE_FIREBASE
 using TheLegends.Base.Firebase;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -100,6 +103,7 @@ public class DemoManager : MonoBehaviour
     {
         yield return AdsManager.Instance.DoInit();
 
+#if USE_FIREBASE
         var defaultRemoteConfig = new Dictionary<string, object>
         {
             {"adInterOnComplete", AdsManager.Instance.adsConfigs.adInterOnComplete},
@@ -123,16 +127,19 @@ public class DemoManager : MonoBehaviour
             AdsManager.Instance.adsConfigs.adNativeBannerHeight = FirebaseManager.Instance.RemoteGetValueFloat("adNativeBannerHeight", AdsManager.Instance.adsConfigs.adNativeBannerHeight);
             AdsManager.Instance.adsConfigs.adTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("adTimeReload", AdsManager.Instance.adsConfigs.adTimeReload);
         }, null);
+#endif
 
+#if USE_APPSFLYER
         yield return AppsFlyerManager.Instance.DoInit();
+#endif
     }
 
     private void LoadInterstitial()
     {
         AdsManager.Instance.LoadInterstitial(AdsType.Interstitial, order);
-// #if USE_ADMOB
-//         AdsManager.Instance.LoadNativeInter(order);
-// #endif
+        // #if USE_ADMOB
+        //         AdsManager.Instance.LoadNativeInter(order);
+        // #endif
     }
 
     private void ShowInterstitial()
@@ -141,22 +148,22 @@ public class DemoManager : MonoBehaviour
         {
             AdsManager.Instance.Log("Interstitial closed");
         });
-// #if USE_ADMOB
-//         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_Inter, () =>
-//         {
-//             AdsManager.Instance.Log("NativeInter show");
-//             HideNativeBannerPlatform();
-//         }, () =>
-//         {
-//             AdsManager.Instance.Log("NativeInter closed");
-//             ShowNativeBannerPlatform();
-//         }, () =>
-//         {
-//             AdsManager.Instance.Log("NativeInter full screen content closed");
-//         })
-//         ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-//         ?.Execute();
-// #endif
+        // #if USE_ADMOB
+        //         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_Inter, () =>
+        //         {
+        //             AdsManager.Instance.Log("NativeInter show");
+        //             HideNativeBannerPlatform();
+        //         }, () =>
+        //         {
+        //             AdsManager.Instance.Log("NativeInter closed");
+        //             ShowNativeBannerPlatform();
+        //         }, () =>
+        //         {
+        //             AdsManager.Instance.Log("NativeInter full screen content closed");
+        //         })
+        //         ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
+        //         ?.Execute();
+        // #endif
     }
 
     private void Loadrewarded()
@@ -204,9 +211,9 @@ public class DemoManager : MonoBehaviour
     private void LoadMrec()
     {
         AdsManager.Instance.LoadMrec(AdsType.Mrec, order);
-// #if USE_ADMOB
-//         AdsManager.Instance.LoadNativeMrec(PlacementOrder.One);
-// #endif
+        // #if USE_ADMOB
+        //         AdsManager.Instance.LoadNativeMrec(PlacementOrder.One);
+        // #endif
     }
 
     private void ShowMrec()
@@ -223,9 +230,9 @@ public class DemoManager : MonoBehaviour
     private void HideMrec()
     {
         AdsManager.Instance.HideMrec(AdsType.Mrec, order);
-// #if USE_ADMOB
-//         AdsManager.Instance.HideNativeMrec(PlacementOrder.One);
-// #endif
+        // #if USE_ADMOB
+        //         AdsManager.Instance.HideNativeMrec(PlacementOrder.One);
+        // #endif
     }
 
     private void LoadNativeOverlay()
@@ -252,14 +259,16 @@ public class DemoManager : MonoBehaviour
                 FontSize = 20,
                 Style = NativeTemplateFontStyle.Bold
             }
-        }, pos, new Vector2Int(Mathf.RoundToInt(Screen.safeArea.width / deviceScale / 1.5f), Mathf.RoundToInt(Screen.safeArea.height / deviceScale)), new Vector2Int(0, 0), "Default", () => {
+        }, pos, new Vector2Int(Mathf.RoundToInt(Screen.safeArea.width / deviceScale / 1.5f), Mathf.RoundToInt(Screen.safeArea.height / deviceScale)), new Vector2Int(0, 0), "Default", () =>
+        {
             nativeOverlayBG.SetActive(true);
             AdsManager.Instance.Log("NativeOverlay show");
-        }, () => {
+        }, () =>
+        {
             AdsManager.Instance.Log("NativeOverlay closed");
             nativeOverlayBG.SetActive(false);
         });
-        
+
         // new Vector2Int(Mathf.RoundToInt(Screen.safeArea.width / deviceScale / 3), Mathf.RoundToInt(Screen.safeArea.height / deviceScale))
 #endif
     }

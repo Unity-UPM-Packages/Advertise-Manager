@@ -1,9 +1,6 @@
 #if USE_MAX
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TheLegends.Base.UI;
-using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
@@ -96,12 +93,12 @@ namespace TheLegends.Base.Ads
 
                 OnAdsLoadAvailable();
             });
-            
+
         }
 
         protected void OnInterstitialLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo adInfo)
         {
-            
+
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;
@@ -120,7 +117,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsLoadFailed(adInfo.Message);
             });
-            
+
         }
 
         protected void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -142,7 +139,7 @@ namespace TheLegends.Base.Ads
 
                 AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, info);
             });
-            
+
         }
 
         protected void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -153,7 +150,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsClick();
             });
-            
+
         }
 
         protected virtual void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -179,7 +176,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsClosed();
             });
-            
+
         }
 
         protected void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
@@ -190,9 +187,9 @@ namespace TheLegends.Base.Ads
 
                 OnAdsShowFailed(errorInfo.Message);
             });
-            
+
         }
-        
+
         #endregion
     }
 }

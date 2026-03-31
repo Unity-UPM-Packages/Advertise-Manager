@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -7,58 +6,85 @@ using UnityEditor.Build;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace TheLegends.Base.Ads
 {
-    [ExecuteInEditMode]
-    public class PackagesManagerIntergration : MonoBehaviour
+    /// <summary>
+    /// Manages scripting define symbols and package manifest dependencies
+    /// for Ads Manager optional dependencies (Admob, Max, Firebase, AppsFlyer).
+    ///
+    /// [InitializeOnLoad] causes the static constructor to run every time Unity
+    /// finishes a script compilation (including the very first compile after
+    /// importing this package), so optional dependencies are always kept in sync
+    /// without any manual action from the user.
+    /// </summary>
+    [InitializeOnLoad]
+    public class PackagesManagerIntergration
     {
-        protected static BuildTargetGroup[] targetGroups = new BuildTargetGroup[]
+        // ─── Build targets we care about ────────────────────────────────────────
+        protected static readonly BuildTargetGroup[] targetGroups =
         {
             BuildTargetGroup.Android,
             BuildTargetGroup.iOS
         };
 
+        // ─── Auto-run on every compilation ──────────────────────────────────────
+        static PackagesManagerIntergration()
+        {
+            // Delay one frame so the AssetDatabase is fully initialised.
+            EditorApplication.delayCall += OnAfterCompilation;
+        }
+
+        private static void OnAfterCompilation()
+        {
+            try
+            {
+                UpdateManifest();
+            }
+            catch (Exception e)
+            {
+                // Non-fatal: never break the editor because of our auto-update.
+                Debug.LogWarning($"[AdsManager] Auto manifest sync failed (non-critical): {e.Message}");
+            }
+        }
+
+        // ─── Define Symbols ──────────────────────────────────────────────────────
         public static List<string> GetDefinesList(BuildTargetGroup group)
         {
-            return new List<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';'));
+            var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+            return new List<string>(
+                PlayerSettings.GetScriptingDefineSymbols(namedTarget).Split(';'));
         }
 
         public static bool IsSymbolEnabled(string defineName)
         {
-            bool isAndroidEnabled = false;
-            bool isIOSEnabled = false;
+            bool android = false;
+            bool ios = false;
 
             foreach (var group in targetGroups)
             {
                 var defines = GetDefinesList(group);
-                if (defines.Contains(defineName))
+                if (!defines.Contains(defineName)) continue;
+
+                switch (group)
                 {
-                    switch (group)
-                    {
-                        case BuildTargetGroup.Android:
-                            isAndroidEnabled = true;
-                            break;
-                        case BuildTargetGroup.iOS:
-                            isIOSEnabled = true;
-                            break;
-                    }
+                    case BuildTargetGroup.Android: android = true; break;
+                    case BuildTargetGroup.iOS: ios = true; break;
                 }
             }
 
-            return isAndroidEnabled && isIOSEnabled;
+            return android && ios;
         }
 
         public static void SetSymbolEnabled(string defineName, bool enable)
         {
-            // Special handling for USE_ADMOB - when disabled, also disable USE_ADMOB_NATIVE_UNITY
+            // Special rule: disabling USE_ADMOB must also disable USE_ADMOB_NATIVE_UNITY.
             if (defineName == "USE_ADMOB" && !enable)
             {
-                // Disable USE_ADMOB_NATIVE_UNITY when USE_ADMOB is disabled
                 SetSymbolEnabledInternal("USE_ADMOB_NATIVE_UNITY", false);
-                
-                // Reset isUseNativeUnity flag in AdsSettings
+
                 var adsSettings = AdsSettings.Instance;
                 if (adsSettings != null)
                 {
@@ -77,310 +103,394 @@ namespace TheLegends.Base.Ads
             foreach (var group in targetGroups)
             {
                 var defines = GetDefinesList(group);
+
                 if (enable)
                 {
-                    if (!defines.Contains(defineName))
-                    {
-                        defines.Add(defineName);
-                        updated = true;
-                    }
+                    if (defines.Contains(defineName)) continue;
+                    defines.Add(defineName);
+                    updated = true;
                 }
                 else
                 {
-                    if (defines.Contains(defineName))
-                    {
-                        while (defines.Contains(defineName))
-                        {
-                            defines.Remove(defineName);
-                        }
-
-                        updated = true;
-                    }
+                    if (!defines.Contains(defineName)) continue;
+                    while (defines.Contains(defineName))
+                        defines.Remove(defineName);
+                    updated = true;
                 }
 
                 if (updated)
                 {
-                    string definesString = string.Join(";", defines.ToArray());
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(group, definesString);
+                    var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+                    PlayerSettings.SetScriptingDefineSymbols(
+                        namedTarget, string.Join(";", defines.ToArray()));
                 }
             }
         }
 
+        // ─── package.json optional-dependencies reader ───────────────────────────
         /// <summary>
-        /// Gets the project root path that works both when this package is in development
-        /// and when it's imported into other projects via UPM
+        /// Locates the Ads Manager package.json file and returns the version string
+        /// listed under "optionalDependencies" for <paramref name="packageName"/>.
+        /// Returns null when the package or key cannot be found.
         /// </summary>
+        public static string GetOptionalDependencyVersion(string packageName)
+        {
+            string packageJsonPath = FindAdsManagerPackageJsonPath();
+            if (packageJsonPath == null) return null;
+
+            string json = File.ReadAllText(packageJsonPath);
+
+            // Locate the optionalDependencies block using a simple brace-scan so we
+            // don't need a JSON library (keeping the editor dependency-free).
+            int blockStart = json.IndexOf("\"optionalDependencies\"", StringComparison.Ordinal);
+            if (blockStart < 0) return null;
+
+            int braceOpen = json.IndexOf('{', blockStart);
+            if (braceOpen < 0) return null;
+
+            int depth = 0;
+            int braceClose = -1;
+            for (int i = braceOpen; i < json.Length; i++)
+            {
+                if (json[i] == '{') depth++;
+                else if (json[i] == '}') { depth--; if (depth == 0) { braceClose = i; break; } }
+            }
+            if (braceClose < 0) return null;
+
+            string block = json.Substring(braceOpen, braceClose - braceOpen + 1);
+
+            // Extract version string: "packageName": "x.y.z"
+            string escaped = packageName.Replace(".", "\\.");
+            var match = Regex.Match(block,
+                $"\"{escaped}\"\\s*:\\s*\"([^\"]+)\"");
+
+            return match.Success ? match.Groups[1].Value : null;
+        }
+
+        /// <summary>
+        /// Finds the package.json of the Ads Manager package by walking upward from
+        /// this script's directory, falling back to a broad search in Library/PackageCache.
+        /// </summary>
+        private static string FindAdsManagerPackageJsonPath()
+        {
+            // Strategy 1: walk upward from this source file's directory.
+            // When the package is installed from disk/git, the Editor scripts live inside
+            // the package folder, so we just need to climb until we find package.json.
+            try
+            {
+                // __FILE__ equivalent: use the MonoScript approach via reflection.
+                // Instead, rely on the known relative structure:
+                //   Packages/com.thelegends.ads.manager/Editor/AdsSettings/<thisFile>.cs
+                // Application.dataPath => <project>/Assets
+                string dataPath = Application.dataPath;
+                string projectRoot = Path.GetDirectoryName(dataPath);
+                string candidate = Path.Combine(projectRoot,
+                    "Packages", "com.thelegends.ads.manager", "package.json");
+                if (File.Exists(candidate)) return candidate;
+            }
+            catch { /* ignore */ }
+
+            // Strategy 2: PackageInfo for this assembly.
+            try
+            {
+                var info = UnityEditor.PackageManager.PackageInfo.FindForAssembly(
+                    Assembly.GetExecutingAssembly());
+                if (info != null)
+                {
+                    string candidate = Path.Combine(info.resolvedPath, "package.json");
+                    if (File.Exists(candidate)) return candidate;
+                }
+            }
+            catch { /* ignore */ }
+
+            // Strategy 3: search Library/PackageCache.
+            try
+            {
+                string projectRoot = Path.GetDirectoryName(Application.dataPath);
+                string cacheDir = Path.Combine(projectRoot, "Library", "PackageCache");
+                if (Directory.Exists(cacheDir))
+                {
+                    foreach (var dir in Directory.GetDirectories(cacheDir, "com.thelegends.ads.manager*"))
+                    {
+                        string candidate = Path.Combine(dir, "package.json");
+                        if (File.Exists(candidate)) return candidate;
+                    }
+                }
+            }
+            catch { /* ignore */ }
+
+            Debug.LogWarning("[AdsManager] Could not locate package.json for com.thelegends.ads.manager.");
+            return null;
+        }
+
+        // ─── SemVer helpers ──────────────────────────────────────────────────────
+        /// <summary>
+        /// Returns true when <paramref name="required"/> is strictly greater than
+        /// <paramref name="current"/>. Invalid strings are treated as 0.0.0.
+        /// </summary>
+        private static bool IsVersionRequired(string current, string required)
+        {
+            if (!TryParseVersion(current, out var cur)) cur = new Version(0, 0, 0);
+            if (!TryParseVersion(required, out var req)) return false;
+            return req > cur;
+        }
+
+        private static bool TryParseVersion(string raw, out Version result)
+        {
+            // Strip optional leading 'v' or git metadata after '+'.
+            if (raw == null) { result = null; return false; }
+            raw = raw.Split('+')[0].TrimStart('v');
+            return Version.TryParse(raw, out result);
+        }
+
+        // ─── manifest.json helpers ────────────────────────────────────────────────
         private static string GetProjectRootPath()
         {
-            // Method 1: Try using Application.dataPath (works in most cases)
             string dataPath = Application.dataPath;
-            string projectRoot = Path.GetDirectoryName(dataPath); // Go up from Assets/ to project root
-            
-            // Verify this is actually the project root by checking for Packages/manifest.json
-            string manifestPath = Path.Combine(projectRoot, "Packages", "manifest.json");
-            if (File.Exists(manifestPath))
-            {
+            string projectRoot = Path.GetDirectoryName(dataPath);
+
+            if (File.Exists(Path.Combine(projectRoot, "Packages", "manifest.json")))
                 return projectRoot;
-            }
-            
-            // Method 2: If that doesn't work, try using the current directory
-            // This can happen in some edge cases or when running tests
+
             string currentDir = Directory.GetCurrentDirectory();
-            manifestPath = Path.Combine(currentDir, "Packages", "manifest.json");
-            if (File.Exists(manifestPath))
-            {
+            if (File.Exists(Path.Combine(currentDir, "Packages", "manifest.json")))
                 return currentDir;
-            }
-            
-            // Method 3: Last resort - search upward from Application.dataPath
-            DirectoryInfo dir = new DirectoryInfo(dataPath);
-            while (dir != null && dir.Parent != null)
+
+            var dir = new DirectoryInfo(dataPath);
+            while (dir?.Parent != null)
             {
-                manifestPath = Path.Combine(dir.FullName, "Packages", "manifest.json");
-                if (File.Exists(manifestPath))
-                {
+                if (File.Exists(Path.Combine(dir.FullName, "Packages", "manifest.json")))
                     return dir.FullName;
-                }
                 dir = dir.Parent;
             }
-            
-            // If all methods fail, return the original method as fallback
-            Debug.LogWarning("Could not locate project root with manifest.json, using fallback method");
+
+            Debug.LogWarning("[AdsManager] Could not locate project root (manifest.json), using fallback.");
             return Path.GetDirectoryName(Application.dataPath);
         }
 
         /// <summary>
-        /// Safely removes a package from manifest while handling commas correctly
+        /// Extracts the current version string of <paramref name="packageName"/> from
+        /// the manifest content. Returns null if not present.
         /// </summary>
-        private static string RemovePackageFromManifest(string manifestContent, string packageName)
+        /// <summary>
+        /// Automatically syncs scripting define symbols with the current AdsSettings.
+        /// </summary>
+        private static void SyncSymbolsFromSettings(AdsSettings settings)
         {
-            // Escape dots in package name for regex
-            string escapedPackageName = packageName.Replace(".", "\\.");
-            
-            // Try different patterns to handle various comma scenarios
-            
-            // Pattern 1: Package with trailing comma (most common case)
-            // "package": "version",
-            string pattern1 = $"\\s*\"{escapedPackageName}\"\\s*:\\s*\"[^\"]*\"\\s*,";
-            if (Regex.IsMatch(manifestContent, pattern1))
-            {
-                return Regex.Replace(manifestContent, pattern1, "");
-            }
-            
-            // Pattern 2: Package without trailing comma but with leading comma from previous line
-            // ,\n    "package": "version"
-            string pattern2 = $",\\s*\"{escapedPackageName}\"\\s*:\\s*\"[^\"]*\"";
-            if (Regex.IsMatch(manifestContent, pattern2))
-            {
-                return Regex.Replace(manifestContent, pattern2, "");
-            }
-            
-            // Pattern 3: Package is the only one (no commas)
-            // "package": "version"
-            string pattern3 = $"\\s*\"{escapedPackageName}\"\\s*:\\s*\"[^\"]*\"\\s*";
-            return Regex.Replace(manifestContent, pattern3, "");
+            SetSymbolEnabled("USE_IRON",        settings.showIRON);
+            SetSymbolEnabled("USE_MAX",         settings.showMAX);
+            SetSymbolEnabled("USE_ADMOB",       settings.showADMOB);
+            SetSymbolEnabled("USE_FIREBASE",    settings.useFirebase);
+            SetSymbolEnabled("USE_APPSFLYER",   settings.useAppsFlyer);
+
+            bool shouldEnableNativeUnity = settings.showADMOB && settings.isUseNativeUnity;
+            SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY", shouldEnableNativeUnity);
+
+            bool shouldEnableHideWhenFullscreen = settings.showADMOB && settings.isHideWhenFullscreenShowed;
+            SetSymbolEnabled("HIDE_WHEN_FULLSCREEN_SHOWED", shouldEnableHideWhenFullscreen);
         }
 
-        /// <summary>
-        /// Cleans up JSON comma issues after package removal
-        /// </summary>
+        private static string ExtractVersionFromManifest(string manifestContent, string packageName)
+        {
+            string escaped = packageName.Replace(".", "\\.");
+            var match = Regex.Match(manifestContent,
+                $"\"{escaped}\"\\s*:\\s*\"([^\"]+)\"");
+            return match.Success ? match.Groups[1].Value : null;
+        }
+
+        private static string RemovePackageFromManifest(string manifestContent, string packageName)
+        {
+            string escaped = packageName.Replace(".", "\\.");
+
+            // Pattern 1: trailing comma
+            string p1 = $"\\s*\"{escaped}\"\\s*:\\s*\"[^\"]*\"\\s*,";
+            if (Regex.IsMatch(manifestContent, p1))
+                return Regex.Replace(manifestContent, p1, "");
+
+            // Pattern 2: leading comma
+            string p2 = $",\\s*\"{escaped}\"\\s*:\\s*\"[^\"]*\"";
+            if (Regex.IsMatch(manifestContent, p2))
+                return Regex.Replace(manifestContent, p2, "");
+
+            // Pattern 3: only entry
+            string p3 = $"\\s*\"{escaped}\"\\s*:\\s*\"[^\"]*\"\\s*";
+            return Regex.Replace(manifestContent, p3, "");
+        }
+
         private static string CleanupJsonCommas(string manifestContent)
         {
-            // Remove double commas
             manifestContent = Regex.Replace(manifestContent, ",\\s*,", ",");
-            
-            // Remove trailing comma before closing brace (handle multiple whitespace/newlines)
             manifestContent = Regex.Replace(manifestContent, ",\\s*\\}", "\n  }");
-            
-            // Handle comma after opening brace (in case of empty or leading package removal)
             manifestContent = Regex.Replace(manifestContent, "\\{\\s*,", "{\n");
-            
-            // Handle standalone commas on their own lines
             manifestContent = Regex.Replace(manifestContent, "\\n\\s*,\\s*\\n", "\n");
-            
             return manifestContent;
         }
 
-        public static void UpdateManifest(bool enableAdmob, bool enableMax)
+        private static string AddPackageToManifest(string manifestContent, string packageName, string version)
         {
-            // Get the project root directory (where manifest.json should be)
-            string projectRoot = GetProjectRootPath();
-            string manifestPath = Path.Combine(projectRoot, "Packages", "manifest.json");
-            
-            if (!File.Exists(manifestPath))
+            return Regex.Replace(manifestContent,
+                "(\"dependencies\"\\s*:\\s*\\{)",
+                $"$1\n    \"{packageName}\": \"{version}\",");
+        }
+
+        private static string UpdateVersionInManifest(string manifestContent, string packageName, string newVersion)
+        {
+            string escaped = packageName.Replace(".", "\\.");
+            return Regex.Replace(manifestContent,
+                $"(\"{escaped}\"\\s*:\\s*)\"[^\"]+\"",
+                $"$1\"{newVersion}\"");
+        }
+
+        // ─── Main entry point ────────────────────────────────────────────────────
+        /// <summary>
+        /// Synchronises Packages/manifest.json with the current AdsSettings
+        /// configuration. This is called automatically on every compilation
+        /// (via InitializeOnLoad) and manually when the user presses SAVE.
+        /// </summary>
+        public static void UpdateManifest()
+        {
+            var settings = AdsSettings.Instance;
+            if (settings == null)
             {
-                Debug.LogError("Manifest.json not found at: " + manifestPath);
+                // AdsSettings asset doesn't exist yet – nothing to sync.
                 return;
             }
 
-            string originalManifestContent = File.ReadAllText(manifestPath);
-            bool hasChanges = false;
-            
-            // Lock assembly reloading to prevent partial updates
+            // Sync Symbols first to ensure code matches settings
+            SyncSymbolsFromSettings(settings);
+
+            string projectRoot = GetProjectRootPath();
+            string manifestPath = Path.Combine(projectRoot, "Packages", "manifest.json");
+
+            if (!File.Exists(manifestPath))
+            {
+                Debug.LogError("[AdsManager] manifest.json not found at: " + manifestPath);
+                return;
+            }
+
+            string original = File.ReadAllText(manifestPath);
+            string content = original;
+            bool changed = false;
+
+            // ── Build the list of packages we need to handle ──────────────────
+            // Each entry: (packageName, enabledByUser)
+            var packages = new List<(string name, bool enabled)>
+            {
+                ("com.google.ads.mobile",            settings.showADMOB),
+                ("com.applovin.mediation.ads",        settings.showMAX),
+                ("com.thelegends.firebase.manager",   settings.useFirebase),
+                ("com.thelegends.appsflyer.manager",  settings.useAppsFlyer),
+            };
+
+            foreach (var (name, enabled) in packages)
+            {
+                string required = GetOptionalDependencyVersion(name);
+                bool exists = content.Contains($"\"{name}\"");
+
+                if (enabled)
+                {
+                    if (!exists)
+                    {
+                        // Package not installed – add it with the required version.
+                        if (required == null)
+                        {
+                            Debug.LogWarning($"[AdsManager] No optionalDependencies entry found for {name}. Skipping.");
+                            continue;
+                        }
+                        content = AddPackageToManifest(content, name, required);
+                        Debug.Log($"[AdsManager] Added {name}: {required} to manifest.");
+                        changed = true;
+                    }
+                    else
+                    {
+                        // Package already installed – upgrade if our required version is higher.
+                        if (required == null) continue;
+
+                        string current = ExtractVersionFromManifest(content, name);
+                        if (current != null && IsVersionRequired(current, required))
+                        {
+                            content = UpdateVersionInManifest(content, name, required);
+                            Debug.Log($"[AdsManager] Upgraded {name}: {current} -> {required} in manifest.");
+                            changed = true;
+                        }
+                    }
+                }
+                else
+                {
+                    // User disabled this package – remove it if present.
+                    if (!exists) continue;
+
+                    string newContent = RemovePackageFromManifest(content, name);
+                    if (newContent != content)
+                    {
+                        content = newContent;
+                        Debug.Log($"[AdsManager] Removed {name} from manifest.");
+                        changed = true;
+                    }
+                }
+            }
+
+            // Cleanup any JSON comma artefacts from removal operations.
+            content = CleanupJsonCommas(content);
+
+            if (!changed && content == original)
+            {
+                // Nothing to do – avoid unnecessary file writes that would trigger
+                // a Package Manager resolve cycle.
+                return;
+            }
+
             EditorApplication.LockReloadAssemblies();
-            
             try
             {
-                string manifestContent = originalManifestContent;
-                
-                // Default versions - only used if package is not already present
-                const string defaultAdmobVersion = "9.6.0";
-                const string defaultMaxVersion = "8.1.0";
-                
-                // Handle ADMOB dependency
-                if (enableAdmob)
-                {
-                    if (manifestContent.Contains("\"com.google.ads.mobile\""))
-                    {
-                        // Package already exists, don't change the version
-                        Debug.Log("com.google.ads.mobile already exists in manifest, keeping current version");
-                    }
-                    else
-                    {
-                        // Add new ADMOB dependency with default version
-                        manifestContent = Regex.Replace(manifestContent,
-                            "(\"dependencies\"\\s*:\\s*\\{)",
-                            $"$1\n    \"com.google.ads.mobile\": \"{defaultAdmobVersion}\",");
-                        Debug.Log($"Added com.google.ads.mobile: {defaultAdmobVersion} to manifest");
-                        hasChanges = true;
-                    }
-                }
-                else
-                {
-                    // Remove ADMOB dependency with improved comma handling
-                    if (manifestContent.Contains("\"com.google.ads.mobile\""))
-                    {
-                        string newManifestContent = RemovePackageFromManifest(manifestContent, "com.google.ads.mobile");
-                        if (newManifestContent != manifestContent)
-                        {
-                            manifestContent = newManifestContent;
-                            Debug.Log("Removed com.google.ads.mobile from manifest");
-                            hasChanges = true;
-                        }
-                    }
-                }
-
-                // Handle MAX dependency
-                if (enableMax)
-                {
-                    if (manifestContent.Contains("\"com.applovin.mediation.ads\""))
-                    {
-                        // Package already exists, don't change the version
-                        Debug.Log("com.applovin.mediation.ads already exists in manifest, keeping current version");
-                    }
-                    else
-                    {
-                        // Add new MAX dependency with default version
-                        manifestContent = Regex.Replace(manifestContent,
-                            "(\"dependencies\"\\s*:\\s*\\{)",
-                            $"$1\n    \"com.applovin.mediation.ads\": \"{defaultMaxVersion}\",");
-                        Debug.Log($"Added com.applovin.mediation.ads: {defaultMaxVersion} to manifest");
-                        hasChanges = true;
-                    }
-                }
-                else
-                {
-                    // Remove MAX dependency with improved comma handling
-                    if (manifestContent.Contains("\"com.applovin.mediation.ads\""))
-                    {
-                        string newManifestContent = RemovePackageFromManifest(manifestContent, "com.applovin.mediation.ads");
-                        if (newManifestContent != manifestContent)
-                        {
-                            manifestContent = newManifestContent;
-                            Debug.Log("Removed com.applovin.mediation.ads from manifest");
-                            hasChanges = true;
-                        }
-                    }
-                }
-
-                // Final cleanup of any remaining comma issues
-                manifestContent = CleanupJsonCommas(manifestContent);
-
-                // Only write and refresh if there were actual changes
-                if (hasChanges || manifestContent != originalManifestContent)
-                {
-                    // Write back to file
-                    File.WriteAllText(manifestPath, manifestContent);
-                    Debug.Log("Manifest.json updated successfully");
-                }
-                else
-                {
-                    Debug.Log("No changes needed in manifest.json - packages already match the desired state");
-                }
+                File.WriteAllText(manifestPath, content);
+                Debug.Log("[AdsManager] manifest.json updated successfully.");
             }
             catch (Exception e)
             {
-                Debug.LogError("Failed to update manifest.json: " + e.Message);
-                hasChanges = false; // Don't refresh if there was an error
+                Debug.LogError("[AdsManager] Failed to write manifest.json: " + e.Message);
+                return; // Do not refresh on error.
             }
             finally
             {
-                // Always unlock assembly reloading
                 EditorApplication.UnlockReloadAssemblies();
-                
-                // Only force refresh if there were actual changes
-                if (hasChanges)
-                {
-                    ForcePackageManagerRefresh();
-                }
             }
+
+            ForcePackageManagerRefresh();
         }
 
-        /// <summary>
-        /// Forces Unity to refresh Package Manager and reload packages
-        /// </summary>
+        // ─── Package Manager refresh ──────────────────────────────────────────────
         private static void ForcePackageManagerRefresh()
         {
             try
             {
-                Debug.Log("Starting Package Manager refresh due to manifest changes...");
-                
-                // Method 1: Refresh Asset Database (basic refresh)
+                Debug.Log("[AdsManager] Triggering Package Manager refresh...");
                 AssetDatabase.Refresh();
-                
-                // Method 2: Use Package Manager Client to force refresh
                 Client.Resolve();
-                
-                // Method 3: Force reimport of packages
                 AssetDatabase.ImportAsset("Packages/manifest.json");
-                
-                Debug.Log("Immediate Package Manager refresh completed");
-                
-                // Method 4: Single delayed refresh to ensure packages are loaded
+
                 EditorApplication.delayCall += () =>
                 {
                     try
                     {
                         AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
                         Client.Resolve();
-                        
-                        Debug.Log("Delayed Package Manager refresh completed");
-                        
-                        // Final delayed refresh for editor windows
+
                         EditorApplication.delayCall += () =>
                         {
-                            try
-                            {
-                                EditorApplication.RepaintProjectWindow();
-                                Debug.Log("Final editor refresh completed - packages should be fully loaded");
-                            }
+                            try { EditorApplication.RepaintProjectWindow(); }
                             catch (Exception ex)
-                            {
-                                Debug.LogWarning("Final editor refresh failed (non-critical): " + ex.Message);
-                            }
+                            { Debug.LogWarning("[AdsManager] Final repaint failed (non-critical): " + ex.Message); }
                         };
                     }
                     catch (Exception ex)
-                    {
-                        Debug.LogWarning("Delayed refresh failed (non-critical): " + ex.Message);
-                    }
+                    { Debug.LogWarning("[AdsManager] Delayed refresh failed (non-critical): " + ex.Message); }
                 };
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Package Manager refresh failed: " + e.Message);
+                Debug.LogWarning("[AdsManager] Package Manager refresh failed: " + e.Message);
             }
         }
     }
 }
-

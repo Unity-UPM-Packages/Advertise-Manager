@@ -42,7 +42,7 @@ namespace TheLegends.Base.Ads
 
             set
             {
-                if(this._flagNetWorks == value)
+                if (this._flagNetWorks == value)
                 {
                     return;
                 }
@@ -78,6 +78,10 @@ namespace TheLegends.Base.Ads
 
 
 
+        [Header("Optional Services")]
+        public bool useFirebase = false;
+        public bool useAppsFlyer = false;
+
         public string appsFlyerDevKey = "Qhno4yJY6KHmZp9uS9DRe4";
         public string appleAppId = "";
 
@@ -96,19 +100,19 @@ namespace TheLegends.Base.Ads
         public PreloadSettings preloadSettings = new PreloadSettings();
 
         [Header("IRON")]
-        public bool showIRON;
+        public bool showIRON = false;
         public string ironAndroidAppKey = string.Empty;
         public string ironIOSAppKey = string.Empty;
         public bool ironEnableAdmob;
         public string ironAdmobAndroidAppID = string.Empty;
         public string ironAdmobIOSAppID = string.Empty;
         [Header("MAX")]
-        public bool showMAX;
+        public bool showMAX = false;
         public bool isShowMediationDebugger = false;
         public MaxUnitID MAX_Android = new MaxUnitID();
         public MaxUnitID MAX_iOS = new MaxUnitID();
         [Header("ADMOB")]
-        public bool showADMOB;
+        public bool showADMOB = false;
         public bool isUseNativeUnity = false;
         public bool isShowAdmobNativeValidator = false;
         public bool isHideWhenFullscreenShowed = false;
@@ -159,7 +163,7 @@ namespace TheLegends.Base.Ads
         private static List<Placement> CreatePlacement(params string[] adUnitIds)
         {
             var placements = new List<Placement>();
-            
+
             foreach (string adUnitId in adUnitIds)
             {
                 placements.Add(new Placement
@@ -167,35 +171,35 @@ namespace TheLegends.Base.Ads
                     stringIDs = new List<string> { adUnitId }
                 });
             }
-            
+
             return placements;
         }
 
     }
 }
 
-    [System.Serializable]
-    public class PreloadSettings
-    {
-        [Header("Standard Ads")]
-        public bool preloadBanner = false;
-        public bool preloadInterstitial = false;
-        public bool preloadRewarded = false;
-        public bool preloadMREC = false;
-        public bool preloadAppOpen = false;
-    
-        [Header("Admob Native Ads")]
-        public NativePreloadSettings nativeAds;
-    }
-    
-    [System.Serializable]
-    public class NativePreloadSettings
-    {
-        public bool preloadNativeBanner = false;
-        public bool preloadNativeOverlay = false;
-        public bool preloadNativeInter = false;
-        public bool preloadNativeReward = false;
-        public bool preloadNativeMrec = false;
-        public bool preloadNativeAppOpen = false;
-        public bool preloadNativeVideo = false;
-    }
+[System.Serializable]
+public class PreloadSettings
+{
+    [Header("Standard Ads")]
+    public bool preloadBanner = false;
+    public bool preloadInterstitial = false;
+    public bool preloadRewarded = false;
+    public bool preloadMREC = false;
+    public bool preloadAppOpen = false;
+
+    [Header("Admob Native Ads")]
+    public NativePreloadSettings nativeAds;
+}
+
+[System.Serializable]
+public class NativePreloadSettings
+{
+    public bool preloadNativeBanner = false;
+    public bool preloadNativeOverlay = false;
+    public bool preloadNativeInter = false;
+    public bool preloadNativeReward = false;
+    public bool preloadNativeMrec = false;
+    public bool preloadNativeAppOpen = false;
+    public bool preloadNativeVideo = false;
+}

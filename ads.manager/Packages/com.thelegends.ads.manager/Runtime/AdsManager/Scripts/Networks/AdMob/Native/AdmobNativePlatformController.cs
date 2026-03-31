@@ -1,9 +1,7 @@
 #if USE_ADMOB
 
 using System;
-using System.Collections;
 using GoogleMobileAds.Api;
-using TheLegends.Base.Firebase;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -182,7 +180,7 @@ namespace TheLegends.Base.Ads
             OnShow = null;
             OnClose = null;
             OnAdDismissedFullScreenContent = null;
-            
+
             ClearStoredConfigs();
             NativePlatformDestroy();
             OnNativePlatformClosed();
@@ -417,7 +415,7 @@ namespace TheLegends.Base.Ads
         }
 
         #endregion
-        
+
         private void SetAdCustomPosition(AdsPos position, Vector2Int offset)
         {
             if (!IsAdsReady())

@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using LitMotion;
+#if USE_FIREBASE
 using TheLegends.Base.Firebase;
+#endif
 
 namespace TheLegends.Base.Ads
 {
@@ -34,7 +35,9 @@ namespace TheLegends.Base.Ads
 
         private void ActionConfirm()
         {
+#if USE_FIREBASE
             FirebaseManager.Instance.LogEvent("splash_screen_confirm");
+#endif
             StopAllCoroutines();
             ActiveScreen(false);
             PlayerPrefs.SetInt("canShowSelectBrand", 0);
@@ -54,6 +57,7 @@ namespace TheLegends.Base.Ads
 
         public void Show()
         {
+#if USE_FIREBASE
             FirebaseManager.Instance.LogEvent("splash_screen_show");
 
             if (PlayerPrefs.GetInt("splash_screen_show_first", 0) == 0)
@@ -61,6 +65,7 @@ namespace TheLegends.Base.Ads
                 PlayerPrefs.SetInt("splash_screen_show_first", 1);
                 FirebaseManager.Instance.LogEvent("splash_screen_show_first");
             }
+#endif
 
             ActiveScreen(true);
             StartCoroutine(IEAutoClose(10));

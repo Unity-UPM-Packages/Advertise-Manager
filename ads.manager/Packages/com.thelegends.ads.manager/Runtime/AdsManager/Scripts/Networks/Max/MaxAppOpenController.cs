@@ -1,8 +1,4 @@
 #if USE_MAX
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 using TheLegends.Base.UI;
 
@@ -144,7 +140,7 @@ namespace TheLegends.Base.Ads
         }
 
         private void OnAppOpenClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
-        {   
+        {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;
@@ -181,7 +177,7 @@ namespace TheLegends.Base.Ads
         }
 
         private void OnAppOpenDisplayFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
-        { 
+        {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;
@@ -190,7 +186,7 @@ namespace TheLegends.Base.Ads
             });
         }
 
-#endregion
+        #endregion
     }
 }
 

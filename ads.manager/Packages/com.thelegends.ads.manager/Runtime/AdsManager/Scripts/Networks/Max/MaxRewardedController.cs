@@ -1,9 +1,6 @@
 #if USE_MAX
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TheLegends.Base.UI;
-using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
@@ -175,20 +172,20 @@ namespace TheLegends.Base.Ads
                     {
                         OnRewarded?.Invoke();
                     }
-                    
+
                     isRewarded = false;
-                    
+
                     AdsManager.Instance.OnFullScreenAdsClosed();
                 });
 
                 OnAdsClosed();
 
-                
+
             });
         }
 
         private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
-        { 
+        {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;
@@ -198,7 +195,7 @@ namespace TheLegends.Base.Ads
         }
 
         private void OnAdReceivedRewardEvent(string adUnitId, MaxSdkBase.Reward reward, MaxSdkBase.AdInfo adInfo)
-        { 
+        {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;

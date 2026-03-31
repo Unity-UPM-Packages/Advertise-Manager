@@ -1,10 +1,5 @@
 #if USE_ADMOB
-using System;
-using System.Collections;
-using GoogleMobileAds.Api;
-using TheLegends.Base.Firebase;
 using TheLegends.Base.UI;
-using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
