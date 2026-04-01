@@ -55,7 +55,6 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
         public string color; // Hex format #RRGGBBAA
         public float cornerRadius;
         public string imagePath; // Absolute path to physical file
-        public bool isRadialFill;
     }
 
     [Serializable]
