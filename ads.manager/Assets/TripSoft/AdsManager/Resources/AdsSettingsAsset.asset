@@ -15,6 +15,9 @@ MonoBehaviour:
   _adsMediations: 04000000ffffffff
   _flagMediations: 4
   primaryMediation: 4
+  useFirebase: 1
+  useAppsFlyer: 1
+  useDatabuckets: 1
   appsFlyerDevKey: Qhno4yJY6KHmZp9uS9DRe4
   appleAppId: 
   admobSheetUrl: 
