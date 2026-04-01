@@ -8,12 +8,12 @@ namespace TheLegends.Base.Ads
     {
         protected Action OnClose;
 
-        public override AdsNetworks GetAdsNetworks()
+        public override AdsMediation GetAdsMediation()
         {
 #if USE_MAX
-            return AdsNetworks.Max;
+            return AdsMediation.Max;
 #else
-            return AdsNetworks.None;
+            return AdsMediation.None;
 #endif
         }
 
@@ -43,20 +43,22 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            if (!IsReady)
+            if (IsReady)
             {
-                base.LoadAds();
-
-                MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnInterstitialLoadedEvent;
-                MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnInterstitialLoadFailedEvent;
-                MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayedEvent;
-                MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += OnInterstitialRevenuePaidEvent;
-                MaxSdkCallbacks.Interstitial.OnAdClickedEvent += OnInterstitialClickedEvent;
-                MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += OnInterstitialHiddenEvent;
-                MaxSdkCallbacks.Interstitial.OnAdDisplayFailedEvent += OnInterstitialAdFailedToDisplayEvent;
-
-                MaxSdk.LoadInterstitial(adsUnitID);
+                return;
             }
+
+            base.LoadAds();
+
+            MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnInterstitialLoadedEvent;
+            MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnInterstitialLoadFailedEvent;
+            MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayedEvent;
+            MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += OnInterstitialRevenuePaidEvent;
+            MaxSdkCallbacks.Interstitial.OnAdClickedEvent += OnInterstitialClickedEvent;
+            MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += OnInterstitialHiddenEvent;
+            MaxSdkCallbacks.Interstitial.OnAdDisplayFailedEvent += OnInterstitialAdFailedToDisplayEvent;
+
+            MaxSdk.LoadInterstitial(adsUnitID);
 #endif
         }
 
@@ -72,7 +74,7 @@ namespace TheLegends.Base.Ads
             }
             else
             {
-                AdsManager.Instance.LogWarning($"{AdsNetworks}_{AdsType} " + "is not ready --> Load Ads");
+                AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
                 reloadCount = 0;
                 LoadAds();
             }
@@ -131,13 +133,13 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        protected void OnInterstitialRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo info)
+        protected void OnInterstitialRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, info);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, adInfo);
             });
 
         }

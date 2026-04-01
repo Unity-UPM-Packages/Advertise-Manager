@@ -10,6 +10,9 @@ using TheLegends.Base.AppsFlyer;
 using TheLegends.Base.Firebase;
 #endif
 using TheLegends.Base.UI;
+#if USE_DATABUCKETS
+using TheLegends.Base.Databuckets;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -47,6 +50,8 @@ namespace TheLegends.Base.Ads
                 return temp == 1;
             }
         }
+
+        private Dictionary<string, object> conversionDataDictionary = new Dictionary<string, object>();
 
         [Space(10)]
         [SerializeField]
@@ -86,6 +91,9 @@ namespace TheLegends.Base.Ads
             OnInitFirebaseDone?.Invoke();
 #endif
 
+#if USE_DATABUCKETS
+            InitDatabuckets();
+#endif
             // Initialize Ads Manager
             yield return AdsManager.Instance.DoInit();
 
@@ -137,7 +145,7 @@ namespace TheLegends.Base.Ads
             }
 
 #if USE_FIREBASE
-            Dictionary<string, object> conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
+            conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
 
             try
             {
@@ -168,7 +176,11 @@ namespace TheLegends.Base.Ads
             }
             catch (Exception e)
             {
+#if UNITY_EDITOR
+                AdsManager.Instance.LogWarning("Cannot get AppsFlyer Caimpaign: Not work on Unity Editor.");
+#else
                 AdsManager.Instance.LogError("Cannot get AppsFlyer Caimpaign: " + e.Message);
+#endif
             }
 #endif
         }
@@ -246,6 +258,39 @@ namespace TheLegends.Base.Ads
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
         }
 #endif
+
+        private void InitDatabuckets()
+        {
+#if USE_DATABUCKETS
+
+            DatabucketsManager.Instance.Init();
+
+            try
+            {
+                var ua_network = conversionDataDictionary.FirstOrDefault(k => k.Key == "media_source").Value as string;
+                var ua_campaign = conversionDataDictionary.FirstOrDefault(k => k.Key == "campaign").Value as string;
+                var ua_adgroup = conversionDataDictionary.FirstOrDefault(k => k.Key == "adgroup").Value as string;
+                var ua_creative = conversionDataDictionary.FirstOrDefault(k => k.Key == "adset").Value as string;
+
+                DatabucketsManager.Instance.SetCommonProperties(new Dictionary<string, object>
+                {
+                    { "ua_network", ua_network ?? "Unavailable" },
+                    { "ua_campaign", ua_campaign ?? "Unavailable" },
+                    { "ua_adgroup", ua_adgroup ?? "Unavailable" },
+                    { "ua_creative", ua_creative ?? "Unavailable" }
+                });
+            }
+            catch (Exception e)
+            {
+#if UNITY_EDITOR
+                AdsManager.Instance.LogWarning("Cannot get AppsFlyer Property: Not work on Unity Editor.");
+#else
+                AdsManager.Instance.LogError("Cannot get AppsFlyer Property: " + e.Message);
+#endif
+            }
+            
+#endif
+        }
 
         private IEnumerator LoadInitialAds()
         {

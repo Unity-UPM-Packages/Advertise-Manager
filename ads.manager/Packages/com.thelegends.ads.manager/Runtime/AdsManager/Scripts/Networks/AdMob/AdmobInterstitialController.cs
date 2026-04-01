@@ -40,19 +40,21 @@ namespace TheLegends.Base.Ads
                     // if error is not null, the load request failed.
                     if (error != null)
                     {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "ad failed to load with error : " + error);
+                        AdsManager.Instance.LogError($"{AdsMediation}_{AdsType} " + "ad failed to load with error : " + error);
                         OnInterLoadFailed(error);
                         return;
                     }
 
                     if (ad == null)
                     {
-                        AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
+                        AdsManager.Instance.LogError($"{AdsMediation}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
                         OnInterLoadFailed(error);
                         return;
                     }
 
-                    AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
+                    networkName = ad.GetResponseInfo().GetMediationAdapterClassName();
+
+                    AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
 
                     _interstitialAd = ad;
 
@@ -81,7 +83,7 @@ namespace TheLegends.Base.Ads
             }
             else
             {
-                AdsManager.Instance.LogWarning($"{AdsNetworks}_{AdsType} " + "is not ready --> Load Ads");
+                AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
                 reloadCount = 0;
                 LoadAds();
             }
@@ -89,12 +91,12 @@ namespace TheLegends.Base.Ads
         }
 
 
-        public override AdsNetworks GetAdsNetworks()
+        public override AdsMediation GetAdsMediation()
         {
 #if USE_ADMOB
-            return AdsNetworks.Admob;
+            return AdsMediation.Admob;
 #else
-            return AdsNetworks.None;
+            return AdsMediation.None;
 #endif
         }
 
@@ -197,7 +199,7 @@ namespace TheLegends.Base.Ads
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, value);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, value);
             });
 
         }

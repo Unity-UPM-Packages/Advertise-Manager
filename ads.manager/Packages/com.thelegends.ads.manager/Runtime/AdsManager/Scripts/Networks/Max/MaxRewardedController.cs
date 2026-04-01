@@ -1,5 +1,9 @@
 #if USE_MAX
 using System;
+using System.Collections.Generic;
+#if USE_DATABUCKETS
+using TheLegends.Base.Databuckets;
+#endif
 using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
@@ -9,13 +13,13 @@ namespace TheLegends.Base.Ads
         private Action OnRewarded;
         private bool isRewarded = false;
 
-        public override AdsNetworks GetAdsNetworks()
+        public override AdsMediation GetAdsMediation()
         {
 
 #if USE_MAX
-            return AdsNetworks.Max;
+            return AdsMediation.Max;
 #else
-            return AdsNetworks.None;
+            return AdsMediation.None;
 #endif
         }
 
@@ -45,21 +49,23 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            if (!IsReady)
+            if (IsReady)
             {
-                base.LoadAds();
-
-                MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedLoadedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedLoadFailedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedDisplayedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedRevenuePaidEvent;
-                MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedClickedEvent;
-                MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedHiddenEvent;
-                MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
-                MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
-
-                MaxSdk.LoadRewardedAd(adsUnitID);
+                return;
             }
+
+            base.LoadAds();
+
+            MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedLoadedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedLoadFailedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedDisplayedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedRevenuePaidEvent;
+            MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedClickedEvent;
+            MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedHiddenEvent;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
+            MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
+
+            MaxSdk.LoadRewardedAd(adsUnitID);
 #endif
         }
 
@@ -74,7 +80,7 @@ namespace TheLegends.Base.Ads
             }
             else
             {
-                AdsManager.Instance.LogWarning($"{AdsNetworks}_{AdsType} " + "is not ready --> Load Ads");
+                AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
                 reloadCount = 0;
                 LoadAds();
             }
@@ -114,7 +120,7 @@ namespace TheLegends.Base.Ads
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, adInfo);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, adInfo);
             });
         }
 
@@ -175,6 +181,18 @@ namespace TheLegends.Base.Ads
 
                     isRewarded = false;
 
+#if USE_DATABUCKETS
+                    DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
+                    {
+                        { "ad_format", AdsType.ToString() },
+                        { "ad_platform", AdsMediation.ToString() },
+                        { "ad_network", networkName},
+                        { "ad_unit_id", adsUnitID },
+                        { "end_type", "done"},
+                        { "placement", position}
+                    });
+#endif
+
                     AdsManager.Instance.OnFullScreenAdsClosed();
                 });
 
@@ -200,7 +218,7 @@ namespace TheLegends.Base.Ads
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.Log($"{AdsNetworks}_{AdsType} " + $"{adsUnitID} " + "claimed");
+                AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + $"{adsUnitID} " + "claimed");
                 isRewarded = true;
             });
         }

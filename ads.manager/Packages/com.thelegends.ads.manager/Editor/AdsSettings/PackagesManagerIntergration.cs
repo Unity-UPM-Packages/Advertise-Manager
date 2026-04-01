@@ -24,10 +24,10 @@ namespace TheLegends.Base.Ads
     public class PackagesManagerIntergration
     {
         // ─── Build targets we care about ────────────────────────────────────────
-        protected static readonly BuildTargetGroup[] targetGroups =
+        protected static readonly NamedBuildTarget[] targetGroups =
         {
-            BuildTargetGroup.Android,
-            BuildTargetGroup.iOS
+            NamedBuildTarget.Android,
+            NamedBuildTarget.iOS
         };
 
         // ─── Auto-run on every compilation ──────────────────────────────────────
@@ -51,11 +51,10 @@ namespace TheLegends.Base.Ads
         }
 
         // ─── Define Symbols ──────────────────────────────────────────────────────
-        public static List<string> GetDefinesList(BuildTargetGroup group)
+        public static List<string> GetDefinesList(NamedBuildTarget target)
         {
-            var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
             return new List<string>(
-                PlayerSettings.GetScriptingDefineSymbols(namedTarget).Split(';'));
+                PlayerSettings.GetScriptingDefineSymbols(target).Split(';'));
         }
 
         public static bool IsSymbolEnabled(string defineName)
@@ -63,16 +62,13 @@ namespace TheLegends.Base.Ads
             bool android = false;
             bool ios = false;
 
-            foreach (var group in targetGroups)
+            foreach (var target in targetGroups)
             {
-                var defines = GetDefinesList(group);
+                var defines = GetDefinesList(target);
                 if (!defines.Contains(defineName)) continue;
 
-                switch (group)
-                {
-                    case BuildTargetGroup.Android: android = true; break;
-                    case BuildTargetGroup.iOS: ios = true; break;
-                }
+                if (target == NamedBuildTarget.Android) android = true;
+                if (target == NamedBuildTarget.iOS) ios = true;
             }
 
             return android && ios;
@@ -98,11 +94,10 @@ namespace TheLegends.Base.Ads
 
         private static void SetSymbolEnabledInternal(string defineName, bool enable)
         {
-            bool updated = false;
-
-            foreach (var group in targetGroups)
+            foreach (var target in targetGroups)
             {
-                var defines = GetDefinesList(group);
+                var defines = GetDefinesList(target);
+                bool updated = false;
 
                 if (enable)
                 {
@@ -120,9 +115,8 @@ namespace TheLegends.Base.Ads
 
                 if (updated)
                 {
-                    var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
                     PlayerSettings.SetScriptingDefineSymbols(
-                        namedTarget, string.Join(";", defines.ToArray()));
+                        target, string.Join(";", defines.ToArray()));
                 }
             }
         }
@@ -277,11 +271,12 @@ namespace TheLegends.Base.Ads
         /// </summary>
         private static void SyncSymbolsFromSettings(AdsSettings settings)
         {
-            SetSymbolEnabled("USE_IRON",        settings.showIRON);
-            SetSymbolEnabled("USE_MAX",         settings.showMAX);
-            SetSymbolEnabled("USE_ADMOB",       settings.showADMOB);
-            SetSymbolEnabled("USE_FIREBASE",    settings.useFirebase);
-            SetSymbolEnabled("USE_APPSFLYER",   settings.useAppsFlyer);
+            SetSymbolEnabled("USE_IRON", settings.showIRON);
+            SetSymbolEnabled("USE_MAX", settings.showMAX);
+            SetSymbolEnabled("USE_ADMOB", settings.showADMOB);
+            SetSymbolEnabled("USE_FIREBASE", settings.useFirebase);
+            SetSymbolEnabled("USE_APPSFLYER", settings.useAppsFlyer);
+            SetSymbolEnabled("USE_DATABUCKETS", settings.useDatabuckets);
 
             bool shouldEnableNativeUnity = settings.showADMOB && settings.isUseNativeUnity;
             SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY", shouldEnableNativeUnity);
@@ -380,6 +375,7 @@ namespace TheLegends.Base.Ads
                 ("com.applovin.mediation.ads",        settings.showMAX),
                 ("com.thelegends.firebase.manager",   settings.useFirebase),
                 ("com.thelegends.appsflyer.manager",  settings.useAppsFlyer),
+                ("com.thelegends.databuckets.manager", settings.useDatabuckets),
             };
 
             foreach (var (name, enabled) in packages)

@@ -10,12 +10,12 @@ namespace TheLegends.Base.Ads
         protected bool isReady = false;
         private Vector2Int adsOffset = Vector2Int.zero;
         private AdsPos adsPos = AdsPos.Bottom;
-        public override AdsNetworks GetAdsNetworks()
+        public override AdsMediation GetAdsMediation()
         {
 #if USE_MAX
-            return AdsNetworks.Max;
+            return AdsMediation.Max;
 #else
-            return AdsNetworks.None;
+            return AdsMediation.None;
 #endif
         }
 
@@ -66,19 +66,21 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            if (!IsReady)
+            if (IsReady)
             {
-                base.LoadAds();
-
-                CreateMRec(adsPos, adsOffset);
-
-                MaxSdkCallbacks.MRec.OnAdLoadedEvent += OnMRecLoadedEvent;
-                MaxSdkCallbacks.MRec.OnAdLoadFailedEvent += OnMRecLoadFailedEvent;
-                MaxSdkCallbacks.MRec.OnAdClickedEvent += OnMRecClickedEvent;
-                MaxSdkCallbacks.MRec.OnAdRevenuePaidEvent += OnMRecRevenuePaidEvent;
-
-                MaxSdk.LoadMRec(adsUnitID);
+                return;
             }
+
+            base.LoadAds();
+
+            CreateMRec(adsPos, adsOffset);
+
+            MaxSdkCallbacks.MRec.OnAdLoadedEvent += OnMRecLoadedEvent;
+            MaxSdkCallbacks.MRec.OnAdLoadFailedEvent += OnMRecLoadFailedEvent;
+            MaxSdkCallbacks.MRec.OnAdClickedEvent += OnMRecClickedEvent;
+            MaxSdkCallbacks.MRec.OnAdRevenuePaidEvent += OnMRecRevenuePaidEvent;
+
+            MaxSdk.LoadMRec(adsUnitID);
 #endif
         }
 
@@ -144,7 +146,7 @@ namespace TheLegends.Base.Ads
             {
                 if (adUnitId != adsUnitID) return;
 
-                AdsManager.Instance.LogImpressionData(AdsNetworks, AdsType, adsUnitID, adInfo);
+                AdsManager.Instance.LogImpressionData(AdsMediation, AdsType, adsUnitID, networkName, position, adInfo);
             });
         }
 
@@ -172,7 +174,7 @@ namespace TheLegends.Base.Ads
 #if USE_MAX
             if (Status != AdsEvents.ShowSuccess && Status != AdsEvents.Click)
             {
-                AdsManager.Instance.LogError($"{AdsNetworks}_{AdsType} " + " is not showing --> return");
+                AdsManager.Instance.LogError($"{AdsMediation}_{AdsType} " + " is not showing --> return");
                 return;
             }
 
