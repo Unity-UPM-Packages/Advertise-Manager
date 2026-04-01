@@ -276,6 +276,7 @@ namespace TheLegends.Base.Ads
             SetSymbolEnabled("USE_ADMOB", settings.showADMOB);
             SetSymbolEnabled("USE_FIREBASE", settings.useFirebase);
             SetSymbolEnabled("USE_APPSFLYER", settings.useAppsFlyer);
+            SetSymbolEnabled("USE_DATABUCKETS", settings.useDatabuckets);
 
             bool shouldEnableNativeUnity = settings.showADMOB && settings.isUseNativeUnity;
             SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY", shouldEnableNativeUnity);
@@ -374,6 +375,7 @@ namespace TheLegends.Base.Ads
                 ("com.applovin.mediation.ads",        settings.showMAX),
                 ("com.thelegends.firebase.manager",   settings.useFirebase),
                 ("com.thelegends.appsflyer.manager",  settings.useAppsFlyer),
+                ("com.thelegends.databuckets.manager", settings.useDatabuckets),
             };
 
             foreach (var (name, enabled) in packages)

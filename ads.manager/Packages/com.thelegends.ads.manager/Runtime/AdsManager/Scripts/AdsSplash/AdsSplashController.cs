@@ -10,7 +10,9 @@ using TheLegends.Base.AppsFlyer;
 using TheLegends.Base.Firebase;
 #endif
 using TheLegends.Base.UI;
+#if USE_DATABUCKETS
 using TheLegends.Base.Databuckets;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;

@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "com.thelegends.databuckets.manager": "1.0.0",
+    "com.thelegends.firebase.manager": "1.0.10",
+    "com.applovin.mediation.ads": "8.1.0",
     "com.thelegends.appsflyer.manager": "1.0.10",
     "com.google.ads.mobile": "9.6.0",
-    "com.thelegends.firebase.manager": "1.0.10",
     "com.google.external-dependency-manager": "1.2.187",
     "com.pimdewitte.unitymainthreaddispatcher": "https://github.com/PimDeWitte/UnityMainThreadDispatcher.git",
     "com.thelegends.unity.ui": "1.0.6",
@@ -21,8 +23,7 @@
     "com.unity.modules.physics": "1.0.0",
     "com.unity.modules.physics2d": "1.0.0",
     "com.unity.modules.unitywebrequest": "1.0.0",
-    "com.unity.modules.vectorgraphics": "1.0.0",
-    "com.thelegends.databuckets.manager": "1.0.0-preview.14"
+    "com.unity.modules.vectorgraphics": "1.0.0"
   },
   "scopedRegistries": [
     {

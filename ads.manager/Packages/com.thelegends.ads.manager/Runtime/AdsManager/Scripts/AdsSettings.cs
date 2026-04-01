@@ -81,6 +81,7 @@ namespace TheLegends.Base.Ads
         [Header("Optional Services")]
         public bool useFirebase = false;
         public bool useAppsFlyer = false;
+        public bool useDatabuckets = false;
 
         public string appsFlyerDevKey = "Qhno4yJY6KHmZp9uS9DRe4";
         public string appleAppId = "";

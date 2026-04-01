@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if USE_DATABUCKETS
 using TheLegends.Base.Databuckets;
+#endif
 using UnityEngine;
 
 namespace TheLegends.Base.Ads

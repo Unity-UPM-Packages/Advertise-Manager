@@ -9,7 +9,9 @@ using GoogleMobileAds.Api;
 using TheLegends.Base.AppsFlyer;
 using AppsFlyerSDK;
 #endif
+#if USE_DATABUCKETS
 using TheLegends.Base.Databuckets;
+#endif
 using TheLegends.Base.UI;
 #if USE_FIREBASE
 using TheLegends.Base.Firebase;

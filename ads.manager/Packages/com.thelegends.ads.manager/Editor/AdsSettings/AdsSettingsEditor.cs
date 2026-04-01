@@ -165,6 +165,7 @@ namespace TheLegends.Base.Ads
                 PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB", Instance.showADMOB);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_FIREBASE", Instance.useFirebase);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_APPSFLYER", Instance.useAppsFlyer);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_DATABUCKETS", Instance.useDatabuckets);
 
                 PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY",
                     Instance.showADMOB && Instance.isUseNativeUnity);
@@ -359,6 +360,7 @@ namespace TheLegends.Base.Ads
             {
                 ("Firebase",   Instance.useFirebase,  v => Instance.useFirebase  = v),
                 ("AppsFlyer",  Instance.useAppsFlyer, v => Instance.useAppsFlyer = v),
+                ("Databuckets",Instance.useDatabuckets,v => Instance.useDatabuckets = v),
                 // Add more optional services here in the future.
             };
 
