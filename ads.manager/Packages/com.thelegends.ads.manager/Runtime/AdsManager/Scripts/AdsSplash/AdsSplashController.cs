@@ -142,6 +142,7 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
+#if USE_FIREBASE
             conversionDataDictionary = AppsFlyerSDK.AppsFlyer.CallbackStringToDictionary(conversionData);
 
             try

@@ -24,7 +24,7 @@ namespace TheLegends.Base.Ads
     public class PackagesManagerIntergration
     {
         // ─── Build targets we care about ────────────────────────────────────────
-        protected static readonly BuildTargetGroup[] targetGroups =
+        protected static readonly NamedBuildTarget[] targetGroups =
         {
             NamedBuildTarget.Android,
             NamedBuildTarget.iOS
@@ -51,11 +51,10 @@ namespace TheLegends.Base.Ads
         }
 
         // ─── Define Symbols ──────────────────────────────────────────────────────
-        public static List<string> GetDefinesList(BuildTargetGroup group)
+        public static List<string> GetDefinesList(NamedBuildTarget target)
         {
-            var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
             return new List<string>(
-                PlayerSettings.GetScriptingDefineSymbols(namedTarget).Split(';'));
+                PlayerSettings.GetScriptingDefineSymbols(target).Split(';'));
         }
 
         public static bool IsSymbolEnabled(string defineName)
@@ -65,14 +64,11 @@ namespace TheLegends.Base.Ads
 
             foreach (var target in targetGroups)
             {
-                var defines = GetDefinesList(group);
+                var defines = GetDefinesList(target);
                 if (!defines.Contains(defineName)) continue;
 
-                switch (group)
-                {
-                    case BuildTargetGroup.Android: android = true; break;
-                    case BuildTargetGroup.iOS: ios = true; break;
-                }
+                if (target == NamedBuildTarget.Android) android = true;
+                if (target == NamedBuildTarget.iOS) ios = true;
             }
 
             return android && ios;
@@ -100,7 +96,8 @@ namespace TheLegends.Base.Ads
         {
             foreach (var target in targetGroups)
             {
-                var defines = GetDefinesList(group);
+                var defines = GetDefinesList(target);
+                bool updated = false;
 
                 if (enable)
                 {
@@ -118,9 +115,8 @@ namespace TheLegends.Base.Ads
 
                 if (updated)
                 {
-                    var namedTarget = NamedBuildTarget.FromBuildTargetGroup(group);
                     PlayerSettings.SetScriptingDefineSymbols(
-                        namedTarget, string.Join(";", defines.ToArray()));
+                        target, string.Join(";", defines.ToArray()));
                 }
             }
         }

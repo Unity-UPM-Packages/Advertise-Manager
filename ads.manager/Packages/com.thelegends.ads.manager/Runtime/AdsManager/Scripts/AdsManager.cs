@@ -1148,7 +1148,7 @@ namespace TheLegends.Base.Ads
         {
             AdCount++;
 
-            string monetizationNetwork = "";
+            string ad_network = "";
             double revenue = 0;
             string ad_unit_name = "";
             string ad_format = "";
@@ -1156,9 +1156,9 @@ namespace TheLegends.Base.Ads
             string currency = "USD";
             string placement = position;
 
-#if USE_APPSFLYER
-            MediationNetwork mediation = MediationNetwork.Custom;
-#endif
+
+            string mediation = "";
+
             if (value == null)
             {
                 LogWarning("LogImpressionData: " + "data NULL");
@@ -1171,10 +1171,8 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
-#if USE_APPSFLYER
-                    mediation = MediationNetwork.GoogleAdMob;
-#endif
-                    monetizationNetwork = "googleadmob";
+                    mediation = "GoogleAdMob";
+                    ad_network = network;
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
                     country = "";
@@ -1191,16 +1189,14 @@ namespace TheLegends.Base.Ads
 
                 impressionParameters = new Dictionary<string, object>
                 {
-#if USE_APPSFLYER
-                    { "mediation", mediation.ToString() },
-#endif
-                    { "monetizationNetwork", monetizationNetwork },
+                    { "ad_platform", mediation.ToString() },
+                    { "ad_network", ad_network },
                     { "ad_format", ad_format },
                     { "ad_unit_name", ad_unit_name },
                     { "country", country },
                     { "revenue", revenue.ToString() },
                     { "currency", currency },
-
+                    { "placement", placement }
                 };
 #endif
             }
@@ -1213,12 +1209,10 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
-#if USE_APPSFLYER
-                    mediation = MediationNetwork.ApplovinMax;
-#endif
-                    monetizationNetwork = "applovinmax";
-                    ad_format = adsType.ToString();
-                    ad_unit_name = adsUnitID;
+                    mediation = "ApplovinMax";
+                    ad_network = impressionData.NetworkName;
+                    ad_format = impressionData.AdFormat;
+                    ad_unit_name = impressionData.AdUnitIdentifier;
                     country = "";
                     revenue = (double)impressionData.Revenue;
                     currency = MaxSdk.GetSdkConfiguration().CountryCode;
@@ -1231,11 +1225,12 @@ namespace TheLegends.Base.Ads
 
                 impressionParameters = new Dictionary<string, object>
                 {
-                    {"ad_platform", "AppLovin"},
-                    {"ad_source", impressionData.NetworkName},
-                    {"ad_unit_name", impressionData.AdUnitIdentifier},
-                    {"ad_format", impressionData.AdFormat},
-                    {"value", revenue},
+                    {"ad_platform", mediation},
+                    {"ad_network", ad_network},
+                    {"ad_format", ad_format},
+                    {"ad_unit_name", ad_unit_name},
+                    {"country", country },
+                    {"revenue", revenue},
                     {"currency", "USD"},
                     {"placement", placement}
                 };
@@ -1255,20 +1250,24 @@ namespace TheLegends.Base.Ads
 #if USE_APPSFLYER
             AppsFlyerManager.Instance.LogImpression(new Dictionary<string, string>()
             {
-                { "mediation", mediation.ToString() },
-                { "monetizationNetwork", monetizationNetwork },
+                { "ad_platform", mediation.ToString() },
+                { "ad_network", ad_network },
                 { "ad_format", ad_format },
                 { "ad_unit_name", ad_unit_name },
                 { "country", country },
                 { "revenue", revenue.ToString() },
                 { "currency", currency },
+                { "placement", placement }
             });
 
-            AppsFlyerManager.Instance.LogRevenue(monetizationNetwork, mediation, currency, revenue, new Dictionary<string, string>()
+            var appsflyersMediation = Enum.Parse<MediationNetwork>(mediation);
+
+            AppsFlyerManager.Instance.LogRevenue(ad_network, appsflyersMediation, currency, revenue, new Dictionary<string, string>()
             {
                 { AdRevenueScheme.AD_UNIT, ad_unit_name },
                 { AdRevenueScheme.AD_TYPE, ad_format },
                 { AdRevenueScheme.COUNTRY, country },
+                { AdRevenueScheme.PLACEMENT, placement }
             });
 #endif
 
