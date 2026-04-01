@@ -1,3 +1,10 @@
+## [1.1.50](https://github.com/Unity-UPM-Packages/Ads-Manager/compare/v1.1.49...v1.1.50) (2026-04-01)
+
+
+### Bug Fixes
+
+* improve AdsSettings Editor & separate  package implementation ([4ba1f1b](https://github.com/Unity-UPM-Packages/Ads-Manager/commit/4ba1f1b3db0b6f0ab14cff180105986c57f8467c))
+
 ## [1.1.49](https://github.com/Unity-UPM-Packages/Ads-Manager/compare/v1.1.48...v1.1.49) (2026-03-17)
 
 
