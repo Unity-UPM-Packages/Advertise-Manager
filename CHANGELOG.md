@@ -1,3 +1,10 @@
+## [1.1.51](https://github.com/Unity-UPM-Packages/Ads-Manager/compare/v1.1.50...v1.1.51) (2026-04-01)
+
+
+### Bug Fixes
+
+* improve get response ([7b411ae](https://github.com/Unity-UPM-Packages/Ads-Manager/commit/7b411ae88763a421211bee2b2dec8b6ae846d094))
+
 ## [1.1.50](https://github.com/Unity-UPM-Packages/Ads-Manager/compare/v1.1.49...v1.1.50) (2026-04-01)
 
 
