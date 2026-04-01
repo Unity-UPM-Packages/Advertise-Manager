@@ -2,7 +2,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
 {
     public enum NativeAdElement
     {
-        RootAdView = 0,         
+        RootAdView = 0,
 
         // Standard AdMob Elements
         Headline = 1,
@@ -19,11 +19,10 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
         AdAttribution = 10,
 
         // Advanced Decorators (Handled Natively)
-        Decorator_CloseButton = 11,
-        Decorator_CountdownText = 12,
-        Decorator_RadialTimer = 13,
-        
+        CloseButton = 11,
+        CountdownText = 12,
+
         // Custom Elements
-        Background = 14
+        Background = 13
     }
 }

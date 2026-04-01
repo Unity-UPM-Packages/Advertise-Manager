@@ -34,7 +34,7 @@ public class Stage2 : MonoBehaviour
         {
             AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
         })
-        ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
+        ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
         ?.WithShowOnLoaded(true)
         ?.Execute();
     }

@@ -57,7 +57,7 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 {
                     anchorMin = new SerializableVector2(xMin, yMin),
                     anchorMax = new SerializableVector2(xMax, yMax),
-                    offsetMin = new SerializableVector2(0, 0), 
+                    offsetMin = new SerializableVector2(0, 0),
                     offsetMax = new SerializableVector2(0, 0),
                     pivot = new SerializableVector2(rt.pivot.x, rt.pivot.y),
                     rotationZ = rt.localEulerAngles.z,
@@ -83,8 +83,6 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
                 elementConfig.image = new ImageConfig
                 {
                     color = "#" + ColorUtility.ToHtmlStringRGBA(img.color),
-                    cornerRadius = mark.customCornerRadius,
-                    isRadialFill = mark.isRadialFill,
                     imagePath = ProcessAndCacheImage(img.sprite)
                 };
             }
