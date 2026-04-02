@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TheLegends.Base.Ads.NativeDynamicUI
+namespace TheLegends.Base.Ads
 {
     [RequireComponent(typeof(RectTransform))]
     public class DynamicNativeMark : MonoBehaviour

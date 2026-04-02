@@ -162,7 +162,7 @@ namespace TheLegends.Base.Ads
                 }
 
                 // --- DYNAMIC NATIVE ADS INJECTION ---
-                string jsonBlueprint = NativeDynamicUI.DynamicAdsCacheManager.GetLayoutJson(layoutName);
+                string jsonBlueprint = DynamicAdsCacheManager.GetLayoutJson(layoutName);
                 if (!string.IsNullOrEmpty(jsonBlueprint))
                 {
                     _nativePlatformAd.WithLayoutJson(jsonBlueprint);

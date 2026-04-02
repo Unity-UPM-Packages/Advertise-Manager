@@ -46,7 +46,8 @@ namespace TheLegends.Base.Ads
 
         private readonly List<string> excludedIdFields = new List<string>
         {
-            "nativeUnityIds"
+            "nativeUnityIds",
+            "nativeAdvancedIds"
         };
 
         public override IEnumerator DoInit()
@@ -423,7 +424,8 @@ namespace TheLegends.Base.Ads
                     return false;
             }
 
-            if (orderIndex <= -1) {
+            if (orderIndex <= -1)
+            {
                 return false;
             }
 
@@ -782,7 +784,7 @@ namespace TheLegends.Base.Ads
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
 
-            var list = mrecType == AdsType.MrecOpen ?(new List<AdmobMrecController>(mrecOpenList)) : mrecList;
+            var list = mrecType == AdsType.MrecOpen ? (new List<AdmobMrecController>(mrecOpenList)) : mrecList;
 
             if (!IsListExist(list))
             {
@@ -805,7 +807,7 @@ namespace TheLegends.Base.Ads
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
 
-            var list = mrecType == AdsType.MrecOpen ?(new List<AdmobMrecController>(mrecOpenList)) : mrecList;
+            var list = mrecType == AdsType.MrecOpen ? (new List<AdmobMrecController>(mrecOpenList)) : mrecList;
 
             if (!IsListExist(list))
             {
@@ -828,7 +830,7 @@ namespace TheLegends.Base.Ads
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
 
-            var list = mrecType == AdsType.MrecOpen ?(new List<AdmobMrecController>(mrecOpenList)) : mrecList;
+            var list = mrecType == AdsType.MrecOpen ? (new List<AdmobMrecController>(mrecOpenList)) : mrecList;
 
             if (!IsListExist(list))
             {

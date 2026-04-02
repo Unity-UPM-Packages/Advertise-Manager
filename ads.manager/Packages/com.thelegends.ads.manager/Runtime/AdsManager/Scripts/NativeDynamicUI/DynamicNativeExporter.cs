@@ -1,9 +1,8 @@
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using TheLegends.Base.Ads.NativeDynamicUI;
 
-namespace TheLegends.Base.Ads.NativeDynamicUI
+namespace TheLegends.Base.Ads
 {
     public static class DynamicNativeExporter
     {
