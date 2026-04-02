@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-namespace TheLegends.Base.Ads.NativeDynamicUI
+namespace TheLegends.Base.Ads
 {
     [Serializable]
     public class NativeAdLayoutConfig
@@ -17,12 +17,12 @@ namespace TheLegends.Base.Ads.NativeDynamicUI
     [Serializable]
     public class NativeAdElementConfig
     {
-        public string elementType; 
+        public string elementType;
         public RectTransformConfig rectTransform;
-        
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ImageConfig image;
-        
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TextConfig text;
     }

@@ -25,6 +25,7 @@ namespace TheLegends.Base.Ads
         NativeInterOpen = 16,
         NativeMrecOpen = 17,
         NativeVideo = 18,
+        NativeAdvanced = 19,
     }
 }
 

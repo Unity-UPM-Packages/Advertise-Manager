@@ -156,6 +156,9 @@ MonoBehaviour:
     nativeVideoIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/1044960115
+    nativeAdvancedIds:
+    - stringIDs:
+      - ca-app-pub-3940256099942544/2247696110
   ADMOB_IOS_Test:
     bannerIds:
     - stringIDs:
@@ -208,3 +211,6 @@ MonoBehaviour:
     nativeVideoIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2521693316
+    nativeAdvancedIds:
+    - stringIDs:
+      - ca-app-pub-3940256099942544/3986624511
