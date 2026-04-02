@@ -1,4 +1,4 @@
-namespace TheLegends.Base.Ads.NativeDynamicUI
+namespace TheLegends.Base.Ads
 {
     public enum NativeAdElement
     {

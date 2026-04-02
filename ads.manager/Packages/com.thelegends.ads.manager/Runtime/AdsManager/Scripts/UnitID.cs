@@ -26,6 +26,7 @@ namespace TheLegends.Base.Ads
         public List<Placement> nativeInterOpenIds = new List<Placement>();
         public List<Placement> nativeMrecOpenIds = new List<Placement>();
         public List<Placement> nativeVideoIds = new List<Placement>();
+        public List<Placement> nativeAdvancedIds = new List<Placement>();
     }
 
     [Serializable]

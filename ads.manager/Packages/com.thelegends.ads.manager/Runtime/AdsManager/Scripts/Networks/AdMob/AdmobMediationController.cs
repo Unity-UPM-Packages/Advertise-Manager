@@ -46,7 +46,8 @@ namespace TheLegends.Base.Ads
 
         private readonly List<string> excludedIdFields = new List<string>
         {
-            "nativeUnityIds"
+            "nativeUnityIds",
+            "nativeAdvancedIds"
         };
 
         public override IEnumerator DoInit()

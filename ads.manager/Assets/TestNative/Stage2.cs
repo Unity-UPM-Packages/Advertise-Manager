@@ -1,5 +1,4 @@
 using TheLegends.Base.Ads;
-using TheLegends.Base.Ads.NativeDynamicUI;
 using UnityEngine;
 
 public class Stage2 : MonoBehaviour

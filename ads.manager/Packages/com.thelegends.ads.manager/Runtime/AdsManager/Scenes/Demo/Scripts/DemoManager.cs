@@ -53,6 +53,10 @@ public class DemoManager : MonoBehaviour
     public AdmobNativeController nativeAdsBanner;
 #endif
 
+#if USE_ADMOB
+    public AdmobNativeAdvancedController nativeBannerAdvanced;
+#endif
+
 
     public Button nativeOverlayCloseBtn;
     public GameObject nativeOverlayBG;
@@ -348,37 +352,36 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.LoadNativeBanner(PlacementOrder.One);
+        // AdsManager.Instance.LoadNativeBanner(PlacementOrder.One);
+        nativeBannerAdvanced.LoadAds();
 #endif
     }
 
     public void ShowNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeBanner(PlacementOrder.One, "Default", NativeName.Native_Banner, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform show");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform closed");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform Clicked");
-            ResetNativeBannerSize();
-        })
-        ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
-        ?.WithShowOnLoaded(true)
-        ?.Execute();
+        nativeBannerAdvanced.ShowAds();
+        // AdsManager.Instance.ShowNativeBanner(PlacementOrder.One, "Default", NativeName.Native_Banner, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform show");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform closed");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
+        // })
+        // ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
+        // ?.WithShowOnLoaded(true)
+        // ?.Execute();
 #endif
     }
 
     public void HideNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.HideNativeBanner(PlacementOrder.One);
+        nativeBannerAdvanced.HideAds();
+        // AdsManager.Instance.HideNativeBanner(PlacementOrder.One);
 #endif
     }
 
