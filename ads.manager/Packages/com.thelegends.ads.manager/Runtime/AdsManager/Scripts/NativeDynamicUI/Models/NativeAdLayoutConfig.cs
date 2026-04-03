@@ -37,6 +37,20 @@ namespace TheLegends.Base.Ads
     }
 
     [Serializable]
+    public class ImageBorderConfig
+    {
+        public float left;
+        public float bottom;
+        public float right;
+        public float top;
+        public ImageBorderConfig(float left, float bottom, float right, float top)
+        {
+            this.left = left; this.bottom = bottom; this.right = right; this.top = top;
+        }
+        public ImageBorderConfig() { }
+    }
+
+    [Serializable]
     public class RectTransformConfig
     {
         public SerializableVector2 anchorMin;
@@ -55,6 +69,13 @@ namespace TheLegends.Base.Ads
         public string color; // Hex format #RRGGBBAA
         public float cornerRadius;
         public string imagePath; // Absolute path to physical file
+
+        /// <summary>
+        /// NinePatch border in PIXELS (left, bottom, right, top).
+        /// Null means the image is NOT a 9-slice and should be stretched normally.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public ImageBorderConfig border;
     }
 
     [Serializable]

@@ -79,11 +79,21 @@ namespace TheLegends.Base.Ads
             // Loại trừ trường hợp là IconView, không xuất ra image json
             if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView)
             {
-                elementConfig.image = new ImageConfig
+                var imageConfig = new ImageConfig
                 {
                     color = "#" + ColorUtility.ToHtmlStringRGBA(img.color),
                     imagePath = ProcessAndCacheImage(img.sprite)
                 };
+
+                // 9-SLICE SUPPORT: Chỉ trích xuất border nếu Image Type được set là Sliced
+                // Unity sprite.border = (left, bottom, right, top) tính bằng pixel
+                if (img.type == Image.Type.Sliced && img.sprite != null && img.sprite.border != Vector4.zero)
+                {
+                    Vector4 b = img.sprite.border;
+                    imageConfig.border = new ImageBorderConfig(b.x, b.y, b.z, b.w);
+                }
+
+                elementConfig.image = imageConfig;
             }
 
             // GỠ LỖI CỐT LÕI: Chỉ quét đúng bản thân và CON TRỰC TIẾP, không cào toàn bộ cây cháu chắt
