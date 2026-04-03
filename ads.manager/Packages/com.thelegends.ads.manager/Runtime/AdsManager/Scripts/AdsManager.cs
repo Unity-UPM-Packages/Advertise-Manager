@@ -445,62 +445,6 @@ namespace TheLegends.Base.Ads
 
         #endregion
 
-
-
-#if USE_ADMOB
-
-        #region NativeOverlay
-
-        public void LoadNativeOverlay(PlacementOrder order)
-        {
-            if (!IsInitialized())
-            {
-                return;
-            }
-
-            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
-
-            if (mediation != null)
-            {
-                mediation.LoadNativeOverlay(order);
-            }
-        }
-
-        public void ShowNativeOverlay(PlacementOrder order, NativeTemplateStyle style, AdsPos nativeOverlayposition, Vector2Int size, Vector2Int offset, string position, Action OnShow = null, Action OnClose = null)
-        {
-            if (!IsInitialized())
-            {
-                return;
-            }
-
-            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
-
-            if (mediation != null)
-            {
-                mediation.ShowNativeOverlay(order, style, nativeOverlayposition, size, offset, position, OnShow, OnClose);
-            }
-        }
-
-        public void HideNativeOverlay(PlacementOrder order)
-        {
-            if (!IsInitialized())
-            {
-                return;
-            }
-
-            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
-
-            if (mediation != null)
-            {
-                mediation.HideNativeOverlay(order);
-            }
-        }
-
-        #endregion
-
-#endif
-
-
         #region Common
 
         public void SetStatus(AdsMediation AdsMediation, AdsType adsType, string adsUnitID, string position, AdsEvents adEvent)
