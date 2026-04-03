@@ -5170,7 +5170,7 @@ GameObject:
   - component: {fileID: 1012268887}
   - component: {fileID: 1012268886}
   m_Layer: 5
-  m_Name: native_video (1)
+  m_Name: native_mrec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6493,7 +6493,8 @@ MonoBehaviour:
   removeAdsBtn: {fileID: 476950432}
   nativeAdsMrec: {fileID: 0}
   nativeAdsBanner: {fileID: 0}
-  nativeBannerAdvanced: {fileID: 1449658532}
+  nativeBannerAdvanced: {fileID: 1777913714}
+  nativeVideoAdvanced: {fileID: 1449658532}
   nativeOverlayCloseBtn: {fileID: 1642971807}
   nativeOverlayBG: {fileID: 1727248572}
   adLayoutHelper: {fileID: 1245402506}
@@ -9343,7 +9344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1777913712
 RectTransform:
   m_ObjectHideFlags: 0

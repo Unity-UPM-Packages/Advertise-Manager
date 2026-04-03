@@ -53,6 +53,7 @@ public class DemoManager : MonoBehaviour
 
 #if USE_ADMOB
     public AdmobNativeAdvancedController nativeBannerAdvanced;
+    public AdmobNativeAdvancedController nativeVideoAdvanced;
 #endif
 
 
@@ -117,10 +118,6 @@ public class DemoManager : MonoBehaviour
 
         FirebaseManager.Instance.FetchRemoteData(() =>
         {
-            // var testBool = FirebaseManager.Instance.RemoteGetValueBoolean("testBool", false);
-            // var testFloat = FirebaseManager.Instance.RemoteGetValueFloat("testFloat", 1.0f);
-            // var testInt = FirebaseManager.Instance.RemoteGetValueInt("testInt", 2);
-            // var testString = FirebaseManager.Instance.RemoteGetValueString("testString", "test");
             AdsManager.Instance.adsConfigs.adInterOnComplete = FirebaseManager.Instance.RemoteGetValueBoolean("adInterOnComplete", AdsManager.Instance.adsConfigs.adInterOnComplete);
             AdsManager.Instance.adsConfigs.adInterOnStart = FirebaseManager.Instance.RemoteGetValueBoolean("adInterOnStart", AdsManager.Instance.adsConfigs.adInterOnStart);
             AdsManager.Instance.adsConfigs.timePlayToShowAds = FirebaseManager.Instance.RemoteGetValueFloat("timePlayToShowAds", AdsManager.Instance.adsConfigs.timePlayToShowAds);
@@ -137,9 +134,6 @@ public class DemoManager : MonoBehaviour
     private void LoadInterstitial()
     {
         AdsManager.Instance.LoadInterstitial(AdsType.Interstitial, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.LoadNativeInter(order);
-        // #endif
     }
 
     private void ShowInterstitial()
@@ -148,22 +142,6 @@ public class DemoManager : MonoBehaviour
         {
             AdsManager.Instance.Log("Interstitial closed");
         });
-        // #if USE_ADMOB
-        //         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_Inter, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter show");
-        //             HideNativeBannerPlatform();
-        //         }, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter closed");
-        //             ShowNativeBannerPlatform();
-        //         }, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter full screen content closed");
-        //         })
-        //         ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-        //         ?.Execute();
-        // #endif
     }
 
     private void Loadrewarded()
@@ -193,38 +171,27 @@ public class DemoManager : MonoBehaviour
     private void LoadBanner()
     {
         AdsManager.Instance.LoadBanner(order);
-        // AdsManager.Instance.LoadNativeBanner(order);
     }
 
     private void ShowBanner()
     {
         AdsManager.Instance.ShowBanner(order, "Default");
-        // ShowNativeBannerPlatform();
     }
 
     private void HideBanner()
     {
         AdsManager.Instance.HideBanner(order);
-        // HideNativeBannerPlatform();
     }
 
     private void LoadMrec()
     {
         AdsManager.Instance.LoadMrec(AdsType.Mrec, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.LoadNativeMrec(PlacementOrder.One);
-        // #endif
     }
 
     private void ShowMrec()
     {
         var mrecPos = (AdsPos)MrecPosDropdown.value;
         AdsManager.Instance.ShowMrec(AdsType.Mrec, order, mrecPos, new Vector2Int(0, 0), "Default");
-        // AdsManager.Instance.ShowNativeMrec(PlacementOrder.One, "Default", NativeName.Native_Mrec, null, null, null)
-        // ?.WithPosition(mrecPos, new Vector2Int(0, 0))
-        // ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
-        // ?.WithShowOnLoaded(true)
-        // ?.Execute();
     }
 
     private void HideMrec()
@@ -264,23 +231,30 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeVideoPlatform()
     {
 #if USE_ADMOB
-
+        nativeVideoAdvanced.LoadAds();
 #endif
     }
-
-
 
     public void ShowNativeVideoPlatform()
     {
 #if USE_ADMOB
-
+        nativeVideoAdvanced.ShowAds(() =>
+        {
+            AdsManager.Instance.Log("NativeVideo show");
+        }, () =>
+        {
+            AdsManager.Instance.Log("NativeVideo closed");
+        }, () =>
+        {
+            AdsManager.Instance.Log("NativeVideo full screen content closed");
+        });
 #endif
     }
 
     public void HideNativeVideoPlatform()
     {
 #if USE_ADMOB
-
+        nativeVideoAdvanced.HideAds();
 #endif
     }
 
@@ -288,7 +262,6 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeBannerPlatform()
     {
 #if USE_ADMOB
-        // AdsManager.Instance.LoadNativeBanner(PlacementOrder.One);
         nativeBannerAdvanced.LoadAds();
 #endif
     }
@@ -296,20 +269,13 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeBannerPlatform()
     {
 #if USE_ADMOB
-        nativeBannerAdvanced.ShowAds();
-        // AdsManager.Instance.ShowNativeBanner(PlacementOrder.One, "Default", NativeName.Native_Banner, () =>
-        // {
-        //     AdsManager.Instance.Log("NativeBannerPlatform show");
-        // }, () =>
-        // {
-        //     AdsManager.Instance.Log("NativeBannerPlatform closed");
-        // }, () =>
-        // {
-        //     AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
-        // })
-        // ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
-        // ?.WithShowOnLoaded(true)
-        // ?.Execute();
+        nativeBannerAdvanced.ShowAds(() =>
+        {
+            AdsManager.Instance.Log("NativeBanner show");
+        }, () =>
+        {
+            AdsManager.Instance.Log("NativeBanner closed");
+        });
 #endif
     }
 
@@ -317,7 +283,6 @@ public class DemoManager : MonoBehaviour
     {
 #if USE_ADMOB
         nativeBannerAdvanced.HideAds();
-        // AdsManager.Instance.HideNativeBanner(PlacementOrder.One);
 #endif
     }
 
