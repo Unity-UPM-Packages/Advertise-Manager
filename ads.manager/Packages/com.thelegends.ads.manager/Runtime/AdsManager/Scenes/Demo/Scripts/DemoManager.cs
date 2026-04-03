@@ -317,7 +317,7 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.LoadNativeVideo(PlacementOrder.One);
+
 #endif
     }
 
@@ -326,27 +326,14 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
-        {
-            AdsManager.Instance.Log("NativeVideoPlatform show");
-            HideNativeBannerPlatform();
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeVideoPlatform closed");
-            ShowNativeBannerPlatform();
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeVideoPlatform full screen content closed");
-        })
-        ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-        ?.Execute();
+
 #endif
     }
 
     public void HideNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.HideNativeVideo(PlacementOrder.One);
+
 #endif
     }
 
