@@ -77,13 +77,9 @@ public class DemoManager : MonoBehaviour
         loadMrecBtn.onClick.AddListener(LoadMrec);
         showMrecBtn.onClick.AddListener(ShowMrec);
         hideMrecBtn.onClick.AddListener(HideMrec);
-        loadNativeOverlayBtn.onClick.AddListener(LoadNativeOverlay);
-        showNativeOverlayBtn.onClick.AddListener(ShowNativeOverlay);
-        hideNativeOverlayBtn.onClick.AddListener(HideNativeOverlay);
         loadNativeBtn.onClick.AddListener(LoadNative);
         showNativeBtn.onClick.AddListener(ShowNative);
         hideNativeBtn.onClick.AddListener(HideNative);
-        nativeOverlayCloseBtn.onClick.AddListener(HideNativeOverlay);
         loadNativeVideoPlatformBtn.onClick.AddListener(LoadNativeVideoPlatform);
         showNativeVideoPlatformBtn.onClick.AddListener(ShowNativeVideoPlatform);
         hideNativeVideoPlatformBtn.onClick.AddListener(HideNativeVideoPlatform);
@@ -234,55 +230,6 @@ public class DemoManager : MonoBehaviour
     private void HideMrec()
     {
         AdsManager.Instance.HideMrec(AdsType.Mrec, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.HideNativeMrec(PlacementOrder.One);
-        // #endif
-    }
-
-    private void LoadNativeOverlay()
-    {
-#if USE_ADMOB
-        AdsManager.Instance.LoadNativeOverlay(order);
-#endif
-    }
-
-    private void ShowNativeOverlay()
-    {
-#if USE_ADMOB
-        var pos = (AdsPos)MrecPosDropdown.value;
-        var deviceScale = MobileAds.Utils.GetDeviceScale();
-
-        AdsManager.Instance.ShowNativeOverlay(order, new NativeTemplateStyle
-        {
-            TemplateId = NativeTemplateId.Medium,
-            MainBackgroundColor = Color.red,
-            CallToActionText = new NativeTemplateTextStyle()
-            {
-                BackgroundColor = Color.green,
-                TextColor = Color.black,
-                FontSize = 20,
-                Style = NativeTemplateFontStyle.Bold
-            }
-        }, pos, new Vector2Int(Mathf.RoundToInt(Screen.safeArea.width / deviceScale / 1.5f), Mathf.RoundToInt(Screen.safeArea.height / deviceScale)), new Vector2Int(0, 0), "Default", () =>
-        {
-            nativeOverlayBG.SetActive(true);
-            AdsManager.Instance.Log("NativeOverlay show");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeOverlay closed");
-            nativeOverlayBG.SetActive(false);
-        });
-
-        // new Vector2Int(Mathf.RoundToInt(Screen.safeArea.width / deviceScale / 3), Mathf.RoundToInt(Screen.safeArea.height / deviceScale))
-#endif
-    }
-
-
-    private void HideNativeOverlay()
-    {
-#if USE_ADMOB
-        AdsManager.Instance.HideNativeOverlay(order);
-#endif
     }
 
     public void LoadNative()

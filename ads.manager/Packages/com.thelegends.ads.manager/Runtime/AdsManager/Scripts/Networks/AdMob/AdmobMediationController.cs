@@ -34,7 +34,6 @@ namespace TheLegends.Base.Ads
         private List<AdmobMrecController> mrecList = new List<AdmobMrecController>();
         private List<AdmobMrecOpenController> mrecOpenList = new List<AdmobMrecOpenController>();
         private List<AdmobInterstitialOpenController> interOpenList = new List<AdmobInterstitialOpenController>();
-        private List<AdmobNativeOverlayController> nativeOverlayList = new List<AdmobNativeOverlayController>();
 
         private readonly List<string> excludedIdFields = new List<string>
         {
@@ -355,12 +354,6 @@ namespace TheLegends.Base.Ads
             {
                 ad.HideAds();
             }
-
-            foreach (var ad in nativeOverlayList)
-            {
-                ad.HideAds();
-            }
-
 #endif
         }
 
@@ -453,12 +446,6 @@ namespace TheLegends.Base.Ads
                 case AdsType.AppOpen:
                     orderIndex = GetPlacementIndex((int)order, appOpenList.Count);
                     break;
-                case AdsType.NativeOverlay:
-                    orderIndex = GetPlacementIndex((int)order, nativeOverlayList.Count);
-                    break;
-                case AdsType.NativeUnity:
-                    orderIndex = GetPlacementIndex((int)order, nativeOverlayList.Count);
-                    break;
                 default:
                     return false;
             }
@@ -508,10 +495,6 @@ namespace TheLegends.Base.Ads
                     return mrecOpenList.Cast<AdsPlacementBase>().ToList();
                 case AdsType.InterOpen:
                     return interOpenList.Cast<AdsPlacementBase>().ToList();
-                case AdsType.NativeOverlay:
-                    return nativeOverlayList.Cast<AdsPlacementBase>().ToList();
-                case AdsType.NativeUnity:
-                    return nativeOverlayList.Cast<AdsPlacementBase>().ToList();
                 default:
                     return null;
             }
@@ -778,69 +761,6 @@ namespace TheLegends.Base.Ads
             }
 
             list[placementIndex].HideAds();
-#endif
-        }
-
-        public void LoadNativeOverlay(PlacementOrder order)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
-
-            if (!IsListExist(nativeOverlayList))
-            {
-                return;
-            }
-
-            var placementIndex = GetPlacementIndex((int)order, nativeOverlayList.Count);
-
-            if (placementIndex == -1)
-            {
-                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeOverlay"} {order} is not exist");
-                return;
-            }
-
-            nativeOverlayList[placementIndex].LoadAds();
-#endif
-        }
-
-        public void ShowNativeOverlay(PlacementOrder order, NativeTemplateStyle style, AdsPos nativeOverlayposition, Vector2Int size, Vector2Int offset, string position, Action OnShow = null, Action OnClose = null)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
-
-            if (!IsListExist(nativeOverlayList))
-            {
-                return;
-            }
-
-            var placementIndex = GetPlacementIndex((int)order, nativeOverlayList.Count);
-
-            if (placementIndex == -1)
-            {
-                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeOverlay"} {order} is not exist");
-                return;
-            }
-
-            nativeOverlayList[placementIndex].ShowAds(style, nativeOverlayposition, size, offset, position, OnShow, OnClose);
-#endif
-        }
-
-        public void HideNativeOverlay(PlacementOrder order)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
-
-            if (!IsListExist(nativeOverlayList))
-            {
-                return;
-            }
-
-            var placementIndex = GetPlacementIndex((int)order, nativeOverlayList.Count);
-
-            if (placementIndex == -1)
-            {
-                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeOverlay"} {order} is not exist");
-                return;
-            }
-
-            nativeOverlayList[placementIndex].HideAds();
 #endif
         }
 
