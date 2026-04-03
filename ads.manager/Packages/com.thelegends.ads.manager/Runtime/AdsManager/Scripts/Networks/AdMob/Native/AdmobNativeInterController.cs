@@ -22,7 +22,7 @@ namespace TheLegends.Base.Ads
                 UILoadingController.Show(1f, () =>
                 {
                     OnClose?.Invoke();
-                    AdsManager.Instance.OnFullScreenAdsClosed();
+                    // AdsManager.Instance.OnFullScreenAdsClosed();
                 });
                 OnAdsClosed();
             });
@@ -36,7 +36,7 @@ namespace TheLegends.Base.Ads
             {
                 OnAdsShowSuccess();
                 OnShow?.Invoke();
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
 #endif
         }

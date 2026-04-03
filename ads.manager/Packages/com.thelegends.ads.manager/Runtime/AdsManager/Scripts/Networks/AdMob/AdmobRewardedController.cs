@@ -163,7 +163,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
         }
 
@@ -186,10 +186,10 @@ namespace TheLegends.Base.Ads
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                UILoadingController.Show(1f, () =>
-                {
-                    OnRewarded?.Invoke();
-                    OnRewarded = null;
+                // UILoadingController.Show(1f, () =>
+                // {
+                OnRewarded?.Invoke();
+                OnRewarded = null;
 
 #if USE_DATABUCKETS
                     DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
@@ -203,24 +203,24 @@ namespace TheLegends.Base.Ads
                     });
 #endif
 
-                    AdsManager.Instance.OnFullScreenAdsClosed();
-                });
-
-                _rewardedAd.OnAdClicked -= OnRewardClick;
-                _rewardedAd.OnAdPaid -= OnRewardPaid;
-                _rewardedAd.OnAdImpressionRecorded -= OnRewardImpression;
-                _rewardedAd.OnAdFullScreenContentClosed -= OnRewardedClosed;
-                _rewardedAd.OnAdFullScreenContentFailed -= OnRewardedShowFailed;
-                _rewardedAd.OnAdFullScreenContentOpened -= OnRewardShowSuccess;
-
-                if (_rewardedAd != null)
-                {
-                    _rewardedAd.Destroy();
-                    _rewardedAd = null;
-                }
-
-                OnAdsClosed();
+                // AdsManager.Instance.OnFullScreenAdsClosed();
             });
+
+            _rewardedAd.OnAdClicked -= OnRewardClick;
+            _rewardedAd.OnAdPaid -= OnRewardPaid;
+            _rewardedAd.OnAdImpressionRecorded -= OnRewardImpression;
+            _rewardedAd.OnAdFullScreenContentClosed -= OnRewardedClosed;
+            _rewardedAd.OnAdFullScreenContentFailed -= OnRewardedShowFailed;
+            _rewardedAd.OnAdFullScreenContentOpened -= OnRewardShowSuccess;
+
+            if (_rewardedAd != null)
+            {
+                _rewardedAd.Destroy();
+                _rewardedAd = null;
+            }
+
+            OnAdsClosed();
+            // });
         }
 
         private void OnAdsPaid(AdValue value)
