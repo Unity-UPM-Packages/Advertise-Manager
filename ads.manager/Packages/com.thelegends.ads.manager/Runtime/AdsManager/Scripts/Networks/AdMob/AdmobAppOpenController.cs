@@ -97,7 +97,7 @@ namespace TheLegends.Base.Ads
         }
 #endif
 
-        
+
 
 
         public void ShowAds(string showPosition, Action OnClose = null)
@@ -140,7 +140,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
         }
 
@@ -171,13 +171,13 @@ namespace TheLegends.Base.Ads
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                UILoadingController.Show(1f, () =>
-                {
-                    OnClose?.Invoke();
-                    OnClose = null;
+                // UILoadingController.Show(1f, () =>
+                // {
+                OnClose?.Invoke();
+                OnClose = null;
 
-                    AdsManager.Instance.OnFullScreenAdsClosed();
-                });
+                // AdsManager.Instance.OnFullScreenAdsClosed();
+                // });
 
                 _appOpenAd.OnAdClicked -= OnAppOpenClick;
                 _appOpenAd.OnAdPaid -= OnAdsPaid;

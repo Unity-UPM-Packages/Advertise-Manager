@@ -386,7 +386,7 @@ namespace TheLegends.Base.Ads
             }
 
             var config = bannerShowedConfigs.FirstOrDefault(x => x.order == order);
-            UnregisterBannerConfig(config);
+            // UnregisterBannerConfig(config);
         }
 
         public void HideAllBanner()
@@ -397,31 +397,31 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public void RegisterBannerConfig(BannerShowedConfig config)
-        {
-            var existedConfig = bannerShowedConfigs.FirstOrDefault(x => x.order == config.order);
-            if (existedConfig != null)
-            {
-                existedConfig = config;
-            }
-            else
-            {
-                bannerShowedConfigs.Add(config);
-            }
-        }
+        // public void RegisterBannerConfig(BannerShowedConfig config)
+        // {
+        //     var existedConfig = bannerShowedConfigs.FirstOrDefault(x => x.order == config.order);
+        //     if (existedConfig != null)
+        //     {
+        //         existedConfig = config;
+        //     }
+        //     else
+        //     {
+        //         bannerShowedConfigs.Add(config);
+        //     }
+        // }
 
-        private void UnregisterBannerConfig(BannerShowedConfig config)
-        {
-            bannerShowedConfigs.RemoveAll(x => x.order == config.order);
-        }
+        // private void UnregisterBannerConfig(BannerShowedConfig config)
+        // {
+        //     bannerShowedConfigs.RemoveAll(x => x.order == config.order);
+        // }
 
-        public void ShowRegisteredBanners()
-        {
-            foreach (var config in bannerShowedConfigs)
-            {
-                ShowBanner(config.order, config.position);
-            }
-        }
+        // public void ShowRegisteredBanners()
+        // {
+        //     foreach (var config in bannerShowedConfigs)
+        //     {
+        //         ShowBanner(config.order, config.position);
+        //     }
+        // }
 
         #endregion
 
@@ -582,7 +582,7 @@ namespace TheLegends.Base.Ads
             }
 
             var config = nativeBannerShowedConfigs.FirstOrDefault(x => x.order == order);
-            UnregisterNativeBannerConfig(config);
+            // UnregisterNativeBannerConfig(config);
         }
 
         public void HideAllNativeBanner()
@@ -594,34 +594,34 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public void RegisterNativeBannerConfig(NativeShowedConfig config)
-        {
-            var existedConfig = nativeBannerShowedConfigs.FirstOrDefault(x => x.order == config.order);
-            if (existedConfig != null)
-            {
-                existedConfig = config;
-            }
-            else
-            {
-                nativeBannerShowedConfigs.Add(config);
-            }
-        }
+        // public void RegisterNativeBannerConfig(NativeShowedConfig config)
+        // {
+        //     var existedConfig = nativeBannerShowedConfigs.FirstOrDefault(x => x.order == config.order);
+        //     if (existedConfig != null)
+        //     {
+        //         existedConfig = config;
+        //     }
+        //     else
+        //     {
+        //         nativeBannerShowedConfigs.Add(config);
+        //     }
+        // }
 
-        private void UnregisterNativeBannerConfig(NativeShowedConfig config)
-        {
-            nativeBannerShowedConfigs.RemoveAll(x => x.order == config.order);
-        }
+        // private void UnregisterNativeBannerConfig(NativeShowedConfig config)
+        // {
+        //     nativeBannerShowedConfigs.RemoveAll(x => x.order == config.order);
+        // }
 
-        public void ShowRegisteredNativeBanners()
-        {
-            foreach (var config in nativeBannerShowedConfigs)
-            {
-                ShowNativeBanner(config.order, config.position, config.layoutName)
-                ?.WithAutoReload(config.reloadTime)
-                ?.WithShowOnLoaded(config.showOnLoaded)
-                ?.Execute();
-            }
-        }
+        // public void ShowRegisteredNativeBanners()
+        // {
+        //     foreach (var config in nativeBannerShowedConfigs)
+        //     {
+        //         ShowNativeBanner(config.order, config.position, config.layoutName)
+        //         ?.WithAutoReload(config.reloadTime)
+        //         ?.WithShowOnLoaded(config.showOnLoaded)
+        //         ?.Execute();
+        //     }
+        // }
 
         #endregion
 
@@ -1153,27 +1153,27 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public void OnFullScreenAdsShow()
-        {
-#if HIDE_WHEN_FULLSCREEN_SHOWED
-            HideAllBanner();
-            HideAllMrec();
-#if USE_ADMOB
-            HideAllNativeBanner();
-            HideAllNativeMrec();
-#endif
-#endif
-        }
+        //         public void OnFullScreenAdsShow()
+        //         {
+        // #if HIDE_WHEN_FULLSCREEN_SHOWED
+        //             HideAllBanner();
+        //             HideAllMrec();
+        // #if USE_ADMOB
+        //             HideAllNativeBanner();
+        //             HideAllNativeMrec();
+        // #endif
+        // #endif
+        //         }
 
-        public void OnFullScreenAdsClosed()
-        {
-#if HIDE_WHEN_FULLSCREEN_SHOWED
-            ShowRegisteredBanners();
-#if USE_ADMOB
-            ShowRegisteredNativeBanners();
-#endif
-#endif
-        }
+        //         public void OnFullScreenAdsClosed()
+        //         {
+        // #if HIDE_WHEN_FULLSCREEN_SHOWED
+        //             ShowRegisteredBanners();
+        // #if USE_ADMOB
+        //             ShowRegisteredNativeBanners();
+        // #endif
+        // #endif
+        //         }
 
         private void OnApplicationPause(bool isPaused)
         {

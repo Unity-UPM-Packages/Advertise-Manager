@@ -147,7 +147,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsShowSuccess();
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
         }
 
@@ -170,13 +170,13 @@ namespace TheLegends.Base.Ads
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                UILoadingController.Show(1f, () =>
-                {
-                    OnClose?.Invoke();
-                    OnClose = null;
+                // UILoadingController.Show(1f, () =>
+                // {
+                OnClose?.Invoke();
+                OnClose = null;
 
-                    AdsManager.Instance.OnFullScreenAdsClosed();
-                });
+                // AdsManager.Instance.OnFullScreenAdsClosed();
+                // });
 
                 _interstitialAd.OnAdClicked -= OnInterClick;
                 _interstitialAd.OnAdPaid -= OnInterPaid;

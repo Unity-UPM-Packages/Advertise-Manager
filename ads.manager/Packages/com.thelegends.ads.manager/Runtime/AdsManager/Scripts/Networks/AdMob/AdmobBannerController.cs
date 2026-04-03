@@ -81,7 +81,7 @@ namespace TheLegends.Base.Ads
                 PreShow();
                 _bannerView.Show();
                 OnAdsShowSuccess();
-                SetShowedConfig();
+                // SetShowedConfig();
             }
             else
             {
@@ -92,14 +92,14 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        protected virtual void SetShowedConfig()
-        {
-            AdsManager.Instance.RegisterBannerConfig(new BannerShowedConfig
-            {
-                order = this.Order,
-                position = position,
-            });
-        }
+        // protected virtual void SetShowedConfig()
+        // {
+        //     AdsManager.Instance.RegisterBannerConfig(new BannerShowedConfig
+        //     {
+        //         order = this.Order,
+        //         position = position,
+        //     });
+        // }
 
 
         public virtual void HideAds()
@@ -177,7 +177,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 _bannerView.Hide();
-                
+
                 if (_loadRequestId != _currentLoadRequestId)
                 {
                     // If the load request ID does not match, this callback is from a previous request
