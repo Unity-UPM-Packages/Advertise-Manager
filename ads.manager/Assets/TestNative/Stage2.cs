@@ -23,18 +23,18 @@ public class Stage2 : MonoBehaviour
         // string cachePath = Application.persistentDataPath + "/DynamicAdsCache";
         // Application.OpenURL("file://" + cachePath);
 
-        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform show");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform closed");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
-        })
-        ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-        ?.WithShowOnLoaded(true)
-        ?.Execute();
+        // AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform show");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform closed");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
+        // })
+        // ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
+        // ?.WithShowOnLoaded(true)
+        // ?.Execute();
     }
 }

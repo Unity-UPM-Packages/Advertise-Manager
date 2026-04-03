@@ -168,6 +168,11 @@ namespace TheLegends.Base.Ads
             ShowAds(position);
         }
 
+        public void ShowAds(Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        {
+            ShowAds(position, OnShow, OnClose, OnAdDismissedFullScreenContent);
+        }
+
         public void ShowAds(string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
         {
 #if USE_ADMOB
