@@ -13,18 +13,18 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        protected override void OnNativePlatformShow()
-        {
-#if USE_ADMOB
-            OnShow += () => RegisterConfig();
-            base.OnNativePlatformShow();
-#endif
-        }
+        //         protected override void OnNativePlatformShow()
+        //         {
+        // #if USE_ADMOB
+        //             OnShow += () => RegisterConfig();
+        //             base.OnNativePlatformShow();
+        // #endif
+        //         }
 
-        protected override void RegisterConfig()
-        {
+        //         protected override void RegisterConfig()
+        //         {
 
-        }
+        //         }
     }
 }
 
