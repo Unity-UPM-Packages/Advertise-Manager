@@ -208,8 +208,6 @@ namespace TheLegends.Base.Ads
             {
                 case AdsType.InterOpen:
                 case AdsType.MrecOpen:
-                case AdsType.NativeMrecOpen:
-                case AdsType.NativeInterOpen:
                     timeWait = 0.125f;
                     break;
             }
@@ -300,24 +298,6 @@ namespace TheLegends.Base.Ads
                 case AdsType.AppOpen:
                     isPreload = settings.preloadAppOpen;
                     break;
-                case AdsType.NativeBanner:
-                    isPreload = settings.nativeAds.preloadNativeBanner;
-                    break;
-                case AdsType.NativeInter:
-                    isPreload = settings.nativeAds.preloadNativeInter;
-                    break;
-                case AdsType.NativeReward:
-                    isPreload = settings.nativeAds.preloadNativeReward;
-                    break;
-                case AdsType.NativeMrec:
-                    isPreload = settings.nativeAds.preloadNativeMrec;
-                    break;
-                case AdsType.NativeAppOpen:
-                    isPreload = settings.nativeAds.preloadNativeAppOpen;
-                    break;
-                case AdsType.NativeVideo:
-                    isPreload = settings.nativeAds.preloadNativeVideo;
-                    break;
             }
 
             if (isPreload)
@@ -328,10 +308,7 @@ namespace TheLegends.Base.Ads
 #if USE_DATABUCKETS
             if (AdsType == AdsType.Interstitial
             || AdsType == AdsType.InterOpen
-            || AdsType == AdsType.AppOpen
-            || AdsType == AdsType.NativeInter
-            || AdsType == AdsType.NativeInterOpen
-            || AdsType == AdsType.NativeAppOpen)
+            || AdsType == AdsType.AppOpen)
             {
                 DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
                 {

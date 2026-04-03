@@ -319,34 +319,15 @@ namespace TheLegends.Base.Ads
             // Load MREC for brand selection if needed
             if (canShowSelectBrand && AdsManager.Instance.adsConfigs.isUseAdMrecOpen)
             {
-
-#if USE_ADMOB
-                AdsManager.Instance.LoadNativeMrecOpen(PlacementOrder.One);
-                yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeMrecOpen, PlacementOrder.One);
-#endif
-
-
-                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeMrecOpen, PlacementOrder.One) != AdsEvents.LoadAvailable)
-                {
-                    AdsManager.Instance.LoadMrec(AdsType.MrecOpen, PlacementOrder.One);
-                    yield return AdsManager.Instance.WaitAdLoaded(AdsType.MrecOpen, PlacementOrder.One);
-                }
+                AdsManager.Instance.LoadMrec(AdsType.MrecOpen, PlacementOrder.One);
+                yield return AdsManager.Instance.WaitAdLoaded(AdsType.MrecOpen, PlacementOrder.One);
             }
 
             // Load interstitial for app open if enabled
             if (AdsManager.Instance.adsConfigs.isUseAdInterOpen)
             {
-#if USE_ADMOB
-                AdsManager.Instance.LoadNativeInterOpen(PlacementOrder.One);
-                yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeInterOpen, PlacementOrder.One);
-#endif
-
-                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) != AdsEvents.LoadAvailable)
-                {
-                    AdsManager.Instance.LoadInterstitial(AdsType.InterOpen, PlacementOrder.One);
-                    yield return AdsManager.Instance.WaitAdLoaded(AdsType.InterOpen, PlacementOrder.One);
-                }
-
+                AdsManager.Instance.LoadInterstitial(AdsType.InterOpen, PlacementOrder.One);
+                yield return AdsManager.Instance.WaitAdLoaded(AdsType.InterOpen, PlacementOrder.One);
             }
 
             if (AdsManager.Instance.adsConfigs.isUseAdAppOpenOpen
@@ -379,11 +360,7 @@ namespace TheLegends.Base.Ads
 
         public void CompleteSplash()
         {
-
             AdsManager.Instance.HideMrec(AdsType.MrecOpen, PlacementOrder.One);
-#if USE_ADMOB
-            AdsManager.Instance.HideNativeMrecOpen(PlacementOrder.One);
-#endif
 
             brandScreen.OnClose -= CompleteSplash;
 
@@ -398,29 +375,13 @@ namespace TheLegends.Base.Ads
 
             if (AdsManager.Instance.adsConfigs.isUseAdInterOpen)
             {
-                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
+                if (AdsManager.Instance.GetAdsStatus(AdsType.InterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
-#if USE_ADMOB
-                    AdsManager.Instance.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", NativeName.Native_FullScreen, null, () =>
+                    AdsManager.Instance.ShowInterstitial(AdsType.InterOpen, PlacementOrder.One, "Inter Open", () =>
                     {
                         isShowAdOpen = false;
-                    }, null)
-                    .WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-                    .Execute();
-
+                    });
                     isShowAdOpen = true;
-#endif
-                }
-                else
-                {
-                    if (AdsManager.Instance.GetAdsStatus(AdsType.InterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.ShowInterstitial(AdsType.InterOpen, PlacementOrder.One, "Inter Open", () =>
-                        {
-                            isShowAdOpen = false;
-                        });
-                        isShowAdOpen = true;
-                    }
                 }
             }
 
@@ -461,17 +422,7 @@ namespace TheLegends.Base.Ads
         {
             if (!AdsManager.Instance.adsConfigs.isUseAdMrecOpen) return;
 
-            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeMrecOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
-            {
-#if USE_ADMOB
-                AdsManager.Instance.ShowNativeMrecOpen(PlacementOrder.One, "native_mrec_open", NativeName.Native_Mrec, null, null, null)
-                .WithPosition(mrecOpenPos, mrecOpenOffset)
-                .Execute();
-                brandScreen.Show();
-                brandScreen.OnClose += CompleteSplash;
-#endif
-            }
-            else if (AdsManager.Instance.GetAdsStatus(AdsType.MrecOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
+            if (AdsManager.Instance.GetAdsStatus(AdsType.MrecOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
             {
                 AdsManager.Instance.ShowMrec(AdsType.MrecOpen, PlacementOrder.One, mrecOpenPos, mrecOpenOffset, "Mrec Open");
                 brandScreen.Show();
@@ -525,39 +476,6 @@ namespace TheLegends.Base.Ads
             {
                 yield return IEPreloadByType(AdsType.AppOpen, order => AdsManager.Instance.LoadAppOpen(order));
             }
-
-
-
-#if USE_ADMOB
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeOverlay)
-            {
-                yield return IEPreloadByType(AdsType.NativeOverlay, order => AdsManager.Instance.LoadNativeOverlay(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeBanner)
-            {
-                yield return IEPreloadByType(AdsType.NativeBanner, order => AdsManager.Instance.LoadNativeBanner(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeInter)
-            {
-                yield return IEPreloadByType(AdsType.NativeInter, order => AdsManager.Instance.LoadNativeInter(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeReward)
-            {
-                yield return IEPreloadByType(AdsType.NativeReward, order => AdsManager.Instance.LoadNativeReward(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeMrec)
-            {
-                yield return IEPreloadByType(AdsType.NativeMrec, order => AdsManager.Instance.LoadNativeMrec(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeAppOpen)
-            {
-                yield return IEPreloadByType(AdsType.NativeAppOpen, order => AdsManager.Instance.LoadNativeAppOpen(order));
-            }
-            if (settings.nativeAds != null && settings.nativeAds.preloadNativeVideo)
-            {
-                yield return IEPreloadByType(AdsType.NativeVideo, order => AdsManager.Instance.LoadNativeVideo(order));
-            }
-#endif
         }
 
         private IEnumerator IEPreloadByType(AdsType adsType, Action<PlacementOrder> preloadAction)
