@@ -17,7 +17,7 @@ MonoBehaviour:
   primaryMediation: 4
   useFirebase: 1
   useAppsFlyer: 1
-  useDatabuckets: 1
+  useDatabuckets: 0
   appsFlyerDevKey: Qhno4yJY6KHmZp9uS9DRe4
   appleAppId: 
   admobSheetUrl: 
@@ -86,6 +86,7 @@ MonoBehaviour:
     nativeInterOpenIds: []
     nativeMrecOpenIds: []
     nativeVideoIds: []
+    nativeAdvancedIds: []
   ADMOB_IOS:
     bannerIds: []
     interIds: []
@@ -104,6 +105,7 @@ MonoBehaviour:
     nativeInterOpenIds: []
     nativeMrecOpenIds: []
     nativeVideoIds: []
+    nativeAdvancedIds: []
   ADMOB_Android_Test:
     bannerIds:
     - stringIDs:
@@ -148,8 +150,7 @@ MonoBehaviour:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
     nativeInterOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
+    - stringIDs: []
     nativeMrecOpenIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110

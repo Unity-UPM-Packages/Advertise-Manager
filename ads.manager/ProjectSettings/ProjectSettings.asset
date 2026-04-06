@@ -179,7 +179,7 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 25
-  AndroidTargetSdkVersion: 35
+  AndroidTargetSdkVersion: 36
   AndroidPreferredInstallLocation: 1
   AndroidPreferredDataLocation: 1
   aotOptions: 
@@ -789,8 +789,8 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: USE_ADMOB;USE_FIREBASE;USE_APPSFLYER;USE_DATABUCKETS
-    iPhone: USE_ADMOB;USE_FIREBASE;USE_APPSFLYER;USE_DATABUCKETS
+    Android: USE_ADMOB;USE_APPSFLYER;USE_FIREBASE
+    iPhone: USE_ADMOB;USE_APPSFLYER;USE_FIREBASE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

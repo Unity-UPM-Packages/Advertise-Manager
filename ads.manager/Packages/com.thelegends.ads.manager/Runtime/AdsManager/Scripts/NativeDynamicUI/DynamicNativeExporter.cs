@@ -86,11 +86,14 @@ namespace TheLegends.Base.Ads
                 };
 
                 // 9-SLICE SUPPORT: Chỉ trích xuất border nếu Image Type được set là Sliced
-                // Unity sprite.border = (left, bottom, right, top) tính bằng pixel
                 if (img.type == Image.Type.Sliced && img.sprite != null && img.sprite.border != Vector4.zero)
                 {
                     Vector4 b = img.sprite.border;
-                    imageConfig.border = new ImageBorderConfig(b.x, b.y, b.z, b.w);
+                    float ppum = img.pixelsPerUnitMultiplier;
+                    if (ppum <= 0) ppum = 1;
+
+                    // Export the RAW corner pixels and the multiplier
+                    imageConfig.border = new ImageBorderConfig(b.x, b.y, b.z, b.w, ppum);
                 }
 
                 elementConfig.image = imageConfig;
@@ -109,6 +112,25 @@ namespace TheLegends.Base.Ads
 
             if (txt != null && txt.enabled)
             {
+                // Calculate local bounds of the Text relative to the parent mark
+                RectTransform markRt = mark.GetComponent<RectTransform>();
+                RectTransform txtRt = txt.GetComponent<RectTransform>();
+                
+                Vector3[] corners = new Vector3[4];
+                txtRt.GetWorldCorners(corners);
+                
+                Vector3 bl = markRt.InverseTransformPoint(corners[0]);
+                Vector3 tr = markRt.InverseTransformPoint(corners[2]);
+                
+                float markW = markRt.rect.width;
+                float markH = markRt.rect.height;
+                
+                // Normalized to 0..1 inside the parent (Bottom-Left = 0,0, Top-Right = 1,1)
+                float tXMin = markW == 0 ? 0 : (bl.x + markW * markRt.pivot.x) / markW;
+                float tYMin = markH == 0 ? 0 : (bl.y + markH * markRt.pivot.y) / markH;
+                float tXMax = markW == 0 ? 1 : (tr.x + markW * markRt.pivot.x) / markW;
+                float tYMax = markH == 0 ? 1 : (tr.y + markH * markRt.pivot.y) / markH;
+
                 elementConfig.text = new TextConfig
                 {
                     textContent = txt.text,
@@ -117,7 +139,18 @@ namespace TheLegends.Base.Ads
                     alignment = txt.alignment.ToString(),
                     isBold = txt.fontStyle == FontStyle.Bold || txt.fontStyle == FontStyle.BoldAndItalic,
                     isItalic = txt.fontStyle == FontStyle.Italic || txt.fontStyle == FontStyle.BoldAndItalic,
-                    lineSpacing = txt.lineSpacing
+                    lineSpacing = txt.lineSpacing,
+                    rectTransform = new RectTransformConfig
+                    {
+                        anchorMin = new SerializableVector2(tXMin, tYMin),
+                        anchorMax = new SerializableVector2(tXMax, tYMax),
+                        offsetMin = new SerializableVector2(0, 0),
+                        offsetMax = new SerializableVector2(0, 0),
+                        pivot = new SerializableVector2(txtRt.pivot.x, txtRt.pivot.y),
+                        rotationZ = txtRt.localEulerAngles.z,
+                        scaleX = txtRt.localScale.x,
+                        scaleY = txtRt.localScale.y
+                    }
                 };
             }
         }
@@ -130,16 +163,15 @@ namespace TheLegends.Base.Ads
             string cacheDir = Path.Combine(Application.persistentDataPath, "DynamicAdsCache");
             if (!Directory.Exists(cacheDir)) Directory.CreateDirectory(cacheDir);
 
-            // Utilizing Sprite Name inside the cache. 
-            string filePath = Path.Combine(cacheDir, sprite.texture.name + ".png");
+            // Utilizing Sprite Name inside the cache so atlased sprites don't overwrite each other 
+            string filePath = Path.Combine(cacheDir, sprite.name + ".png");
 
             // Cache Invalidation Check -> we skip expensive compression if cached natively
             if (!File.Exists(filePath))
             {
                 try
                 {
-                    // Trick: Blit to temporary RenderTexture to bypass Unity's 'Not Readable' texture settings restriction
-                    Texture2D tex = DuplicateReadableTexture(sprite.texture);
+                    Texture2D tex = DuplicateReadableTexture(sprite);
                     byte[] bytes = tex.EncodeToPNG();
                     File.WriteAllBytes(filePath, bytes);
 
@@ -147,15 +179,18 @@ namespace TheLegends.Base.Ads
                 }
                 catch (System.Exception e)
                 {
-                    Debug.LogError("[DynamicNativeAds] Texture Encode Failed for " + sprite.texture.name + ". " + e.Message);
+                    Debug.LogError("[DynamicNativeAds] Texture Encode Failed for " + sprite.name + ". " + e.Message);
                     return null;
                 }
             }
             return filePath;
         }
 
-        private static Texture2D DuplicateReadableTexture(Texture2D source)
+        private static Texture2D DuplicateReadableTexture(Sprite sprite)
         {
+            Texture2D source = sprite.texture;
+            Rect rect = sprite.rect;
+
             RenderTexture renderTex = RenderTexture.GetTemporary(
                         source.width,
                         source.height,
@@ -167,8 +202,8 @@ namespace TheLegends.Base.Ads
             RenderTexture previous = RenderTexture.active;
             RenderTexture.active = renderTex;
 
-            Texture2D readableText = new Texture2D(source.width, source.height);
-            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            Texture2D readableText = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGBA32, false);
+            readableText.ReadPixels(new Rect(rect.x, rect.y, rect.width, rect.height), 0, 0);
             readableText.Apply();
 
             RenderTexture.active = previous;
