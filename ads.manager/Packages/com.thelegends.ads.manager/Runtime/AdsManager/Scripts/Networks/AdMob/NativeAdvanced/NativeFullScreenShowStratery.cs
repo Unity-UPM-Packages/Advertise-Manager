@@ -29,13 +29,13 @@ namespace TheLegends.Base.Ads
 
             string zLayerName = zLayer.ToString();
 
-            string jsonBlueprint = DynamicAdsCacheManager.GetLayoutJson(advancedController.LayoutId);
+            string jsonBlueprint = NativeAdAssetManager.GetLayoutJson(advancedController.LayoutId);
             if (!string.IsNullOrEmpty(jsonBlueprint))
             {
-                advancedController.NativePlatformAd.WithLayoutJson(jsonBlueprint);
-                advancedController.NativePlatformAd.WithZLayer(zLayerName);
-                advancedController.NativePlatformAd.WithCountdown(countdownDurationSeconds, closeButtonDelaySeconds, initialDelaySeconds);
-                advancedController.NativePlatformAd.Show(advancedController.LayoutId);
+                advancedController.NativeAdvancedAd.WithLayoutJson(jsonBlueprint);
+                advancedController.NativeAdvancedAd.WithZLayer(zLayerName);
+                advancedController.NativeAdvancedAd.WithCountdown(countdownDurationSeconds, closeButtonDelaySeconds, initialDelaySeconds);
+                advancedController.NativeAdvancedAd.Show(advancedController.LayoutId);
             }
 
         }

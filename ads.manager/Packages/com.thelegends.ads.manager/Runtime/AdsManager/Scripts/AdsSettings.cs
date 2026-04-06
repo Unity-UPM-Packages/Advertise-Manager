@@ -137,15 +137,6 @@ namespace TheLegends.Base.Ads
             interOpenIds = CreatePlacement("ca-app-pub-3940256099942544/1033173712"),
             mrecOpenIds = CreatePlacement("ca-app-pub-3940256099942544/6300978111"),
             nativeUnityIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeOverlayIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeBannerIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeInterIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeRewardIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeMrecIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeAppOpenIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeInterOpenIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeMrecOpenIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110"),
-            nativeVideoIds = CreatePlacement("ca-app-pub-3940256099942544/1044960115"),
             nativeAdvancedIds = CreatePlacement("ca-app-pub-3940256099942544/2247696110")
         };
 
@@ -159,15 +150,6 @@ namespace TheLegends.Base.Ads
             interOpenIds = CreatePlacement("ca-app-pub-3940256099942544/4411468910"),
             mrecOpenIds = CreatePlacement("ca-app-pub-3940256099942544/2934735716"),
             nativeUnityIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeOverlayIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeBannerIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeInterIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeRewardIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeMrecIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeAppOpenIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeInterOpenIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeMrecOpenIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511"),
-            nativeVideoIds = CreatePlacement("ca-app-pub-3940256099942544/2521693316"),
             nativeAdvancedIds = CreatePlacement("ca-app-pub-3940256099942544/3986624511")
         };
 
@@ -198,19 +180,5 @@ public class PreloadSettings
     public bool preloadRewarded = false;
     public bool preloadMREC = false;
     public bool preloadAppOpen = false;
-
-    [Header("Admob Native Ads")]
-    public NativePreloadSettings nativeAds;
 }
 
-[System.Serializable]
-public class NativePreloadSettings
-{
-    public bool preloadNativeBanner = false;
-    public bool preloadNativeOverlay = false;
-    public bool preloadNativeInter = false;
-    public bool preloadNativeReward = false;
-    public bool preloadNativeMrec = false;
-    public bool preloadNativeAppOpen = false;
-    public bool preloadNativeVideo = false;
-}

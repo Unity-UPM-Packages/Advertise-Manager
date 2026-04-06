@@ -4,12 +4,24 @@ using UnityEngine.UI;
 
 namespace TheLegends.Base.Ads
 {
-    public static class DynamicNativeExporter
+    /// <summary>
+    /// Utility class responsible for extracting Unity UI hierarchy and mapping it into a serializable Layout Config.
+    /// Manages the translation from Unity's World Space into a normalized (0-1) coordinate system for Native Android/iOS.
+    /// </summary>
+    public static class NativeAdLayoutExporter
     {
+        /// <summary>
+        /// Generates a serializable NativeAdLayoutConfig by scanning the provided RectTransform and its children.
+        /// Converts Unity's world space coordinates of elements marked with NativeAdLayoutMark into 
+        /// normalized (0..1) relative coordinates for the native layout engine.
+        /// </summary>
+        /// <param name="layoutId">Unique ID assigned to this layout.</param>
+        /// <param name="rootCanvasRect">The root UI container containing the Native Ad elements.</param>
+        /// <returns>A fully configured NativeAdLayoutConfig object.</returns>
         public static NativeAdLayoutConfig GenerateConfig(string layoutId, RectTransform rootCanvasRect)
         {
-            // CHỮA LỖI MẤT TỶ LỆ (Distortion / Fullscreen Stretch):
-            // Lấy Root Canvas làm hệ quy chiếu tuyệt đối thay vì chính cái Banner.
+            // COORDINATE NORMALIZATION:
+            // Fetch the root Canvas to use as the absolute coordinate reference.
             Canvas rootCanvas = rootCanvasRect.GetComponentInParent<Canvas>();
             if (rootCanvas != null) rootCanvas = rootCanvas.rootCanvas;
             RectTransform canvasRect = rootCanvas != null ? rootCanvas.GetComponent<RectTransform>() : rootCanvasRect;
@@ -25,7 +37,7 @@ namespace TheLegends.Base.Ads
             };
 
             // Collect all marked parts of the Native Ad
-            var marks = rootCanvasRect.GetComponentsInChildren<DynamicNativeMark>(true);
+            var marks = rootCanvasRect.GetComponentsInChildren<NativeAdLayoutMark>(true);
 
             foreach (var mark in marks)
             {
@@ -35,9 +47,9 @@ namespace TheLegends.Base.Ads
                 };
 
                 /* ----------------------------------------------------
-                 * SMART COORDINATE CONVERSION (The Anti-Notch Trick)
-                 * We bypass LocalPivots/LayoutGroups by fetching true absolute local corners
-                 * relative to the main Canvas, locking into an exact 0.0 -> 1.0 range.
+                 * COORDINATE CALCULATION
+                 * Calculates absolute screen corners for the element and transforms them
+                 * into local normalized space relative to the RootAdView.
                  * ---------------------------------------------------- */
                 RectTransform rt = mark.GetComponent<RectTransform>();
                 Vector3[] corners = new Vector3[4];
@@ -64,7 +76,7 @@ namespace TheLegends.Base.Ads
                     scaleY = rt.localScale.y
                 };
 
-                // Extract Visual Shapes and Fonts (Background Colors, Tints, text content)
+                // Extract Visual Styles: background colors, textures, and typography
                 ExtractGraphicComponents(mark, elementConfig);
 
                 config.elements.Add(elementConfig);
@@ -73,11 +85,11 @@ namespace TheLegends.Base.Ads
             return config;
         }
 
-        private static void ExtractGraphicComponents(DynamicNativeMark mark, NativeAdElementConfig elementConfig)
+        private static void ExtractGraphicComponents(NativeAdLayoutMark mark, NativeAdElementConfig elementConfig)
         {
             var img = mark.GetComponent<Image>();
-            // Loại trừ trường hợp là IconView, không xuất ra image json
-            if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView)
+            // Exclude IconViews and MediaViews from image extraction as they are handled natively by the AdMob platform.
+            if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView && mark.elementTag != NativeAdElement.MediaView)
             {
                 var imageConfig = new ImageConfig
                 {
@@ -85,7 +97,8 @@ namespace TheLegends.Base.Ads
                     imagePath = ProcessAndCacheImage(img.sprite)
                 };
 
-                // 9-SLICE SUPPORT: Chỉ trích xuất border nếu Image Type được set là Sliced
+                // NINE-PATCH (9-SLICE) EXTRACTION:
+                // Only extract border metadata if Image Type is set to Sliced in Unity.
                 if (img.type == Image.Type.Sliced && img.sprite != null && img.sprite.border != Vector4.zero)
                 {
                     Vector4 b = img.sprite.border;
@@ -99,7 +112,6 @@ namespace TheLegends.Base.Ads
                 elementConfig.image = imageConfig;
             }
 
-            // GỠ LỖI CỐT LÕI: Chỉ quét đúng bản thân và CON TRỰC TIẾP, không cào toàn bộ cây cháu chắt
             var txt = mark.GetComponent<Text>();
             if (txt == null)
             {
@@ -155,18 +167,21 @@ namespace TheLegends.Base.Ads
             }
         }
 
+        /// <summary>
+        /// Duplicates a sprite's texture into a readable ARGB32 format, handling atlased and non-readable sprites.
+        /// </summary>
         private static string ProcessAndCacheImage(Sprite sprite)
         {
             if (sprite == null) return null;
             if (sprite.name == "Background" || sprite.name == "UISprite") return null;
 
-            string cacheDir = Path.Combine(Application.persistentDataPath, "DynamicAdsCache");
+            string cacheDir = Path.Combine(Application.persistentDataPath, "NativeAdLayoutCache");
             if (!Directory.Exists(cacheDir)) Directory.CreateDirectory(cacheDir);
 
-            // Utilizing Sprite Name inside the cache so atlased sprites don't overwrite each other 
+            // Unique name based on Sprite so atlased elements don't conflict 
             string filePath = Path.Combine(cacheDir, sprite.name + ".png");
 
-            // Cache Invalidation Check -> we skip expensive compression if cached natively
+            // Cache validation: Avoid expensive texture duplication/encoding if already exists
             if (!File.Exists(filePath))
             {
                 try
@@ -179,13 +194,17 @@ namespace TheLegends.Base.Ads
                 }
                 catch (System.Exception e)
                 {
-                    Debug.LogError("[DynamicNativeAds] Texture Encode Failed for " + sprite.name + ". " + e.Message);
+                    Debug.LogError("[NativeAdLayout] Texture Encode Failed for " + sprite.name + ". " + e.Message);
                     return null;
                 }
             }
             return filePath;
         }
 
+        /// <summary>
+        /// Uses Graphics.Blit to copy texture data from potentially non-readable or GPU-stored sprites into a CPU-readable Texture2D.
+        /// Handles cropping for sprites that are part of a larger atlas.
+        /// </summary>
         private static Texture2D DuplicateReadableTexture(Sprite sprite)
         {
             Texture2D source = sprite.texture;

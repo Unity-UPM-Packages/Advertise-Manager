@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
-    public interface IAdmobNativePlatformClient
+    public interface IAdmobNativeAdvancedClient
     {
         // === EVENTS ===
         event EventHandler<EventArgs> OnAdLoaded;

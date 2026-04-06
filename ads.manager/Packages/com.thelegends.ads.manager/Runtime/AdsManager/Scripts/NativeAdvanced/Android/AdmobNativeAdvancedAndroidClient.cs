@@ -7,7 +7,7 @@ using GoogleMobileAds.Common;
 
 namespace TheLegends.Base.Ads
 {
-    public class AdmobNativePlatformAndroidClient : AndroidJavaProxy, IAdmobNativePlatformClient
+    public class AdmobNativeAdvancedAndroidClient : AndroidJavaProxy, IAdmobNativeAdvancedClient
     {
         // === Events của Interface ===
         public event EventHandler<EventArgs> OnAdLoaded;
@@ -27,7 +27,7 @@ namespace TheLegends.Base.Ads
 
         private AndroidJavaObject _kotlinController;
 
-        public AdmobNativePlatformAndroidClient() : base("com.thelegends.admob_native_unity.NativeAdCallbacks") { }
+        public AdmobNativeAdvancedAndroidClient() : base("com.thelegends.admob_native_unity.NativeAdCallbacks") { }
 
         public void Initialize() { }
 
@@ -81,7 +81,7 @@ namespace TheLegends.Base.Ads
 
         public IResponseInfoClient GetResponseInfoClient()
         {
-            return _kotlinController != null ? new AdmobNativePlatformAndroidResponseInfoClient(_kotlinController) : null;
+            return _kotlinController != null ? new AdmobNativeAdvancedAndroidResponseInfoClient(_kotlinController) : null;
         }
 
         #region Kotlin Callbacks Implementation
@@ -101,7 +101,7 @@ namespace TheLegends.Base.Ads
             {
                 var args = new LoadAdErrorClientEventArgs()
                 {
-                    LoadAdErrorClient = new AdmobNativePlatformAndroidAdErrorClient(errorJO)
+                    LoadAdErrorClient = new AdmobNativeAdvancedAndroidAdErrorClient(errorJO)
                 };
 
                 OnAdFailedToLoad?.Invoke(this, args);

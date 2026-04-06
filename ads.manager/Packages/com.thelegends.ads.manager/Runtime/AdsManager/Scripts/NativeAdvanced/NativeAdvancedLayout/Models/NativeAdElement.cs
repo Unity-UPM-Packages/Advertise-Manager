@@ -1,5 +1,8 @@
 namespace TheLegends.Base.Ads
 {
+    /// <summary>
+    /// Defines the standard and custom element types used to map Unity UI components to the AdMob Native Ad architecture.
+    /// </summary>
     public enum NativeAdElement
     {
         RootAdView = 0,

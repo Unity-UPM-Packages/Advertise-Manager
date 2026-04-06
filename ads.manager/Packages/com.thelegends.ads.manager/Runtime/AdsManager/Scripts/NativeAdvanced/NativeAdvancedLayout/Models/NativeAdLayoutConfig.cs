@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace TheLegends.Base.Ads
 {
+    /// <summary>
+    /// Represents the full blueprint of a Native Ad Layout, including its ID, reference resolution, and child elements.
+    /// </summary>
     [Serializable]
     public class NativeAdLayoutConfig
     {
@@ -14,6 +17,9 @@ namespace TheLegends.Base.Ads
         public List<NativeAdElementConfig> elements = new List<NativeAdElementConfig>();
     }
 
+    /// <summary>
+    /// Configuration for an individual AdMob or decorative UI element.
+    /// </summary>
     [Serializable]
     public class NativeAdElementConfig
     {
@@ -27,6 +33,9 @@ namespace TheLegends.Base.Ads
         public TextConfig text;
     }
 
+    /// <summary>
+    /// A simple serializable wrapper for Vector2 to avoid Unity-specific serialization issues in JSON.
+    /// </summary>
     [Serializable]
     public class SerializableVector2
     {
@@ -36,6 +45,9 @@ namespace TheLegends.Base.Ads
         public SerializableVector2() { }
     }
 
+    /// <summary>
+    /// Metadata for 9-slice image slicing, including border pixel thickness and PPU multiplier.
+    /// </summary>
     [Serializable]
     public class ImageBorderConfig
     {
@@ -51,6 +63,9 @@ namespace TheLegends.Base.Ads
         public ImageBorderConfig() { }
     }
 
+    /// <summary>
+    /// Serializable representation of a Unity RectTransform's properties, including anchors, offsets, and pivots.
+    /// </summary>
     [Serializable]
     public class RectTransformConfig
     {
@@ -64,6 +79,9 @@ namespace TheLegends.Base.Ads
         public float scaleY;
     }
 
+    /// <summary>
+    /// Visual configuration for Image components, covering colors and 9-slice metadata.
+    /// </summary>
     [Serializable]
     public class ImageConfig
     {
@@ -79,6 +97,9 @@ namespace TheLegends.Base.Ads
         public ImageBorderConfig border;
     }
 
+    /// <summary>
+    /// Visual and typographic configuration for Text components, exported from Unity UI Text.
+    /// </summary>
     [Serializable]
     public class TextConfig
     {

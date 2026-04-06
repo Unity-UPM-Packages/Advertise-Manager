@@ -49,7 +49,7 @@ namespace TheLegends.Base.Ads
             get
             {
                 AndroidJavaObject errorJO = _javaObject.Call<AndroidJavaObject>("getAdError");
-                return errorJO != null ? new AdmobNativePlatformAndroidAdErrorClient(errorJO) : null;
+                return errorJO != null ? new AdmobNativeAdvancedAndroidAdErrorClient(errorJO) : null;
             }
         }
 
