@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace TheLegends.Base.Ads
 {
-    public class AdmobNativePlatformIOSClient : IAdmobNativePlatformClient
+    public class AdmobNativeAdvancedIOSClient : IAdmobNativeAdvancedClient
     {
         // === Events của Interface ===
         public event EventHandler<EventArgs> OnAdLoaded;
@@ -89,10 +89,10 @@ namespace TheLegends.Base.Ads
         private delegate void PaidEventCallback(IntPtr nativeClient, int precisionType, long valueMicros, string currencyCode);
         private delegate void VideoMuteCallback(IntPtr nativeClient, bool isMuted);
 
-        private static readonly Dictionary<IntPtr, AdmobNativePlatformIOSClient> _instances = new Dictionary<IntPtr, AdmobNativePlatformIOSClient>();
+        private static readonly Dictionary<IntPtr, AdmobNativeAdvancedIOSClient> _instances = new Dictionary<IntPtr, AdmobNativeAdvancedIOSClient>();
 
         // MARK: - Constructor & Initialization
-        public AdmobNativePlatformIOSClient()
+        public AdmobNativeAdvancedIOSClient()
         {
             _nativeControllerPtr = AdmobNative_Create();
             _instances[_nativeControllerPtr] = this;
@@ -116,7 +116,7 @@ namespace TheLegends.Base.Ads
             );
         }
 
-        ~AdmobNativePlatformIOSClient()
+        ~AdmobNativeAdvancedIOSClient()
         {
             DestroyAd();
         }
@@ -132,11 +132,11 @@ namespace TheLegends.Base.Ads
         {
             if (_nativeControllerPtr == IntPtr.Zero)
             {
-                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
+                Debug.LogError("AdmobNativeAdvancedIOSClient: Controller not initialized");
                 return;
             }
 
-            Debug.Log($"AdmobNativePlatformIOSClient: Loading ad with ID: {adUnitId}");
+            Debug.Log($"AdmobNativeAdvancedIOSClient: Loading ad with ID: {adUnitId}");
             AdmobNative_LoadAd(_nativeControllerPtr, adUnitId);
         }
 
@@ -144,11 +144,11 @@ namespace TheLegends.Base.Ads
         {
             if (_nativeControllerPtr == IntPtr.Zero)
             {
-                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
+                Debug.LogError("AdmobNativeAdvancedIOSClient: Controller not initialized");
                 return;
             }
 
-            Debug.Log($"AdmobNativePlatformIOSClient: Showing ad with layout: {layoutName}");
+            Debug.Log($"AdmobNativeAdvancedIOSClient: Showing ad with layout: {layoutName}");
             AdmobNative_ShowAd(_nativeControllerPtr, layoutName);
         }
 
@@ -159,7 +159,7 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            Debug.Log("AdmobNativePlatformIOSClient: Destroying ad");
+            Debug.Log("AdmobNativeAdvancedIOSClient: Destroying ad");
             AdmobNative_Destroy(_nativeControllerPtr);
             if (_instances.ContainsKey(_nativeControllerPtr))
             {
@@ -194,11 +194,11 @@ namespace TheLegends.Base.Ads
         {
             if (_nativeControllerPtr == IntPtr.Zero)
             {
-                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
+                Debug.LogError("AdmobNativeAdvancedIOSClient: Controller not initialized");
                 return;
             }
 
-            Debug.Log($"AdmobNativePlatformIOSClient: WithCountdown({initialDelaySeconds}, {countdownDurationSeconds}, {closeButtonDelaySeconds})");
+            Debug.Log($"AdmobNativeAdvancedIOSClient: WithCountdown({initialDelaySeconds}, {countdownDurationSeconds}, {closeButtonDelaySeconds})");
             AdmobNative_WithCountdown(_nativeControllerPtr, initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
@@ -206,11 +206,11 @@ namespace TheLegends.Base.Ads
         {
             if (_nativeControllerPtr == IntPtr.Zero)
             {
-                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
+                Debug.LogError("AdmobNativeAdvancedIOSClient: Controller not initialized");
                 return;
             }
 
-            Debug.Log($"AdmobNativePlatformIOSClient: WithPosition({positionX}, {positionY})");
+            Debug.Log($"AdmobNativeAdvancedIOSClient: WithPosition({positionX}, {positionY})");
             AdmobNative_WithPosition(_nativeControllerPtr, positionX, positionY);
         }
 
@@ -234,7 +234,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdLoaded callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdLoaded callback");
                     client.OnAdLoaded?.Invoke(client, EventArgs.Empty);
                 }
             });
@@ -248,8 +248,8 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.LogError($"AdmobNativePlatformIOSClient: OnAdFailedToLoad - {errorMessage}");
-                    var errorClient = new AdmobNativePlatformIOSAdErrorClient(errorMessage);
+                    Debug.LogError($"AdmobNativeAdvancedIOSClient: OnAdFailedToLoad - {errorMessage}");
+                    var errorClient = new AdmobNativeAdvancedIOSAdErrorClient(errorMessage);
                     var args = new LoadAdErrorClientEventArgs { LoadAdErrorClient = errorClient };
                     client.OnAdFailedToLoad?.Invoke(client, args);
                 }
@@ -264,7 +264,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdShow callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdShow callback");
                     client.OnAdShow?.Invoke();
                 }
             });
@@ -278,7 +278,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdClosed callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdClosed callback");
                     client.OnAdClosed?.Invoke();
                 }
             });
@@ -292,7 +292,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log($"AdmobNativePlatformIOSClient: OnPaidEvent - {valueMicros} {currencyCode} (precision: {precisionType})");
+                    Debug.Log($"AdmobNativeAdvancedIOSClient: OnPaidEvent - {valueMicros} {currencyCode} (precision: {precisionType})");
                     var adValue = new AdValue { Precision = (AdValue.PrecisionType)precisionType, Value = valueMicros, CurrencyCode = currencyCode };
                     client.OnPaidEvent?.Invoke(adValue);
                 }
@@ -307,7 +307,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdDidRecordImpression callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdDidRecordImpression callback");
                     client.OnAdDidRecordImpression?.Invoke(client, EventArgs.Empty);
                 }
             });
@@ -321,7 +321,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdClicked callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdClicked callback");
                     client.OnAdClicked?.Invoke();
                 }
             });
@@ -335,7 +335,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnVideoStart callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnVideoStart callback");
                     client.OnVideoStart?.Invoke();
                 }
             });
@@ -349,7 +349,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnVideoEnd callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnVideoEnd callback");
                     client.OnVideoEnd?.Invoke();
                 }
             });
@@ -363,7 +363,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log($"AdmobNativePlatformIOSClient: OnVideoMute callback - {isMuted}");
+                    Debug.Log($"AdmobNativeAdvancedIOSClient: OnVideoMute callback - {isMuted}");
                     client.OnVideoMute?.Invoke(client, isMuted);
                 }
             });
@@ -377,7 +377,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnVideoPlay callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnVideoPlay callback");
                     client.OnVideoPlay?.Invoke();
                 }
             });
@@ -391,7 +391,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnVideoPause callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnVideoPause callback");
                     client.OnVideoPause?.Invoke();
                 }
             });
@@ -405,7 +405,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdShowedFullScreenContent callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdShowedFullScreenContent callback");
                     client.OnAdShowedFullScreenContent?.Invoke();
                 }
             });
@@ -419,7 +419,7 @@ namespace TheLegends.Base.Ads
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.Log("AdmobNativePlatformIOSClient: OnAdDismissedFullScreenContent callback");
+                    Debug.Log("AdmobNativeAdvancedIOSClient: OnAdDismissedFullScreenContent callback");
                     client.OnAdDismissedFullScreenContent?.Invoke();
                 }
             });

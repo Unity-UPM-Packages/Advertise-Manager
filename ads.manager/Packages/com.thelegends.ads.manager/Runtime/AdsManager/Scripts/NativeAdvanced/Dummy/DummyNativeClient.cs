@@ -11,7 +11,7 @@ namespace TheLegends.Base.Ads
     /// Được sử dụng cho các nền tảng không được hỗ trợ (như Editor)
     /// để tránh lỗi NullReferenceException.
     /// </summary>
-    internal class DummyNativeClient : IAdmobNativePlatformClient
+    internal class DummyNativeClient : IAdmobNativeAdvancedClient
     {
         public event EventHandler<EventArgs> OnAdLoaded;
         public event EventHandler<LoadAdErrorClientEventArgs> OnAdFailedToLoad;

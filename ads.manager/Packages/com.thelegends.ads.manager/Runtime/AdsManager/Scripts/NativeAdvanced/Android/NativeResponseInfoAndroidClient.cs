@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
-    internal class AdmobNativePlatformAndroidResponseInfoClient : IResponseInfoClient
+    internal class AdmobNativeAdvancedAndroidResponseInfoClient : IResponseInfoClient
     {
         private readonly AndroidJavaObject _kotlinController;
 
         private AndroidJavaObject _responseInfoJO;
 
-        public AdmobNativePlatformAndroidResponseInfoClient(AndroidJavaObject kotlinController)
+        public AdmobNativeAdvancedAndroidResponseInfoClient(AndroidJavaObject kotlinController)
         {
             _kotlinController = kotlinController;
         }

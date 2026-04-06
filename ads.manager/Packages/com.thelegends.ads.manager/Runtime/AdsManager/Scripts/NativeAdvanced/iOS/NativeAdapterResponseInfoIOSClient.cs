@@ -105,7 +105,7 @@ namespace TheLegends.Base.Ads
                 if (ptr == IntPtr.Zero) return null;
                 
                 string errorMsg = Marshal.PtrToStringAnsi(ptr);
-                return new AdmobNativePlatformIOSAdErrorClient(errorMsg);
+                return new AdmobNativeAdvancedIOSAdErrorClient(errorMsg);
             }
         }
 
