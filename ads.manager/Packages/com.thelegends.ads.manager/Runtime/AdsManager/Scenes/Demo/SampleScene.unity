@@ -1141,17 +1141,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5933510529498727382, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
   m_PrefabInstance: {fileID: 7238410519210234199}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &303204575 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7854433546743073294, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
-  m_PrefabInstance: {fileID: 7238410519210234199}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57cbebf752422854d89ed1b0ec2822e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.AdmobNativeAdvancedController
 --- !u!1 &308675467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,17 +3483,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2219491742314284916, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
   m_PrefabInstance: {fileID: 3682570574083626011}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1012268888 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5611678809965505062, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
-  m_PrefabInstance: {fileID: 3682570574083626011}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57cbebf752422854d89ed1b0ec2822e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.AdmobNativeAdvancedController
 --- !u!1 &1015287655
 GameObject:
   m_ObjectHideFlags: 0
@@ -4634,8 +4612,8 @@ MonoBehaviour:
   hideNativeBannerPlatformBtn: {fileID: 2145718022}
   adjustLayoutForNativeBannerBtn: {fileID: 1368338468}
   removeAdsBtn: {fileID: 476950432}
-  nativeBannerAdvanced: {fileID: 1012268888}
-  nativeVideoAdvanced: {fileID: 303204575}
+  nativeBannerAdvanced: {fileID: 1777913714}
+  nativeVideoAdvanced: {fileID: 1449658532}
   nativeOverlayCloseBtn: {fileID: 1642971807}
   nativeOverlayBG: {fileID: 1727248572}
   adLayoutHelper: {fileID: 1245402506}
@@ -5280,6 +5258,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1374384820628517665, guid: 96059f8b5d596f74dbcf26f92fa83245, type: 3}
   m_PrefabInstance: {fileID: 3625803353195327844}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1449658532 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7623562681944101422, guid: 96059f8b5d596f74dbcf26f92fa83245, type: 3}
+  m_PrefabInstance: {fileID: 3625803353195327844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57cbebf752422854d89ed1b0ec2822e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.AdmobNativeAdvancedController
 --- !u!1 &1486119888
 GameObject:
   m_ObjectHideFlags: 0
@@ -6623,6 +6612,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2143776759205730178, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
   m_PrefabInstance: {fileID: 258299966435094736}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1777913714 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 287392988365965340, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
+  m_PrefabInstance: {fileID: 258299966435094736}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57cbebf752422854d89ed1b0ec2822e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.AdmobNativeAdvancedController
 --- !u!1 &1790597300
 GameObject:
   m_ObjectHideFlags: 0
@@ -8540,6 +8540,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1160573460}
     m_Modifications:
+    - target: {fileID: 808419438915948697, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     - target: {fileID: 1221638076664175534, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
       propertyPath: m_Name
       value: native_banner
@@ -8721,6 +8725,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: native_video
       objectReference: {fileID: 0}
+    - target: {fileID: 8822336250204518649, guid: 96059f8b5d596f74dbcf26f92fa83245, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8737,6 +8745,10 @@ PrefabInstance:
     - target: {fileID: 2059403665400051528, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
       propertyPath: m_Name
       value: native_mrec
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059403665400051528, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2219491742314284916, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
       propertyPath: m_Pivot.x
@@ -8834,6 +8846,10 @@ PrefabInstance:
     - target: {fileID: 2481306453150291610, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
       propertyPath: m_Name
       value: native_fullscreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2481306453150291610, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5933510529498727382, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
       propertyPath: m_Pivot.x

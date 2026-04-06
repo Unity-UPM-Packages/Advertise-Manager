@@ -6,11 +6,11 @@ using UnityEngine;
 namespace TheLegends.Base.Ads
 {
 
-    internal class AdmobNativePlatformAndroidAdErrorClient : ILoadAdErrorClient
+    internal class AdmobNativeAdvancedAndroidAdErrorClient : ILoadAdErrorClient
     {
         private readonly AndroidJavaObject _javaObject;
 
-        public AdmobNativePlatformAndroidAdErrorClient(AndroidJavaObject javaLoadAdError)
+        public AdmobNativeAdvancedAndroidAdErrorClient(AndroidJavaObject javaLoadAdError)
         {
             _javaObject = javaLoadAdError;
         }

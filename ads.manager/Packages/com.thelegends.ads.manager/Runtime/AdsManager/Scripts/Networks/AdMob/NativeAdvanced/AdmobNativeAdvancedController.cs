@@ -6,8 +6,8 @@ namespace TheLegends.Base.Ads
 {
     public class AdmobNativeAdvancedController : AdsPlacementBase
     {
-        private AdmobNativePlatform _nativePlatformAd;
-        public AdmobNativePlatform NativePlatformAd => _nativePlatformAd;
+        private AdmobNativeAdvanced _nativeAdvancedAd;
+        public AdmobNativeAdvanced NativeAdvancedAd => _nativeAdvancedAd;
         private INativeAdvancedShowStrategy _showStratery;
         protected Action OnClose;
         protected Action OnShow;
@@ -37,7 +37,7 @@ namespace TheLegends.Base.Ads
         public override bool IsAdsReady()
         {
 #if USE_ADMOB
-            return NativePlatformAd != null && NativePlatformAd.IsAdAvailable();
+            return NativeAdvancedAd != null && NativeAdvancedAd.IsAdAvailable();
 #else
             return false;
 #endif
@@ -77,7 +77,7 @@ namespace TheLegends.Base.Ads
 
             Init(placement, _order);
 
-            DynamicAdsCacheManager.InitializeAndCache(this.gameObject);
+            NativeAdAssetManager.InitializeAndCache(this.gameObject);
             this.gameObject.SetActive(false);
         }
 
@@ -102,7 +102,7 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            // NativePlatformDestroy();
+            // NativeAdvancedDestroy();
 
             base.LoadAds();
 
@@ -112,7 +112,7 @@ namespace TheLegends.Base.Ads
 
             Debug.Log("LoadAds: " + adsUnitID);
 
-            AdmobNativePlatform.Load(adsUnitID.Trim(), request, (native, error) =>
+            AdmobNativeAdvanced.Load(adsUnitID.Trim(), request, (native, error) =>
             {
                 PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
@@ -128,14 +128,14 @@ namespace TheLegends.Base.Ads
                     if (error != null)
                     {
                         AdsManager.Instance.LogError($"{AdsMediation}_{AdsType} " + "ad failed to load with error : " + error);
-                        OnNativePlatformLoadFailed(error);
+                        OnNativeAdvancedLoadFailed(error);
                         return;
                     }
 
                     if (native == null)
                     {
                         AdsManager.Instance.LogError($"{AdsMediation}_{AdsType} " + "Unexpected error: load event fired with null ad and null error.");
-                        OnNativePlatformLoadFailed(error);
+                        OnNativeAdvancedLoadFailed(error);
                         return;
                     }
 
@@ -144,12 +144,12 @@ namespace TheLegends.Base.Ads
 
                     AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + responseInfo);
 
-                    if (NativePlatformAd != null)
+                    if (NativeAdvancedAd != null)
                     {
-                        NativePlatformDestroy();
+                        NativeAdvancedDestroy();
                     }
 
-                    _nativePlatformAd = native;
+                    _nativeAdvancedAd = native;
 
                     OnAdsLoadAvailable();
 
@@ -214,8 +214,8 @@ namespace TheLegends.Base.Ads
             OnClose = null;
             OnAdDismissedFullScreenContent = null;
 
-            NativePlatformDestroy();
-            OnNativePlatformClosed();
+            NativeAdvancedDestroy();
+            OnNativeAdvancedClosed();
         }
 
         public void DelayReloadAd(float time)
@@ -231,18 +231,18 @@ namespace TheLegends.Base.Ads
 
         #region Internal
 
-        private void NativePlatformDestroy()
+        private void NativeAdvancedDestroy()
         {
 #if USE_ADMOB
             try
             {
-                if (NativePlatformAd != null)
+                if (NativeAdvancedAd != null)
                 {
                     CancelReloadAds();
 
                     UnregisterAdEvents();
-                    NativePlatformAd.Destroy();
-                    _nativePlatformAd = null;
+                    NativeAdvancedAd.Destroy();
+                    _nativeAdvancedAd = null;
                 }
             }
             catch (Exception ex)
@@ -252,7 +252,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        private void OnNativePlatformLoadFailed(LoadAdError error)
+        private void OnNativeAdvancedLoadFailed(LoadAdError error)
         {
 #if USE_ADMOB
             var errorDescription = error?.GetMessage();
@@ -263,40 +263,40 @@ namespace TheLegends.Base.Ads
         private void RegisterAdEvents()
         {
 #if USE_ADMOB
-            if (NativePlatformAd == null) return;
+            if (NativeAdvancedAd == null) return;
 
-            NativePlatformAd.OnAdPaid += OnAdsPaid;
-            NativePlatformAd.OnAdClicked += OnNativePlatformClick;
-            NativePlatformAd.OnAdDidRecordImpression += OnNativePlatformImpression;
-            NativePlatformAd.OnVideoStart += OnVideoStart;
-            NativePlatformAd.OnVideoEnd += OnVideoEnd;
-            NativePlatformAd.OnVideoMute += OnVideoMute;
-            NativePlatformAd.OnVideoPlay += OnVideoPlay;
-            NativePlatformAd.OnVideoPause += OnVideoPause;
-            NativePlatformAd.OnAdClosed += OnNativePlatformClosed;
-            NativePlatformAd.OnAdShow += OnNativePlatformShow;
-            NativePlatformAd.OnAdShowedFullScreenContent += OnNativePlatformShowedFullScreenContent;
-            NativePlatformAd.OnAdDismissedFullScreenContent += OnNativePlatformDismissedFullScreenContent;
+            NativeAdvancedAd.OnAdPaid += OnAdsPaid;
+            NativeAdvancedAd.OnAdClicked += OnNativeAdvancedClick;
+            NativeAdvancedAd.OnAdDidRecordImpression += OnNativeAdvancedImpression;
+            NativeAdvancedAd.OnVideoStart += OnVideoStart;
+            NativeAdvancedAd.OnVideoEnd += OnVideoEnd;
+            NativeAdvancedAd.OnVideoMute += OnVideoMute;
+            NativeAdvancedAd.OnVideoPlay += OnVideoPlay;
+            NativeAdvancedAd.OnVideoPause += OnVideoPause;
+            NativeAdvancedAd.OnAdClosed += OnNativeAdvancedClosed;
+            NativeAdvancedAd.OnAdShow += OnNativeAdvancedShow;
+            NativeAdvancedAd.OnAdShowedFullScreenContent += OnNativeAdvancedShowedFullScreenContent;
+            NativeAdvancedAd.OnAdDismissedFullScreenContent += OnNativeAdvancedDismissedFullScreenContent;
 #endif
         }
 
         private void UnregisterAdEvents()
         {
 #if USE_ADMOB
-            if (NativePlatformAd == null) return;
+            if (NativeAdvancedAd == null) return;
 
-            NativePlatformAd.OnAdPaid -= OnAdsPaid;
-            NativePlatformAd.OnAdClicked -= OnNativePlatformClick;
-            NativePlatformAd.OnAdDidRecordImpression -= OnNativePlatformImpression;
-            NativePlatformAd.OnVideoStart -= OnVideoStart;
-            NativePlatformAd.OnVideoEnd -= OnVideoEnd;
-            NativePlatformAd.OnVideoMute -= OnVideoMute;
-            NativePlatformAd.OnVideoPlay -= OnVideoPlay;
-            NativePlatformAd.OnVideoPause -= OnVideoPause;
-            NativePlatformAd.OnAdClosed -= OnNativePlatformClosed;
-            NativePlatformAd.OnAdShow -= OnNativePlatformShow;
-            NativePlatformAd.OnAdShowedFullScreenContent -= OnNativePlatformShowedFullScreenContent;
-            NativePlatformAd.OnAdDismissedFullScreenContent -= OnNativePlatformDismissedFullScreenContent;
+            NativeAdvancedAd.OnAdPaid -= OnAdsPaid;
+            NativeAdvancedAd.OnAdClicked -= OnNativeAdvancedClick;
+            NativeAdvancedAd.OnAdDidRecordImpression -= OnNativeAdvancedImpression;
+            NativeAdvancedAd.OnVideoStart -= OnVideoStart;
+            NativeAdvancedAd.OnVideoEnd -= OnVideoEnd;
+            NativeAdvancedAd.OnVideoMute -= OnVideoMute;
+            NativeAdvancedAd.OnVideoPlay -= OnVideoPlay;
+            NativeAdvancedAd.OnVideoPause -= OnVideoPause;
+            NativeAdvancedAd.OnAdClosed -= OnNativeAdvancedClosed;
+            NativeAdvancedAd.OnAdShow -= OnNativeAdvancedShow;
+            NativeAdvancedAd.OnAdShowedFullScreenContent -= OnNativeAdvancedShowedFullScreenContent;
+            NativeAdvancedAd.OnAdDismissedFullScreenContent -= OnNativeAdvancedDismissedFullScreenContent;
 #endif
         }
 
@@ -310,7 +310,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        private void OnNativePlatformClick()
+        private void OnNativeAdvancedClick()
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -320,7 +320,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        private void OnNativePlatformImpression(object sender, EventArgs args)
+        private void OnNativeAdvancedImpression(object sender, EventArgs args)
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -365,7 +365,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        protected virtual void OnNativePlatformClosed()
+        protected virtual void OnNativeAdvancedClosed()
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -376,7 +376,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        protected virtual void OnNativePlatformShow()
+        protected virtual void OnNativeAdvancedShow()
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -387,7 +387,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        private void OnNativePlatformShowedFullScreenContent()
+        private void OnNativeAdvancedShowedFullScreenContent()
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -397,7 +397,7 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
-        private void OnNativePlatformDismissedFullScreenContent()
+        private void OnNativeAdvancedDismissedFullScreenContent()
         {
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>

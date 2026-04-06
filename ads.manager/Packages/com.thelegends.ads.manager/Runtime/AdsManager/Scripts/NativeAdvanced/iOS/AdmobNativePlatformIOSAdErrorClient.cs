@@ -8,11 +8,11 @@ namespace TheLegends.Base.Ads
     /// iOS implementation của IAdErrorClient
     /// Simplified approach: Chỉ lưu error message (không có code)
     /// </summary>
-    public class AdmobNativePlatformIOSAdErrorClient : ILoadAdErrorClient
+    public class AdmobNativeAdvancedIOSAdErrorClient : ILoadAdErrorClient
     {
         private readonly string _message;
 
-        public AdmobNativePlatformIOSAdErrorClient(string errorMessage)
+        public AdmobNativeAdvancedIOSAdErrorClient(string errorMessage)
         {
             _message = errorMessage ?? "Unknown error";
         }
@@ -63,7 +63,7 @@ namespace TheLegends.Base.Ads
 
         public override string ToString()
         {
-            return $"AdmobNativePlatformIOSAdErrorClient: {_message}";
+            return $"AdmobNativeAdvancedIOSAdErrorClient: {_message}";
         }
     }
 }

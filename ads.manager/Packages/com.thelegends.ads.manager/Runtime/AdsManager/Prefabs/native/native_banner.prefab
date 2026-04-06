@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 6815567121483938984}
   - component: {fileID: 7423387154921875744}
   - component: {fileID: 3397082321150489071}
-  - component: {fileID: 3386146001185141966}
+  - component: {fileID: 7807689088430519676}
   m_Layer: 5
   m_Name: body
   m_TagString: Untagged
@@ -245,7 +245,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Body
---- !u!114 &3386146001185141966
+--- !u!114 &7807689088430519676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,9 +254,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4031379671054873386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 5
 --- !u!1 &4085331677399550234
 GameObject:
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8996386439651588009}
   - component: {fileID: 7283529527417166818}
-  - component: {fileID: 4648646969822463948}
+  - component: {fileID: 3155993087882539104}
   m_Layer: 5
   m_Name: native_ad_view
   m_TagString: Untagged
@@ -303,7 +303,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4085331677399550234}
   m_CullTransparentMesh: 1
---- !u!114 &4648646969822463948
+--- !u!114 &3155993087882539104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,9 +312,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4085331677399550234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 0
 --- !u!1 &4499082068743309835
 GameObject:
@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 5842285234216174142}
   - component: {fileID: 7991428209677626033}
   - component: {fileID: 808419438915948697}
-  - component: {fileID: 1919759869844238825}
+  - component: {fileID: 1972379996173099058}
   m_Layer: 5
   m_Name: background
   m_TagString: Untagged
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1919759869844238825
+--- !u!114 &1972379996173099058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,9 +480,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6771689058196526276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 13
 --- !u!1 &7189891655536667492
 GameObject:
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 5587174487085732665}
   - component: {fileID: 6216479554044824400}
   - component: {fileID: 6077595755700200331}
-  - component: {fileID: 6210161548672005144}
+  - component: {fileID: 7597121422367272800}
   m_Layer: 5
   m_Name: icon
   m_TagString: Untagged
@@ -560,7 +560,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6210161548672005144
+--- !u!114 &7597121422367272800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,9 +569,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7189891655536667492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 4
 --- !u!1 &8752593707894207428
 GameObject:
@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 557879918591904399}
   - component: {fileID: 4965188280419515236}
   - component: {fileID: 6477718632737356167}
-  - component: {fileID: 5801326896344840252}
+  - component: {fileID: 8716220963895399175}
   m_Layer: 5
   m_Name: label
   m_TagString: Untagged
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 8
---- !u!114 &5801326896344840252
+--- !u!114 &8716220963895399175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -659,9 +659,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8752593707894207428}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 10
 --- !u!1 &9017178480274198551
 GameObject:
@@ -674,7 +674,7 @@ GameObject:
   - component: {fileID: 1786022440749158757}
   - component: {fileID: 1395905618992570455}
   - component: {fileID: 1283973449563463082}
-  - component: {fileID: 6625721363196206536}
+  - component: {fileID: 7121443194483764441}
   m_Layer: 5
   m_Name: headline
   m_TagString: Untagged
@@ -743,7 +743,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Headline
---- !u!114 &6625721363196206536
+--- !u!114 &7121443194483764441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -752,9 +752,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9017178480274198551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 1
 --- !u!1 &9182848927639612986
 GameObject:
@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 4046224654580783532}
   - component: {fileID: 5655294559667366779}
   - component: {fileID: 6995388469265007432}
-  - component: {fileID: 8911746323084700141}
+  - component: {fileID: 7471339767529815906}
   m_Layer: 5
   m_Name: call_to_action
   m_TagString: Untagged
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8911746323084700141
+--- !u!114 &7471339767529815906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -842,7 +842,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9182848927639612986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d1cb8a4967734ab42edc1dc6b2a88, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a6df472edc476149abeb9327f70b8a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeDynamicUI.DynamicNativeMark
+  m_EditorClassIdentifier: com.thelegends.ads.manager::TheLegends.Base.Ads.NativeAdLayoutMark
   elementTag: 2

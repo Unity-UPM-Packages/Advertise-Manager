@@ -6,11 +6,11 @@ using GoogleMobileAds.Common;
 
 namespace TheLegends.Base.Ads
 {
-    public class AdmobNativePlatform
+    public class AdmobNativeAdvanced
     {
-        private readonly IAdmobNativePlatformClient _client;
+        private readonly IAdmobNativeAdvancedClient _client;
 
-        private AdmobNativePlatform(IAdmobNativePlatformClient client)
+        private AdmobNativeAdvanced(IAdmobNativeAdvancedClient client)
         {
             _client = client;
             RegisterAdEvents();
@@ -29,7 +29,7 @@ namespace TheLegends.Base.Ads
         public event Action OnAdShowedFullScreenContent;
         public event Action OnAdDismissedFullScreenContent;
 
-        public static void Load(string adUnitId, AdRequest request, Action<AdmobNativePlatform, LoadAdError> adLoadCallback)
+        public static void Load(string adUnitId, AdRequest request, Action<AdmobNativeAdvanced, LoadAdError> adLoadCallback)
         {
             if (adLoadCallback == null)
             {
@@ -37,12 +37,12 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            IAdmobNativePlatformClient client;
+            IAdmobNativeAdvancedClient client;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            client = new AdmobNativePlatformAndroidClient();
+            client = new AdmobNativeAdvancedAndroidClient();
 #elif UNITY_IOS && !UNITY_EDITOR
-            client = new AdmobNativePlatformIOSClient();
+            client = new AdmobNativeAdvancedIOSClient();
 #else
             client = new DummyNativeClient();
 #endif
@@ -52,7 +52,7 @@ namespace TheLegends.Base.Ads
 
             client.OnAdLoaded += (sender, args) =>
             {
-                adLoadCallback(new AdmobNativePlatform(client), null);
+                adLoadCallback(new AdmobNativeAdvanced(client), null);
             };
 
             client.OnAdFailedToLoad += (sender, args) =>
