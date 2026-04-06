@@ -43,9 +43,10 @@ namespace TheLegends.Base.Ads
         public float bottom;
         public float right;
         public float top;
-        public ImageBorderConfig(float left, float bottom, float right, float top)
+        public float ppuMultiplier;
+        public ImageBorderConfig(float left, float bottom, float right, float top, float ppuMultiplier = 1.0f)
         {
-            this.left = left; this.bottom = bottom; this.right = right; this.top = top;
+            this.left = left; this.bottom = bottom; this.right = right; this.top = top; this.ppuMultiplier = ppuMultiplier;
         }
         public ImageBorderConfig() { }
     }
@@ -88,5 +89,8 @@ namespace TheLegends.Base.Ads
         public bool isBold;
         public bool isItalic;
         public float lineSpacing;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public RectTransformConfig rectTransform;
     }
 }
