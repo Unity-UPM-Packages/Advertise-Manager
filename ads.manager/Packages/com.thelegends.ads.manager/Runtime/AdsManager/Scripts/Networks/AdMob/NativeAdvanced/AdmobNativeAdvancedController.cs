@@ -257,6 +257,8 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             var errorDescription = error?.GetMessage();
             OnAdsLoadFailed(errorDescription);
+
+            _showStratery.OnAdLoadFailed(this);
 #endif
         }
 

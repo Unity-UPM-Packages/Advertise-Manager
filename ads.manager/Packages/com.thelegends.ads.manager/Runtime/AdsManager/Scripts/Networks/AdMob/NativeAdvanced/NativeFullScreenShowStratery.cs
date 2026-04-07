@@ -18,6 +18,11 @@ namespace TheLegends.Base.Ads
 
         }
 
+        public void OnAdLoadFailed(AdmobNativeAdvancedController advancedController)
+        {
+
+        }
+
         private void Awake()
         {
             _helper = GetComponent<INativeAdvancedHelper>();

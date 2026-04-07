@@ -7,5 +7,6 @@ namespace TheLegends.Base.Ads
         NativeLayer ZLayer { get; }
         void ExecuteShow(AdmobNativeAdvancedController advancedController);
         void OnAdLoaded(AdmobNativeAdvancedController advancedController);
+        void OnAdLoadFailed(AdmobNativeAdvancedController advancedController);
     }
 }
