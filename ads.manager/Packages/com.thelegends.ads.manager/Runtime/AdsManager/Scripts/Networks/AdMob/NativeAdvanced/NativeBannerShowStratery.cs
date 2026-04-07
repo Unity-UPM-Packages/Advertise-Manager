@@ -47,6 +47,14 @@ namespace TheLegends.Base.Ads
             }
         }
 
+        public void OnAdLoadFailed(AdmobNativeAdvancedController advancedController)
+        {
+            if (advancedController.Status == AdsEvents.LoadNotAvailable)
+            {
+                advancedController.DelayReloadAd(AdsManager.Instance.adsConfigs.adTimeReload);
+            }
+        }
+
         public void SetTimeReload(float time)
         {
             _autoReloadTime = time;
