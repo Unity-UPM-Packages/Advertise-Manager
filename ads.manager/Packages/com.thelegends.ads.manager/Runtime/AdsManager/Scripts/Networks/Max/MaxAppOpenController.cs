@@ -130,7 +130,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsShowSuccess();
 
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
         }
 
@@ -173,7 +173,7 @@ namespace TheLegends.Base.Ads
                 {
                     OnClose?.Invoke();
                     OnClose = null;
-                    AdsManager.Instance.OnFullScreenAdsClosed();
+                    // AdsManager.Instance.OnFullScreenAdsClosed();
                 });
 
                 OnAdsClosed();
