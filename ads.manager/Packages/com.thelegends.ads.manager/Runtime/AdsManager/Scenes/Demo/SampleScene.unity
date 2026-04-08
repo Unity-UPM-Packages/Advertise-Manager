@@ -8552,6 +8552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: native_banner
       objectReference: {fileID: 0}
+    - target: {fileID: 1221638076664175534, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2143776759205730178, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

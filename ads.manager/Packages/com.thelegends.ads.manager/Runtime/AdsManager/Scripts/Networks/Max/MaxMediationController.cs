@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Reflection;
 #if UNITY_IOS
 using UnityEngine.iOS;
 #endif
@@ -236,6 +237,34 @@ namespace TheLegends.Base.Ads
             {
                 mrec.HideAds();
             }
+#endif
+        }
+
+        public override void RegisterNativeAdvanced(AdsPlacementBase nativeAdvancedController)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            AdsManager.Instance.LogWarning($"{TagLog.MAX} {MethodBase.GetCurrentMethod().Name} NativeAdvanced is not supported in Max");
+#endif
+        }
+
+        public override void LoadNativeAdvanced(PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            AdsManager.Instance.LogWarning($"{TagLog.MAX} {MethodBase.GetCurrentMethod().Name} NativeAdvanced is not supported in Max");
+#endif
+        }
+
+        public override void ShowNativeAdvanced(PlacementOrder order, string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            AdsManager.Instance.LogWarning($"{TagLog.MAX} {MethodBase.GetCurrentMethod().Name} NativeAdvanced is not supported in Max");
+#endif
+        }
+
+        public override void HideNativeAdvanced(PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            AdsManager.Instance.LogWarning($"{TagLog.MAX} {MethodBase.GetCurrentMethod().Name} NativeAdvanced is not supported in Max");
 #endif
         }
 
