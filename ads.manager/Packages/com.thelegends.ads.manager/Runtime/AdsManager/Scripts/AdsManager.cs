@@ -400,6 +400,65 @@ namespace TheLegends.Base.Ads
 
         #endregion
 
+        #region Native Advanced
+
+        public void RegisterNativeAdvanced(AdsPlacementBase nativeAdvancedController)
+        {
+            if (!IsInitialized())
+            {
+                return;
+            }
+
+            foreach (var mediation in adsMediations)
+            {
+                mediation.RegisterNativeAdvanced(nativeAdvancedController);
+            }
+        }
+
+        public void LoadNativeAdvanced(PlacementOrder order)
+        {
+            if (!IsInitialized())
+            {
+                return;
+            }
+
+            foreach (var mediation in adsMediations)
+            {
+                mediation.LoadNativeAdvanced(order);
+            }
+
+        }
+
+        public void ShowNativeAdvanced(PlacementOrder order, string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        {
+            if (!IsInitialized())
+            {
+                return;
+            }
+
+            var mediation = GetMediationToShow(AdsType.NativeAdvanced, order);
+
+            if (mediation != null)
+            {
+                mediation.ShowNativeAdvanced(order, showPosition, OnShow, OnClose, OnAdDismissedFullScreenContent);
+            }
+        }
+
+        public void HideNativeAdvanced(PlacementOrder order)
+        {
+            if (!IsInitialized())
+            {
+                return;
+            }
+
+            foreach (var mediation in adsMediations)
+            {
+                mediation.HideNativeAdvanced(order);
+            }
+        }
+
+        #endregion
+
         #region Common
 
         public void SetStatus(AdsMediation AdsMediation, AdsType adsType, string adsUnitID, string position, AdsEvents adEvent)

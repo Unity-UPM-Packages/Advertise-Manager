@@ -34,11 +34,11 @@ namespace TheLegends.Base.Ads
         private List<AdmobMrecController> mrecList = new List<AdmobMrecController>();
         private List<AdmobMrecOpenController> mrecOpenList = new List<AdmobMrecOpenController>();
         private List<AdmobInterstitialOpenController> interOpenList = new List<AdmobInterstitialOpenController>();
+        public List<AdmobNativeAdvancedController> nativeAdvancedList = new List<AdmobNativeAdvancedController>();
 
         private readonly List<string> excludedIdFields = new List<string>
         {
             "nativeUnityIds",
-            "nativeAdvancedIds"
         };
 
         public override IEnumerator DoInit()
@@ -385,6 +385,9 @@ namespace TheLegends.Base.Ads
                 case AdsType.AppOpen:
                     orderIndex = GetPlacementIndex((int)order, appOpenList.Count);
                     break;
+                case AdsType.NativeAdvanced:
+                    orderIndex = GetPlacementIndex((int)order, nativeAdvancedList.Count);
+                    break;
                 default:
                     return false;
             }
@@ -410,6 +413,8 @@ namespace TheLegends.Base.Ads
                     return mrecOpenList[orderIndex].IsAdsReady();
                 case AdsType.AppOpen:
                     return appOpenList[orderIndex].IsAdsReady();
+                case AdsType.NativeAdvanced:
+                    return nativeAdvancedList[orderIndex].IsAdsReady();
                 default:
                     return false;
             }
@@ -445,6 +450,9 @@ namespace TheLegends.Base.Ads
                     break;
                 case AdsType.AppOpen:
                     orderIndex = GetPlacementIndex((int)order, appOpenList.Count);
+                    break;
+                case AdsType.NativeAdvanced:
+                    orderIndex = GetPlacementIndex((int)order, nativeAdvancedList.Count);
                     break;
                 default:
                     return false;
@@ -495,6 +503,8 @@ namespace TheLegends.Base.Ads
                     return mrecOpenList.Cast<AdsPlacementBase>().ToList();
                 case AdsType.InterOpen:
                     return interOpenList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.NativeAdvanced:
+                    return nativeAdvancedList.Cast<AdsPlacementBase>().ToList();
                 default:
                     return null;
             }
@@ -801,6 +811,81 @@ namespace TheLegends.Base.Ads
             {
                 mrec.HideAds();
             }
+#endif
+        }
+
+        public override void RegisterNativeAdvanced(AdsPlacementBase nativeAdvancedController)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
+
+            if (nativeAdvancedController is AdmobNativeAdvancedController admobNativeAdvancedController)
+            {
+                nativeAdvancedList.Add(admobNativeAdvancedController);
+                nativeAdvancedList = nativeAdvancedList.OrderBy(x => x.Order).ToList();
+            }
+#endif
+        }
+
+        public override void LoadNativeAdvanced(PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
+
+            if (!IsListExist(nativeAdvancedList))
+            {
+                return;
+            }
+
+            var placementIndex = GetPlacementIndex((int)order, nativeAdvancedList.Count);
+
+            if (placementIndex == -1)
+            {
+                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeAdvanced"} {order} is not exist");
+                return;
+            }
+
+            nativeAdvancedList[placementIndex].LoadAds();
+#endif
+        }
+
+        public override void ShowNativeAdvanced(PlacementOrder order, string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
+
+            if (!IsListExist(nativeAdvancedList))
+            {
+                return;
+            }
+
+            var placementIndex = GetPlacementIndex((int)order, nativeAdvancedList.Count);
+
+            if (placementIndex == -1)
+            {
+                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeAdvanced"} {order} is not exist");
+                return;
+            }
+
+            nativeAdvancedList[placementIndex].ShowAds(showPosition, OnShow, OnClose, OnAdDismissedFullScreenContent);
+#endif
+        }
+
+        public override void HideNativeAdvanced(PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
+
+            if (!IsListExist(nativeAdvancedList))
+            {
+                return;
+            }
+
+            var placementIndex = GetPlacementIndex((int)order, nativeAdvancedList.Count);
+
+            if (placementIndex == -1)
+            {
+                AdsManager.Instance.LogError($"{TagLog.ADMOB} {"NativeAdvanced"} {order} is not exist");
+                return;
+            }
+
+            nativeAdvancedList[placementIndex].HideAds();
 #endif
         }
 
