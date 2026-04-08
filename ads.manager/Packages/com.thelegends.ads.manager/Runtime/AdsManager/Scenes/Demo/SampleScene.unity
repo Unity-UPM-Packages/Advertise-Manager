@@ -8540,6 +8540,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1160573460}
     m_Modifications:
+    - target: {fileID: 287392988365965340, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
+      propertyPath: _order
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 808419438915948697, guid: 4d8ef0ed18c665147a345aa323e6b3d1, type: 3}
       propertyPath: m_Color.a
       value: 0.39215687
@@ -8721,6 +8725,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7623562681944101422, guid: 96059f8b5d596f74dbcf26f92fa83245, type: 3}
+      propertyPath: _order
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8822336250204518649, guid: 96059f8b5d596f74dbcf26f92fa83245, type: 3}
       propertyPath: m_Name
       value: native_video
@@ -8829,6 +8837,10 @@ PrefabInstance:
     - target: {fileID: 2219491742314284916, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5611678809965505062, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
+      propertyPath: _order
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

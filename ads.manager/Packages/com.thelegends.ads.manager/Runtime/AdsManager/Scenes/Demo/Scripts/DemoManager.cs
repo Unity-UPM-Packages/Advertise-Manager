@@ -262,27 +262,41 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeBannerPlatform()
     {
 #if USE_ADMOB
-        nativeBannerAdvanced.LoadAds();
+        AdsManager.Instance.LoadNativeAdvanced(PlacementOrder.Three);
+        // nativeBannerAdvanced.LoadAds();
 #endif
     }
 
     public void ShowNativeBannerPlatform()
     {
 #if USE_ADMOB
-        nativeBannerAdvanced.ShowAds(() =>
+        if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAdvanced, PlacementOrder.Three) == AdsEvents.LoadAvailable)
         {
-            AdsManager.Instance.Log("NativeBanner show");
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeBanner closed");
-        });
+            AdsManager.Instance.ShowNativeAdvanced(PlacementOrder.One, "Default", () =>
+            {
+                AdsManager.Instance.Log("NativeBanner show");
+            }, () =>
+            {
+                AdsManager.Instance.Log("NativeBanner closed");
+            });
+        }
+
+
+        // nativeBannerAdvanced.ShowAds(() =>
+        // {
+        //     AdsManager.Instance.Log("NativeBanner show");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBanner closed");
+        // });
 #endif
     }
 
     public void HideNativeBannerPlatform()
     {
 #if USE_ADMOB
-        nativeBannerAdvanced.HideAds();
+        AdsManager.Instance.HideNativeAdvanced(PlacementOrder.Three);
+        // nativeBannerAdvanced.HideAds();
 #endif
     }
 
