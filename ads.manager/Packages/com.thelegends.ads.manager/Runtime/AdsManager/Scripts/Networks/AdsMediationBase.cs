@@ -31,6 +31,11 @@ namespace TheLegends.Base.Ads
         public abstract void HideAllBanner();
         public abstract void HideAllMrec();
 
+        public abstract void RegisterNativeAdvanced(AdsPlacementBase nativeAdvancedController);
+        public abstract void LoadNativeAdvanced(PlacementOrder order);
+        public abstract void ShowNativeAdvanced(PlacementOrder order, string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null);
+        public abstract void HideNativeAdvanced(PlacementOrder order);
+
         public abstract AdsEvents GetAdsStatus(AdsType adsType, PlacementOrder order);
 
         public virtual int GetPlacementInfo(AdsType adsType, out List<PlacementOrder> placementOrders)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using GoogleMobileAds.Api;
 using UnityEngine;
 
@@ -75,7 +76,19 @@ namespace TheLegends.Base.Ads
             var placementIndex = Mathf.Clamp((int)_order - 1, 0, list.Count - 1);
             placement = list[placementIndex];
 
+            StartCoroutine(IEInit(placement, _order));
+        }
+
+        private IEnumerator IEInit(Placement placement, PlacementOrder order)
+        {
+            while (!AdsManager.Instance.IsInitialized())
+            {
+                yield return null;
+            }
+
             Init(placement, _order);
+
+            AdsManager.Instance.RegisterNativeAdvanced(this);
 
             NativeAdAssetManager.InitializeAndCache(this.gameObject);
             this.gameObject.SetActive(false);
