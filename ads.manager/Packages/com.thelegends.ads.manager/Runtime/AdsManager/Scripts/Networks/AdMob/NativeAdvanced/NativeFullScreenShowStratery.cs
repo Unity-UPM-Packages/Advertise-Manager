@@ -13,14 +13,28 @@ namespace TheLegends.Base.Ads
         [SerializeField] private float countdownDurationSeconds = 5f;
         [SerializeField] private float closeButtonDelaySeconds = 2f;
 
-        public void OnAdLoaded(AdmobNativeAdvancedController advancedController)
+        public void OnAdsLoaded(AdmobNativeAdvancedController advancedController)
         {
 
         }
 
-        public void OnAdLoadFailed(AdmobNativeAdvancedController advancedController)
+        public void OnAdsLoadFailed(AdmobNativeAdvancedController advancedController)
         {
 
+        }
+
+        public void OnAdsClosed(AdmobNativeAdvancedController advancedController)
+        {
+#if USE_DATABUCKETS
+            DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
+            {
+                { "ad_format", AdsType.ToString() },
+                { "ad_platform", AdsMediation.ToString() },
+                { "ad_network", networkName},
+                { "ad_unit_id", adsUnitID },
+                { "placement", position}
+            });
+#endif
         }
 
         private void Awake()

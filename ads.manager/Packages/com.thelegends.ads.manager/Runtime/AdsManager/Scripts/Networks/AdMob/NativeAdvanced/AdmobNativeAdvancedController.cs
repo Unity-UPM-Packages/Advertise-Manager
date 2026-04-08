@@ -123,8 +123,6 @@ namespace TheLegends.Base.Ads
 
             AdRequest request = new AdRequest();
 
-            Debug.Log("LoadAds: " + adsUnitID);
-
             AdmobNativeAdvanced.Load(adsUnitID.Trim(), request, (native, error) =>
             {
                 PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -168,7 +166,7 @@ namespace TheLegends.Base.Ads
 
                     adsUnitIDIndex = 0;
 
-                    _showStratery.OnAdLoaded(this);
+                    _showStratery.OnAdsLoaded(this);
 
 
                 });
@@ -271,7 +269,7 @@ namespace TheLegends.Base.Ads
             var errorDescription = error?.GetMessage();
             OnAdsLoadFailed(errorDescription);
 
-            _showStratery.OnAdLoadFailed(this);
+            _showStratery.OnAdsLoadFailed(this);
 #endif
         }
 
