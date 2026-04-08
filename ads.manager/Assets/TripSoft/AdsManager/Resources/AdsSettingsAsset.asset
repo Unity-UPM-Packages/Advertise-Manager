@@ -32,14 +32,6 @@ MonoBehaviour:
     preloadRewarded: 0
     preloadMREC: 0
     preloadAppOpen: 0
-    nativeAds:
-      preloadNativeBanner: 0
-      preloadNativeOverlay: 0
-      preloadNativeInter: 0
-      preloadNativeReward: 0
-      preloadNativeMrec: 0
-      preloadNativeAppOpen: 0
-      preloadNativeVideo: 0
   showIRON: 0
   ironAndroidAppKey: 
   ironIOSAppKey: 
@@ -77,15 +69,6 @@ MonoBehaviour:
     interOpenIds: []
     mrecOpenIds: []
     nativeUnityIds: []
-    nativeOverlayIds: []
-    nativeBannerIds: []
-    nativeInterIds: []
-    nativeRewardIds: []
-    nativeMrecIds: []
-    nativeAppOpenIds: []
-    nativeInterOpenIds: []
-    nativeMrecOpenIds: []
-    nativeVideoIds: []
     nativeAdvancedIds: []
   ADMOB_IOS:
     bannerIds: []
@@ -96,15 +79,6 @@ MonoBehaviour:
     interOpenIds: []
     mrecOpenIds: []
     nativeUnityIds: []
-    nativeOverlayIds: []
-    nativeBannerIds: []
-    nativeInterIds: []
-    nativeRewardIds: []
-    nativeMrecIds: []
-    nativeAppOpenIds: []
-    nativeInterOpenIds: []
-    nativeMrecOpenIds: []
-    nativeVideoIds: []
     nativeAdvancedIds: []
   ADMOB_Android_Test:
     bannerIds:
@@ -131,32 +105,6 @@ MonoBehaviour:
     nativeUnityIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
-    nativeOverlayIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeBannerIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeInterIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeRewardIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeMrecIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeAppOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeInterOpenIds:
-    - stringIDs: []
-    nativeMrecOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
-    nativeVideoIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/1044960115
     nativeAdvancedIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
@@ -185,33 +133,6 @@ MonoBehaviour:
     nativeUnityIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511
-    nativeOverlayIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeBannerIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeInterIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeRewardIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeMrecIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeAppOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeInterOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeMrecOpenIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/3986624511
-    nativeVideoIds:
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2521693316
     nativeAdvancedIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511

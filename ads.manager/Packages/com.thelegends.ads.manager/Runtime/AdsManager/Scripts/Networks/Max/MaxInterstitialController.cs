@@ -129,7 +129,7 @@ namespace TheLegends.Base.Ads
                 if (adUnitId != adsUnitID) return;
 
                 OnAdsShowSuccess();
-                AdsManager.Instance.OnFullScreenAdsShow();
+                // AdsManager.Instance.OnFullScreenAdsShow();
             });
         }
 
@@ -165,7 +165,7 @@ namespace TheLegends.Base.Ads
                 {
                     OnClose?.Invoke();
                     OnClose = null;
-                    AdsManager.Instance.OnFullScreenAdsClosed();
+                    // AdsManager.Instance.OnFullScreenAdsClosed();
                 });
 
                 MaxSdkCallbacks.Interstitial.OnAdLoadedEvent -= OnInterstitialLoadedEvent;
