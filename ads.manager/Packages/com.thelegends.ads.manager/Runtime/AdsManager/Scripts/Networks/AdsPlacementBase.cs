@@ -298,6 +298,9 @@ namespace TheLegends.Base.Ads
                 case AdsType.AppOpen:
                     isPreload = settings.preloadAppOpen;
                     break;
+                case AdsType.NativeAdvanced:
+                    isPreload = settings.preloadNativeAdvanced;
+                    break;
             }
 
             if (isPreload)

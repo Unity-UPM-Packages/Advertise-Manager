@@ -39,7 +39,7 @@ namespace TheLegends.Base.Ads
 
         }
 
-        public void OnAdLoaded(AdmobNativeAdvancedController advancedController)
+        public void OnAdsLoaded(AdmobNativeAdvancedController advancedController)
         {
             if (_isShowOnLoaded)
             {
@@ -47,12 +47,17 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public void OnAdLoadFailed(AdmobNativeAdvancedController advancedController)
+        public void OnAdsLoadFailed(AdmobNativeAdvancedController advancedController)
         {
             if (advancedController.Status == AdsEvents.LoadNotAvailable)
             {
                 advancedController.DelayReloadAd(AdsManager.Instance.adsConfigs.adTimeReload);
             }
+        }
+
+        public void OnAdsClosed(AdmobNativeAdvancedController advancedController)
+        {
+
         }
 
         public void SetTimeReload(float time)

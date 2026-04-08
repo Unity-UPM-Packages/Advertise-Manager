@@ -180,5 +180,6 @@ public class PreloadSettings
     public bool preloadRewarded = false;
     public bool preloadMREC = false;
     public bool preloadAppOpen = false;
+    public bool preloadNativeAdvanced = false;
 }
 
