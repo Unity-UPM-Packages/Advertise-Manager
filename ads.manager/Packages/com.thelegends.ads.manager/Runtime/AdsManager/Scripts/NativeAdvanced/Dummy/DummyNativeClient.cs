@@ -89,11 +89,6 @@ namespace TheLegends.Base.Ads
             Debug.Log("DummyNativeClient: WithShowOnLoaded");
         }
 
-        public void WithPosition(int positionX, int positionY)
-        {
-            Debug.Log("DummyNativeClient: WithPosition " + positionX + "x" + positionY);
-        }
-
         public void WithLayoutJson(string jsonPayload)
         {
             Debug.Log("DummyNativeClient: WithLayoutJson");

@@ -75,11 +75,6 @@ namespace TheLegends.Base.Ads
             _client?.WithCountdown(initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
-        public void WithPosition(int positionX, int positionY)
-        {
-            _client?.WithPosition(positionX, positionY);
-        }
-
         public float GetWidthInPixels()
         {
             return _client?.GetWidthInPixels() ?? -1f;
@@ -94,7 +89,6 @@ namespace TheLegends.Base.Ads
         {
             _client?.updateAdViewSize(width, height);
         }
-
         public void WithLayoutJson(string jsonPayload)
         {
             _client?.WithLayoutJson(jsonPayload);
