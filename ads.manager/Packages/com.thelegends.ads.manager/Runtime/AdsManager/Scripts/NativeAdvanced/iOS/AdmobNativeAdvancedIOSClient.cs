@@ -73,7 +73,10 @@ namespace TheLegends.Base.Ads
         private static extern void AdmobNative_WithCountdown(IntPtr handle, float initial, float duration, float closeDelay);
 
         [DllImport("__Internal")]
-        private static extern void AdmobNative_WithPosition(IntPtr handle, int x, int y);
+        private static extern void AdmobNative_WithLayoutJson(IntPtr handle, string jsonPayload);
+
+        [DllImport("__Internal")]
+        private static extern void AdmobNative_WithZLayer(IntPtr handle, string zLayer);
 
         [DllImport("__Internal")]
         private static extern float AdmobNative_GetWidthInPixels(IntPtr handle);
@@ -202,26 +205,16 @@ namespace TheLegends.Base.Ads
             AdmobNative_WithCountdown(_nativeControllerPtr, initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
-        public void WithPosition(int positionX, int positionY)
-        {
-            if (_nativeControllerPtr == IntPtr.Zero)
-            {
-                Debug.LogError("AdmobNativeAdvancedIOSClient: Controller not initialized");
-                return;
-            }
-
-            Debug.Log($"AdmobNativeAdvancedIOSClient: WithPosition({positionX}, {positionY})");
-            AdmobNative_WithPosition(_nativeControllerPtr, positionX, positionY);
-        }
-
         public void WithLayoutJson(string jsonPayload)
         {
-            // TODO (Stage 8): Implement iOS DllImport AdmobNative_WithLayoutJson
+            if (_nativeControllerPtr == IntPtr.Zero) return;
+            AdmobNative_WithLayoutJson(_nativeControllerPtr, jsonPayload);
         }
 
         public void WithZLayer(string zLayer)
         {
-            // TODO (Stage 8): Implement iOS DllImport AdmobNative_WithZLayer
+            if (_nativeControllerPtr == IntPtr.Zero) return;
+            AdmobNative_WithZLayer(_nativeControllerPtr, zLayer);
         }
 
         // MARK: - MonoPInvokeCallback Methods (Static callbacks từ native)

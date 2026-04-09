@@ -75,11 +75,6 @@ namespace TheLegends.Base.Ads
             _client?.WithCountdown(initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
-        public void WithPosition(int positionX, int positionY)
-        {
-            _client?.WithPosition(positionX, positionY);
-        }
-
         public void WithLayoutJson(string jsonPayload)
         {
             _client?.WithLayoutJson(jsonPayload);
