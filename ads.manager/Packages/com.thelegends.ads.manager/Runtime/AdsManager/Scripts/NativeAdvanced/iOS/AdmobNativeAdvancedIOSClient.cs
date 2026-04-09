@@ -163,12 +163,7 @@ namespace TheLegends.Base.Ads
             }
 
             Debug.Log("AdmobNativeAdvancedIOSClient: Destroying ad");
-            AdmobNative_Destroy(_nativeControllerPtr);
-            if (_instances.ContainsKey(_nativeControllerPtr))
-            {
-                _instances.Remove(_nativeControllerPtr);
-            }
-            _nativeControllerPtr = IntPtr.Zero;
+            AdmobNative_DestroyAd(_nativeControllerPtr);
         }
 
         public bool IsAdAvailable()
