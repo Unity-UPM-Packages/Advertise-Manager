@@ -56,11 +56,6 @@ namespace TheLegends.Base.Ads
             _kotlinController?.Call<AndroidJavaObject>("withCountdown", initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
-        public void WithPosition(int positionX, int positionY)
-        {
-            _kotlinController?.Call<AndroidJavaObject>("withPosition", positionX, positionY);
-        }
-
         public void WithLayoutJson(string jsonPayload)
         {
             _kotlinController?.Call<AndroidJavaObject>("withLayoutJson", jsonPayload);
