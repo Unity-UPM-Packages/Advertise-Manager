@@ -405,7 +405,7 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                OnAdsShowSuccess();
+
             });
 #endif
         }
@@ -415,7 +415,7 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                OnAdDismissedFullScreenContent?.Invoke();
+
             });
 #endif
         }
