@@ -246,6 +246,9 @@ public class DemoManager : MonoBehaviour
             AdsManager.Instance.Log("NativeVideo closed");
         }, () =>
         {
+            AdsManager.Instance.Log("NativeVideo full screen content opened");
+        }, () =>
+        {
             AdsManager.Instance.Log("NativeVideo full screen content closed");
         });
 #endif
