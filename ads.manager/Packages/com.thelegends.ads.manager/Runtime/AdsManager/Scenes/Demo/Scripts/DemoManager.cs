@@ -265,41 +265,41 @@ public class DemoManager : MonoBehaviour
     public void LoadNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.LoadNativeAdvanced(PlacementOrder.Three);
-        // nativeBannerAdvanced.LoadAds();
+        // AdsManager.Instance.LoadNativeAdvanced(PlacementOrder.Three);
+        nativeBannerAdvanced.LoadAds();
 #endif
     }
 
     public void ShowNativeBannerPlatform()
     {
 #if USE_ADMOB
-        if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAdvanced, PlacementOrder.Three) == AdsEvents.LoadAvailable)
+        // if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAdvanced, PlacementOrder.Three) == AdsEvents.LoadAvailable)
+        // {
+        //     AdsManager.Instance.ShowNativeAdvanced(PlacementOrder.One, "Default", () =>
+        //     {
+        //         AdsManager.Instance.Log("NativeBanner show");
+        //     }, () =>
+        //     {
+        //         AdsManager.Instance.Log("NativeBanner closed");
+        //     });
+        // }
+
+
+        nativeBannerAdvanced.ShowAds(() =>
         {
-            AdsManager.Instance.ShowNativeAdvanced(PlacementOrder.One, "Default", () =>
-            {
-                AdsManager.Instance.Log("NativeBanner show");
-            }, () =>
-            {
-                AdsManager.Instance.Log("NativeBanner closed");
-            });
-        }
-
-
-        // nativeBannerAdvanced.ShowAds(() =>
-        // {
-        //     AdsManager.Instance.Log("NativeBanner show");
-        // }, () =>
-        // {
-        //     AdsManager.Instance.Log("NativeBanner closed");
-        // });
+            AdsManager.Instance.Log("NativeBanner show");
+        }, () =>
+        {
+            AdsManager.Instance.Log("NativeBanner closed");
+        });
 #endif
     }
 
     public void HideNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.HideNativeAdvanced(PlacementOrder.Three);
-        // nativeBannerAdvanced.HideAds();
+        // AdsManager.Instance.HideNativeAdvanced(PlacementOrder.Three);
+        nativeBannerAdvanced.HideAds();
 #endif
     }
 
