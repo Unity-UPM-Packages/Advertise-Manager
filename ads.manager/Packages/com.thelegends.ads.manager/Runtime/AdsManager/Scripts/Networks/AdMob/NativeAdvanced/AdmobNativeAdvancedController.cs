@@ -12,6 +12,7 @@ namespace TheLegends.Base.Ads
         private INativeAdvancedShowStrategy _showStratery;
         protected Action OnClose;
         protected Action OnShow;
+        protected Action OnAdShowedFullScreenContent;
         protected Action OnAdDismissedFullScreenContent;
 
         [SerializeField]
@@ -179,12 +180,12 @@ namespace TheLegends.Base.Ads
             ShowAds(position);
         }
 
-        public void ShowAds(Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public void ShowAds(Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null)
         {
-            ShowAds(position, OnShow, OnClose, OnAdDismissedFullScreenContent);
+            ShowAds(position, OnShow, OnClose, OnAdShowedFullScreenContent, OnAdDismissedFullScreenContent);
         }
 
-        public void ShowAds(string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public void ShowAds(string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null)
         {
 #if USE_ADMOB
 
@@ -198,6 +199,7 @@ namespace TheLegends.Base.Ads
 
             this.OnClose = OnClose;
             this.OnShow = OnShow;
+            this.OnAdShowedFullScreenContent = OnAdShowedFullScreenContent;
             this.OnAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
             base.ShowAds(position);
 
@@ -405,7 +407,7 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-
+                OnAdShowedFullScreenContent?.Invoke();
             });
 #endif
         }
@@ -415,7 +417,7 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-
+                OnAdDismissedFullScreenContent?.Invoke();
             });
 #endif
         }
