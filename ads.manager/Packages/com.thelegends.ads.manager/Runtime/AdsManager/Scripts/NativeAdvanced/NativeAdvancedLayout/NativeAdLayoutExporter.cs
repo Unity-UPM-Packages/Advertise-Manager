@@ -202,26 +202,52 @@ namespace TheLegends.Base.Ads
         }
 
         /// <summary>
-        /// Uses Graphics.Blit to copy texture data from potentially non-readable or GPU-stored sprites into a CPU-readable Texture2D.
+        /// Extracts a sprite's pixel data into a new readable Texture2D.
         /// Handles cropping for sprites that are part of a larger atlas.
+        ///
+        /// Strategy:
+        ///  1. PRIMARY: Direct GetPixels (CPU-only, requires Read/Write Enabled on texture)
+        ///     → 100% reliable, no GPU dependency, works on all devices and all Graphics APIs.
+        ///  2. FALLBACK: Graphics.Blit + ReadPixels (GPU-dependent)
+        ///     → Used only when texture is not readable. May fail on some OpenGL ES 3 drivers.
         /// </summary>
         private static Texture2D DuplicateReadableTexture(Sprite sprite)
         {
             Texture2D source = sprite.texture;
             Rect rect = sprite.rect;
+            
+            int x = (int)rect.x;
+            int y = (int)rect.y;
+            int w = (int)rect.width;
+            int h = (int)rect.height;
+
+            // PRIMARY PATH: Direct pixel copy (CPU-only, no GPU involved)
+            if (source.isReadable)
+            {
+                Texture2D readableTex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+                Color[] pixels = source.GetPixels(x, y, w, h);
+                readableTex.SetPixels(pixels);
+                readableTex.Apply();
+                return readableTex;
+            }
+
+            // FALLBACK PATH: GPU-based copy (for textures without Read/Write Enabled)
+            Debug.LogWarning($"[NativeAdLayout] Texture '{source.name}' is not readable. " +
+                             $"Falling back to Graphics.Blit (GPU-dependent). " +
+                             $"Enable Read/Write in texture import settings for reliable results.");
 
             RenderTexture renderTex = RenderTexture.GetTemporary(
                         source.width,
                         source.height,
                         0,
-                        RenderTextureFormat.Default,
-                        RenderTextureReadWrite.Linear);
+                        RenderTextureFormat.ARGB32,
+                        RenderTextureReadWrite.sRGB);
 
             Graphics.Blit(source, renderTex);
             RenderTexture previous = RenderTexture.active;
             RenderTexture.active = renderTex;
 
-            Texture2D readableText = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGBA32, false);
+            Texture2D readableText = new Texture2D(w, h, TextureFormat.RGBA32, false);
             readableText.ReadPixels(new Rect(rect.x, rect.y, rect.width, rect.height), 0, 0);
             readableText.Apply();
 
