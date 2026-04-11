@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
+using UnityEditor.iOS.Xcode.Extensions;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -100,11 +101,18 @@ namespace TheLegends.Base.Ads
                 Debug.Log($"EmbedAdmobNativeFrameworkIOS: Added framework file to project.");
             }
 
+            // Add to UnityFramework target's framework references (so C# code can see the symbols)
+            if (!project.ContainsFramework(frameworkTargetGuid, FRAMEWORK_NAME))
+            {
+                project.AddFrameworkToProject(frameworkTargetGuid, FRAMEWORK_NAME, false);
+                Debug.Log($"EmbedAdmobNativeFrameworkIOS: Linked framework to UnityFramework target.");
+            }
+
             // Add to main target's framework references
             if (!project.ContainsFramework(mainTargetGuid, FRAMEWORK_NAME))
             {
                 project.AddFrameworkToProject(mainTargetGuid, FRAMEWORK_NAME, false);
-                Debug.Log($"EmbedAdmobNativeFrameworkIOS: Added framework to main target.");
+                Debug.Log($"EmbedAdmobNativeFrameworkIOS: Linked framework to Main target.");
             }
 
             // Ensure the framework is in the "Embed Frameworks" build phase (Code & Sign)
