@@ -18,16 +18,10 @@ import _SwiftConcurrencyShims
   #endif
   @objc deinit
 }
-@objc public class PositionDecorator : admob_native_unity.BaseShowBehavior {
-  public init(wrappedBehavior: admob_native_unity.BaseShowBehavior, x: Swift.Int, y: Swift.Int)
-  @objc override public func show(viewController: UIKit.UIViewController, nativeAd: GoogleMobileAds.GADNativeAd, layoutName: Swift.String, callbacks: any admob_native_unity.NativeAdCallbacks)
-  @objc override public func destroy()
-  #if compiler(>=5.3) && $NonescapableTypes
-  override public func getRootView() -> UIKit.UIView?
-  #endif
-  @objc deinit
-}
 @_inheritsConvenienceInitializers @objc public class BaseShowBehavior : ObjectiveC.NSObject, admob_native_unity.IShowBehavior {
+  public var rootView: UIKit.UIView? {
+    get
+  }
   @objc public func show(viewController: UIKit.UIViewController, nativeAd: GoogleMobileAds.GADNativeAd, layoutName: Swift.String, callbacks: any admob_native_unity.NativeAdCallbacks)
   @objc public func destroy()
   #if compiler(>=5.3) && $NonescapableTypes
@@ -65,8 +59,12 @@ public func AdmobNative_ShowAd(_ handle: Swift.UnsafeMutableRawPointer?, _ layou
 public func AdmobNative_WithCountdown(_ handle: Swift.UnsafeMutableRawPointer?, _ initial: Swift.Float, _ duration: Swift.Float, _ closeDelay: Swift.Float)
 #endif
 #if compiler(>=5.3) && $NonescapableTypes
-@_cdecl("AdmobNative_WithPosition")
-public func AdmobNative_WithPosition(_ handle: Swift.UnsafeMutableRawPointer?, _ x: Swift.Int32, _ y: Swift.Int32)
+@_cdecl("AdmobNative_WithLayoutJson")
+public func AdmobNative_WithLayoutJson(_ handle: Swift.UnsafeMutableRawPointer?, _ jsonPayload: Swift.UnsafePointer<Swift.CChar>?)
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_WithZLayer")
+public func AdmobNative_WithZLayer(_ handle: Swift.UnsafeMutableRawPointer?, _ zLayer: Swift.UnsafePointer<Swift.CChar>?)
 #endif
 #if compiler(>=5.3) && $NonescapableTypes
 @_cdecl("AdmobNative_DestroyAd")
@@ -96,6 +94,46 @@ public func AdmobNative_GetResponseId(_ handle: Swift.UnsafeMutableRawPointer?) 
 @_cdecl("AdmobNative_GetMediationAdapterClassName")
 public func AdmobNative_GetMediationAdapterClassName(_ handle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
 #endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_GetLoadedAdapterResponse")
+public func AdmobNative_GetLoadedAdapterResponse(_ handle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafeMutableRawPointer?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_GetAdapterResponsesCount")
+public func AdmobNative_GetAdapterResponsesCount(_ handle: Swift.UnsafeMutableRawPointer?) -> Swift.Int32
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_GetAdapterResponseAt")
+public func AdmobNative_GetAdapterResponseAt(_ handle: Swift.UnsafeMutableRawPointer?, _ index: Swift.Int32) -> Swift.UnsafeMutableRawPointer?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdapterClassName")
+public func AdmobNative_AdapterResponse_GetAdapterClassName(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetLatencyMillis")
+public func AdmobNative_AdapterResponse_GetLatencyMillis(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.Int
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceName")
+public func AdmobNative_AdapterResponse_GetAdSourceName(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceId")
+public func AdmobNative_AdapterResponse_GetAdSourceId(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceInstanceName")
+public func AdmobNative_AdapterResponse_GetAdSourceInstanceName(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceInstanceId")
+public func AdmobNative_AdapterResponse_GetAdSourceInstanceId(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
+#if compiler(>=5.3) && $NonescapableTypes
+@_cdecl("AdmobNative_AdapterResponse_GetAdError")
+public func AdmobNative_AdapterResponse_GetAdError(_ adapterHandle: Swift.UnsafeMutableRawPointer?) -> Swift.UnsafePointer<Swift.CChar>?
+#endif
 @objc public class AdmobNativeController : ObjectiveC.NSObject {
   @objc public init(viewController: UIKit.UIViewController, callbacks: any admob_native_unity.NativeAdCallbacks)
   @objc public func loadAd(adUnitId: Swift.String, request: GoogleMobileAds.GADRequest)
@@ -108,7 +146,9 @@ public func AdmobNative_GetMediationAdapterClassName(_ handle: Swift.UnsafeMutab
   @discardableResult
   @objc public func withCountdown(initial: Swift.Float, duration: Swift.Float, closeDelay: Swift.Float) -> admob_native_unity.AdmobNativeController
   @discardableResult
-  @objc public func withPosition(x: Swift.Int, y: Swift.Int) -> admob_native_unity.AdmobNativeController
+  @objc public func withLayoutJson(_ jsonPayload: Swift.String) -> admob_native_unity.AdmobNativeController
+  @discardableResult
+  @objc public func withZLayer(_ zLayer: Swift.String) -> admob_native_unity.AdmobNativeController
   @objc public func getWidthInPixels() -> CoreFoundation.CGFloat
   @objc public func getHeightInPixels() -> CoreFoundation.CGFloat
   @objc deinit
