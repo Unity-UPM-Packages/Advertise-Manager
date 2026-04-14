@@ -4,13 +4,13 @@
   "description": "Ads Manager description goes here.",
   "keywords": [],
   "version": "1.1.51",
-  "documentationUrl": "https://github.com/Unity-UPM-Packages/Ads-Manager#documentation",
-  "changelogUrl": "https://github.com/Unity-UPM-Packages/Ads-Manager/releases",
+  "documentationUrl": "https://github.com/Unity-UPM-Packages/Advertise-Manager#documentation",
+  "changelogUrl": "https://github.com/Unity-UPM-Packages/Advertise-Manager/releases",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "repository": "https://github.com/Unity-UPM-Packages/Ads-Manager.git",
-    "url": "https://github.com/Unity-UPM-Packages/Ads-Manager.git"
+    "repository": "https://github.com/Unity-UPM-Packages/Advertise-Manager.git",
+    "url": "https://github.com/Unity-UPM-Packages/Advertise-Manager.git"
   },
   "author": {
     "name": "Unity-UPM-Packages",
