@@ -40,11 +40,3 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_TOKEN }}
           VERDACCIO_URL: ${{ secrets.VERDACCIO_URL }}
 
-      - name: Create UPM Branch
-        if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git subtree split --prefix=${{ env.PACKAGE_PATH }} -b upm
-          git push origin upm --force
-
