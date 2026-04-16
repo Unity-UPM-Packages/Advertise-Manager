@@ -1,3 +1,10 @@
+## [1.1.52](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.51...v1.1.52) (2026-04-16)
+
+
+### Bug Fixes
+
+* MAX currency code ([fe15900](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/fe159006d2645ed9278fa68916e9119c77ae347a))
+
 ## [1.1.51](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.50...v1.1.51) (2026-04-01)
 
 
