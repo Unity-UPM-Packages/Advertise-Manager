@@ -1217,7 +1217,7 @@ namespace TheLegends.Base.Ads
                     ad_unit_name = impressionData.AdUnitIdentifier;
                     country = "";
                     revenue = (double)impressionData.Revenue;
-                    currency = MaxSdk.GetSdkConfiguration().CountryCode;
+                    currency = "USD";
 
                     TotalRevenue += revenue;
                     PlayerPrefs.SetString("TotalRevenue", TotalRevenue.ToString(System.Globalization.CultureInfo.InvariantCulture));
