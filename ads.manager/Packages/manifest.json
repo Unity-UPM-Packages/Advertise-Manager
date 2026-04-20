@@ -2,6 +2,7 @@
   "dependencies": {
     "com.thelegends.facebook.manager": "1.0.1",
     "com.thelegends.databuckets.manager": "1.0.0",
+    "com.applovin.mediation.ads": "8.1.0",
     "com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main",
     "com.google.ads.mobile": "9.6.0",
     "com.google.external-dependency-manager": "1.2.187",
