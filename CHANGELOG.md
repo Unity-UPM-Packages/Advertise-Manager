@@ -1,3 +1,10 @@
+## [1.1.53](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.52...v1.1.53) (2026-04-20)
+
+
+### Bug Fixes
+
+* improve get mediation & ad_network name ([0de0aa9](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/0de0aa92fca9e808113fc85385ee92d2f335ead6))
+
 ## [1.1.52](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.51...v1.1.52) (2026-04-16)
 
 
