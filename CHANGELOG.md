@@ -1,3 +1,10 @@
+## [1.1.55](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.54...v1.1.55) (2026-04-20)
+
+
+### Bug Fixes
+
+* correct ad_network admob log impression ([779d6f6](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/779d6f68e23247f8e5632aadd67c86276757848a))
+
 ## [1.1.54](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.53...v1.1.54) (2026-04-20)
 
 
