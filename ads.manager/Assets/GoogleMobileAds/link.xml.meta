@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 6ddf0bd0fad36db4485bd63a37467245
+guid: 338892b22b1d78646895e122b66b8e84
 labels:
 - gvh
-- gvh_version-9.5.0
+- gvh_version-9.6.0
 - gvhp_exportpath-GoogleMobileAds/link.xml
 timeCreated: 1480838400
 DefaultImporter:
-  userData:
-  assetBundleName:
-  assetBundleVariant:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

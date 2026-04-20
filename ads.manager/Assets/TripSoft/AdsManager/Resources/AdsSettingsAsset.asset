@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac567c99f46af0429a8490c3f245152, type: 3}
   m_Name: AdsSettingsAsset
   m_EditorClassIdentifier: 
-  _adsMediations: 04000000ffffffff
-  _flagMediations: 4
-  primaryMediation: 4
+  _adsMediations: 0200000004000000ffffffff
+  _flagMediations: 6
+  primaryMediation: 2
+  useFirebase: 1
+  useAppsFlyer: 1
+  useDatabuckets: 0
   appsFlyerDevKey: Qhno4yJY6KHmZp9uS9DRe4
   appleAppId: 
   admobSheetUrl: 
@@ -43,13 +46,17 @@ MonoBehaviour:
   ironEnableAdmob: 0
   ironAdmobAndroidAppID: 
   ironAdmobIOSAppID: 
-  showMAX: 0
+  showMAX: 1
   isShowMediationDebugger: 0
   MAX_Android:
     bannerIds: []
-    interIds: []
+    interIds:
+    - stringIDs:
+      - c40e29e689bbb824
     interOpenIds: []
-    rewardIds: []
+    rewardIds:
+    - stringIDs:
+      - 83c6863b0014fb20
     mrecIds: []
     mrecOpenIds: []
     appOpenIds: []
