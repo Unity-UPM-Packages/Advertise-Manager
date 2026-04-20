@@ -1,3 +1,7 @@
+#if USE_DATABUCKETS
+using System.Collections.Generic;
+using TheLegends.Base.Databuckets;
+#endif
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -28,11 +32,11 @@ namespace TheLegends.Base.Ads
 #if USE_DATABUCKETS
             DatabucketsManager.Instance.RecordEvent("ad_complete", new Dictionary<string, object>
             {
-                { "ad_format", AdsType.ToString() },
-                { "ad_platform", AdsMediation.ToString() },
-                { "ad_network", networkName},
-                { "ad_unit_id", adsUnitID },
-                { "placement", position}
+                { "ad_format", advancedController.AdsType.ToString() },
+                { "ad_platform", advancedController.AdsMediation.ToString() },
+                { "ad_network", advancedController.GetNetworkName()},
+                { "ad_unit_id", advancedController.GetAdsUnitID() },
+                { "placement", advancedController.GetPosition()}
             });
 #endif
         }

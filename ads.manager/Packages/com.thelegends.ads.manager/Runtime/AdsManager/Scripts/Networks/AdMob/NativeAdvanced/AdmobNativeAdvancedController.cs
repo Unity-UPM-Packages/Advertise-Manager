@@ -387,6 +387,8 @@ namespace TheLegends.Base.Ads
             {
                 OnAdsClosed();
                 OnClose?.Invoke();
+
+                _showStratery.OnAdsClosed(this);
             });
 #endif
         }
@@ -421,6 +423,10 @@ namespace TheLegends.Base.Ads
             });
 #endif
         }
+
+        public string GetNetworkName() => networkName;
+        public string GetAdsUnitID() => adsUnitID;
+        public string GetPosition() => position;
 
         #endregion
 
