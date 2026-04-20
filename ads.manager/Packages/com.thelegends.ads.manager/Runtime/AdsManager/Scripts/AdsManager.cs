@@ -1173,8 +1173,8 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
-                    mediation = "GoogleAdMob";
-                    ad_network = network;
+                    mediation = GetMediationNetwork("GoogleAdMob", "GoogleAdMob");
+                    ad_network = GetMediationNetwork(ad_network, mediation);
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
                     country = "";
@@ -1196,7 +1196,7 @@ namespace TheLegends.Base.Ads
                     { "ad_format", ad_format },
                     { "ad_unit_name", ad_unit_name },
                     { "country", country },
-                    { "revenue", revenue.ToString() },
+                    { "revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
                     { "currency", currency },
                     { "placement", placement }
                 };
@@ -1211,8 +1211,8 @@ namespace TheLegends.Base.Ads
 
                 if (impressionData != null)
                 {
-                    mediation = "ApplovinMax";
-                    ad_network = impressionData.NetworkName;
+                    mediation = GetMediationNetwork("AppLovinMax", "AppLovinMax");
+                    ad_network = GetMediationNetwork(impressionData.NetworkName, mediation);
                     ad_format = impressionData.AdFormat;
                     ad_unit_name = impressionData.AdUnitIdentifier;
                     country = "";
@@ -1232,7 +1232,7 @@ namespace TheLegends.Base.Ads
                     {"ad_format", ad_format},
                     {"ad_unit_name", ad_unit_name},
                     {"country", country },
-                    {"revenue", revenue},
+                    {"revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture)},
                     {"currency", "USD"},
                     {"placement", placement}
                 };
@@ -1257,7 +1257,7 @@ namespace TheLegends.Base.Ads
                 { "ad_format", ad_format },
                 { "ad_unit_name", ad_unit_name },
                 { "country", country },
-                { "revenue", revenue.ToString() },
+                { "revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
                 { "currency", currency },
                 { "placement", placement }
             });
@@ -1339,6 +1339,33 @@ namespace TheLegends.Base.Ads
 
             return isInitialized;
 
+        }
+
+        private string GetMediationNetwork(string rawAdapterName, string fallbackName)
+        {
+            if (string.IsNullOrEmpty(rawAdapterName))
+            {
+                return fallbackName;
+            }
+
+            string lowerName = rawAdapterName.ToLowerInvariant();
+
+            if (lowerName.Contains("admob")) return "googleadmob";
+            if (lowerName.Contains("ironsource")) return "ironsource";
+            if (lowerName.Contains("applovin")) return "applovinmax";
+            if (lowerName.Contains("fyber")) return "fyber";
+            if (lowerName.Contains("appodeal")) return "appodeal";
+            if (lowerName.Contains("admost")) return "admost";
+            if (lowerName.Contains("toponpte")) return "toponpte";
+            if (lowerName.Contains("topon")) return "topon";
+            if (lowerName.Contains("tradplus")) return "tradplus";
+            if (lowerName.Contains("yandex")) return "yandex";
+            if (lowerName.Contains("chartboost")) return "chartboost";
+            if (lowerName.Contains("unity")) return "unity";
+            if (lowerName.Contains("directmonetization")) return "directmonetization";
+            if (lowerName.Contains("custom")) return "custom";
+
+            return fallbackName;
         }
 
         #endregion
