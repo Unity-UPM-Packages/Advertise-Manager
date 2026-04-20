@@ -1174,7 +1174,7 @@ namespace TheLegends.Base.Ads
                 if (impressionData != null)
                 {
                     mediation = "GoogleAdMob";
-                    ad_network = GetMediationNetwork(ad_network, mediation);
+                    ad_network = GetMediationNetwork(network, mediation);
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
                     country = "";
