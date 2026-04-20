@@ -1,3 +1,10 @@
+## [1.1.54](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.53...v1.1.54) (2026-04-20)
+
+
+### Bug Fixes
+
+* edit mediaion name log impression ([b7fa57f](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/b7fa57f03d289e990f64995586818c2bf53711d6))
+
 ## [1.1.53](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.52...v1.1.53) (2026-04-20)
 
 
