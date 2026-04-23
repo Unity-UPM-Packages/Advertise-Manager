@@ -49,6 +49,10 @@
 	<dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			pzVvPXTboo631JgDGLMoe7wtszs=
+			</data>
 			<key>hash2</key>
 			<data>
 			3sC8pNIP0NnbxRdQFJr0dRW7q4/gbym0w6p0u/C1Kvc=
@@ -56,6 +60,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			m9vuQZM9JowHr2FNCUH4VdvdQGk=
+			</data>
 			<key>hash2</key>
 			<data>
 			8IAl+lVKIiP8rzriMk6vkozyohG2RRJp0btrqHSEgAQ=
@@ -63,6 +71,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			79HDz0xvHVdAk+OcpGNTKOyct88=
+			</data>
 			<key>hash2</key>
 			<data>
 			3mgnU0pSaGZY6E4VPR3NnT9zgIwdIxndZ1BAJHY1VtI=
@@ -70,6 +82,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			m9vuQZM9JowHr2FNCUH4VdvdQGk=
+			</data>
 			<key>hash2</key>
 			<data>
 			8IAl+lVKIiP8rzriMk6vkozyohG2RRJp0btrqHSEgAQ=
@@ -77,6 +93,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			D8aAzetTLngBSzWi5pmPKQBccos=
+			</data>
 			<key>hash2</key>
 			<data>
 			MaG1WNRf7G/dlPsKQu/rqpHkr9aAOdtapyVs7tiO0Tg=
@@ -84,6 +104,10 @@
 		</dict>
 		<key>native_banner.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			3OPhnOGTe0J103jO4hh9IIMFXgA=
+			</data>
 			<key>hash2</key>
 			<data>
 			U69GXDXgnSyeWe9M7Qk3TZTuQjJAPOuP+DeJAWt9Tqk=
@@ -91,6 +115,10 @@
 		</dict>
 		<key>native_inter.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			yf2pEMSIyApC/2JhSXHzcy83Whc=
+			</data>
 			<key>hash2</key>
 			<data>
 			DbmVaG3KklFoLTPzOymxCnzw136qbB9p32ogTiylsDQ=
@@ -98,6 +126,10 @@
 		</dict>
 		<key>native_mrec.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			UshuXMXqz1zDexTYslcdWSrf1Vo=
+			</data>
 			<key>hash2</key>
 			<data>
 			dMpZlIwhnLX5o5CA0dlSpBbPSCVcTNs1frdYW9rjbTs=
@@ -105,6 +137,10 @@
 		</dict>
 		<key>native_video.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			yOMYH5uqG1eIwpox/vhSOX7jG4o=
+			</data>
 			<key>hash2</key>
 			<data>
 			3x2JkV+KGdyY2cgoij04y8TuJFfES0fXkhpeNeS7BKs=
