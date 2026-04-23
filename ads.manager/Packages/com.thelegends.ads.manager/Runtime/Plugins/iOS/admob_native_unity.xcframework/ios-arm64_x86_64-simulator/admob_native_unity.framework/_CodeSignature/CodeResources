@@ -69,6 +69,10 @@
 	<dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			pzVvPXTboo631JgDGLMoe7wtszs=
+			</data>
 			<key>hash2</key>
 			<data>
 			3sC8pNIP0NnbxRdQFJr0dRW7q4/gbym0w6p0u/C1Kvc=
@@ -76,6 +80,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			KmVlTwyVOsoqvB/IluZjx5GZnnk=
+			</data>
 			<key>hash2</key>
 			<data>
 			KW6W+SUKEGAfkFapJrLpPZ1KJ2pWX0eCyzBY75hKizk=
@@ -83,6 +91,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			nUq6nUET1xhiUVRBZHoH3XVe/WU=
+			</data>
 			<key>hash2</key>
 			<data>
 			xGIqtXf1DmiO01LgqK9VzlGAivNLV/PdTwGhiu2NMiQ=
@@ -90,6 +102,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			KmVlTwyVOsoqvB/IluZjx5GZnnk=
+			</data>
 			<key>hash2</key>
 			<data>
 			KW6W+SUKEGAfkFapJrLpPZ1KJ2pWX0eCyzBY75hKizk=
@@ -97,6 +113,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			8jNRZSla7RCjs/Wu5h6aeWyIOyA=
+			</data>
 			<key>hash2</key>
 			<data>
 			7mc03Z3MfEsq3HhWXbK0LVmtIfhqo1omfvj3ybBT0QQ=
@@ -104,6 +124,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			pzVvPXTboo631JgDGLMoe7wtszs=
+			</data>
 			<key>hash2</key>
 			<data>
 			3sC8pNIP0NnbxRdQFJr0dRW7q4/gbym0w6p0u/C1Kvc=
@@ -111,6 +135,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			scF8AbeO1cBy1hO8lRIVWdsdb0s=
+			</data>
 			<key>hash2</key>
 			<data>
 			4bRshi6KpPvRZ6nXjgnR82a8GU7QkkvaZUKDzZAXJpI=
@@ -118,6 +146,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			x4KEiwuR6diilnwRXP2P72fVif4=
+			</data>
 			<key>hash2</key>
 			<data>
 			ySc8EihydFVW2QXvS9ZkJVkcEfohwk+ZI5aJIZwf48M=
@@ -125,6 +157,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			scF8AbeO1cBy1hO8lRIVWdsdb0s=
+			</data>
 			<key>hash2</key>
 			<data>
 			4bRshi6KpPvRZ6nXjgnR82a8GU7QkkvaZUKDzZAXJpI=
@@ -132,6 +168,10 @@
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			GX1M3ucN5HSEn0Y7gaFrRH3hK70=
+			</data>
 			<key>hash2</key>
 			<data>
 			vYWiEKdcuFhOI7OzzyKmtWkypIXwn1fAbsQ4+4h+PHU=
@@ -139,6 +179,10 @@
 		</dict>
 		<key>native_banner.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			3OPhnOGTe0J103jO4hh9IIMFXgA=
+			</data>
 			<key>hash2</key>
 			<data>
 			U69GXDXgnSyeWe9M7Qk3TZTuQjJAPOuP+DeJAWt9Tqk=
@@ -146,6 +190,10 @@
 		</dict>
 		<key>native_inter.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			yf2pEMSIyApC/2JhSXHzcy83Whc=
+			</data>
 			<key>hash2</key>
 			<data>
 			DbmVaG3KklFoLTPzOymxCnzw136qbB9p32ogTiylsDQ=
@@ -153,6 +201,10 @@
 		</dict>
 		<key>native_mrec.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			UshuXMXqz1zDexTYslcdWSrf1Vo=
+			</data>
 			<key>hash2</key>
 			<data>
 			dMpZlIwhnLX5o5CA0dlSpBbPSCVcTNs1frdYW9rjbTs=
@@ -160,6 +212,10 @@
 		</dict>
 		<key>native_video.nib</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			yOMYH5uqG1eIwpox/vhSOX7jG4o=
+			</data>
 			<key>hash2</key>
 			<data>
 			3x2JkV+KGdyY2cgoij04y8TuJFfES0fXkhpeNeS7BKs=
