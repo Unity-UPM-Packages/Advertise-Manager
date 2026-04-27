@@ -13,9 +13,13 @@ using TheLegends.Base.UI;
 #if USE_DATABUCKETS
 using TheLegends.Base.Databuckets;
 #endif
+#if USE_FACEBOOK
+using TheLegends.Base.Facebook;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+
 
 namespace TheLegends.Base.Ads
 {
@@ -94,6 +98,11 @@ namespace TheLegends.Base.Ads
 #if USE_DATABUCKETS
             InitDatabuckets();
 #endif
+
+#if USE_FACEBOOK
+            yield return InitFacebook();
+#endif
+
             // Initialize Ads Manager
             yield return AdsManager.Instance.DoInit();
 
@@ -288,9 +297,16 @@ namespace TheLegends.Base.Ads
                 AdsManager.Instance.LogError("Cannot get AppsFlyer Property: " + e.Message);
 #endif
             }
-            
+
 #endif
         }
+
+#if USE_FACEBOOK
+        private IEnumerator InitFacebook()
+        {
+            yield return FacebookManager.Instance.DoInit();
+        }
+#endif
 
         private IEnumerator LoadInitialAds()
         {

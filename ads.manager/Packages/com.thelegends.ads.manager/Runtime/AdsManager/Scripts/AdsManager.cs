@@ -18,6 +18,9 @@ using TheLegends.Base.Firebase;
 #endif
 using TheLegends.Base.UnitySingleton;
 using UnityEngine;
+#if USE_FACEBOOK
+using TheLegends.Base.Facebook;
+#endif
 
 namespace TheLegends.Base.Ads
 {
@@ -1284,7 +1287,21 @@ namespace TheLegends.Base.Ads
                 { "ad_unit_id", adsUnitID },
                 { "placement", placement },
                 { "is_show", 1 },
-                { "value", revenue }
+                { "value", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) }
+            });
+#endif
+
+#if USE_FACEBOOK
+            FacebookManager.Instance.LogEvent("AdImpression", (float)revenue, new Dictionary<string, object>()
+            {
+                {"ad_platform", mediation},
+                {"ad_network", ad_network},
+                {"ad_format", ad_format},
+                {"ad_unit_name", ad_unit_name},
+                {"country", country },
+                {"revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+                {"currency", "USD"},
+                {"placement", placement}
             });
 #endif
 

@@ -135,7 +135,7 @@ namespace TheLegends.Base.Ads
             // ╔══════════════════════════════════════════════════════════════╗
             // ║            SECTION 2 — SERVICES (Firebase / AF)             ║
             // ╚══════════════════════════════════════════════════════════════╝
-            int activeServiceCount = (Instance.useFirebase ? 1 : 0) + (Instance.useAppsFlyer ? 1 : 0);
+            int activeServiceCount = (Instance.useFirebase ? 1 : 0) + (Instance.useAppsFlyer ? 1 : 0) + (Instance.useDatabuckets ? 1 : 0) + (Instance.useFacebook ? 1 : 0);
             string servicesHeader = $"SERVICES  ({activeServiceCount} active)";
 
             DrawSectionBackground(panelBg, () =>
@@ -166,6 +166,7 @@ namespace TheLegends.Base.Ads
                 PackagesManagerIntergration.SetSymbolEnabled("USE_FIREBASE", Instance.useFirebase);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_APPSFLYER", Instance.useAppsFlyer);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_DATABUCKETS", Instance.useDatabuckets);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_FACEBOOK", Instance.useFacebook);
 
                 PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY",
                     Instance.showADMOB && Instance.isUseNativeUnity);
@@ -346,7 +347,7 @@ namespace TheLegends.Base.Ads
                 if (col == columns || i == mediations.Length - 1)
                 {
                     // Pad remaining cells so the grid stays aligned
-                    while (col < columns) { GUILayout.FlexibleSpace(); col++; }
+                    while (col < columns) { GUILayout.Label(GUIContent.none, GUILayout.MinWidth(90)); col++; }
                     EditorGUILayout.EndHorizontal();
                     col = 0;
                 }
@@ -361,6 +362,7 @@ namespace TheLegends.Base.Ads
                 ("Firebase",   Instance.useFirebase,  v => Instance.useFirebase  = v),
                 ("AppsFlyer",  Instance.useAppsFlyer, v => Instance.useAppsFlyer = v),
                 ("Databuckets",Instance.useDatabuckets,v => Instance.useDatabuckets = v),
+                ("Facebook",   Instance.useFacebook,  v => Instance.useFacebook = v),
                 // Add more optional services here in the future.
             };
 
@@ -380,7 +382,7 @@ namespace TheLegends.Base.Ads
                 col++;
                 if (col == columns || i == services.Length - 1)
                 {
-                    while (col < columns) { GUILayout.FlexibleSpace(); col++; }
+                    while (col < columns) { GUILayout.Label(GUIContent.none, GUILayout.MinWidth(90)); col++; }
                     EditorGUILayout.EndHorizontal();
                     col = 0;
                 }
