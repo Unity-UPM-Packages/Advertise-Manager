@@ -1,3 +1,10 @@
+## [1.1.57](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.56...v1.1.57) (2026-04-28)
+
+
+### Bug Fixes
+
+* increase facebook manager ([3f72eb1](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/3f72eb1d65060d158cd5ed3e38783092cffb8992))
+
 ## [1.1.56](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.55...v1.1.56) (2026-04-28)
 
 
