@@ -26,6 +26,6 @@
     "com.google.ads.mobile": "9.6.0",
     "com.applovin.mediation.ads": "8.1.0",
     "com.thelegends.databuckets.manager": "1.0.0",
-    "com.thelegends.facebook.manager": "1.0.0"
+    "com.thelegends.facebook.manager": "1.0.1"
   }
 }
