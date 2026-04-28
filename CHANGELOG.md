@@ -1,3 +1,10 @@
+## [1.1.56](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.55...v1.1.56) (2026-04-28)
+
+
+### Bug Fixes
+
+* implement facebook ([6824675](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/682467595ca504c0128189a6375eb425624ec2f9))
+
 ## [1.1.55](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.54...v1.1.55) (2026-04-20)
 
 
