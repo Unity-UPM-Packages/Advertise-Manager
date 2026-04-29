@@ -171,7 +171,49 @@ namespace TheLegends.Base.Ads
 
             status = InitiationStatus.Initialized;
 
+            InitTrackers();
+
             TotalRevenue = double.Parse(PlayerPrefs.GetString("TotalRevenue", "0"), System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        private List<Tracking.IImpressionTracker> activeTrackers = new List<Tracking.IImpressionTracker>();
+
+        private void InitTrackers()
+        {
+            activeTrackers.Clear();
+
+#if USE_FIREBASE
+            if (SettingsAds.useFirebase)
+            {
+                var firebaseTracker = new Tracking.FirebaseImpressionTracker();
+                firebaseTracker.Initialize(SettingsAds);
+                activeTrackers.Add(firebaseTracker);
+            }
+#endif
+#if USE_APPSFLYER
+            if (SettingsAds.useAppsFlyer)
+            {
+                var appsFlyerTracker = new Tracking.AppsFlyerImpressionTracker();
+                appsFlyerTracker.Initialize(SettingsAds);
+                activeTrackers.Add(appsFlyerTracker);
+            }
+#endif
+#if USE_DATABUCKETS
+            if (SettingsAds.useDatabuckets)
+            {
+                var databucketsTracker = new Tracking.DatabucketsImpressionTracker();
+                databucketsTracker.Initialize(SettingsAds);
+                activeTrackers.Add(databucketsTracker);
+            }
+#endif
+#if USE_FACEBOOK
+            if (SettingsAds.useFacebook)
+            {
+                var facebookTracker = new Tracking.FacebookImpressionTracker();
+                facebookTracker.Initialize(SettingsAds);
+                activeTrackers.Add(facebookTracker);
+            }
+#endif
         }
 
 
@@ -1160,150 +1202,79 @@ namespace TheLegends.Base.Ads
             string country = "";
             string currency = "USD";
             string placement = position;
-
-
             string mediation = "";
 
             if (value == null)
             {
-                LogWarning("LogImpressionData: " + "data NULL");
+                LogWarning("LogImpressionData: data NULL");
             }
 
 #if USE_ADMOB
             if (value is GoogleMobileAds.Api.AdValue)
             {
-                var impressionData = value as GoogleMobileAds.Api.AdValue;
+                var impressionDataAdmob = value as GoogleMobileAds.Api.AdValue;
 
-                if (impressionData != null)
+                if (impressionDataAdmob != null)
                 {
                     mediation = "GoogleAdMob";
                     ad_network = GetMediationNetwork(network, mediation);
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
                     country = "";
-                    //The ad's value in micro-units, where 1,000,000 micro-units equal one unit of the currency.
-                    revenue = (double)impressionData.Value / 1000000f;
-                    currency = impressionData.CurrencyCode;
+                    revenue = (double)impressionDataAdmob.Value / 1000000f;
+                    currency = impressionDataAdmob.CurrencyCode;
 
                     TotalRevenue += revenue;
                     PlayerPrefs.SetString("TotalRevenue", TotalRevenue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
 
-                Log("GoogleMobileAds AdValue: " + impressionData.Value + " Revenue: " + revenue + " CurrencyCode: " + currency + " Precision: " + impressionData.Precision);
-#if USE_FIREBASE
-
-                impressionParameters = new Dictionary<string, object>
-                {
-                    { "ad_platform", mediation.ToString() },
-                    { "ad_network", ad_network },
-                    { "ad_format", ad_format },
-                    { "ad_unit_name", ad_unit_name },
-                    { "country", country },
-                    { "revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
-                    { "currency", currency },
-                    { "placement", placement }
-                };
-#endif
+                Log("GoogleMobileAds AdValue: " + impressionDataAdmob.Value + " Revenue: " + revenue + " CurrencyCode: " + currency + " Precision: " + impressionDataAdmob.Precision);
             }
 #endif
 
 #if USE_MAX
             if (value is MaxSdk.AdInfo)
             {
-                var impressionData = value as MaxSdk.AdInfo;
+                var impressionDataMax = value as MaxSdk.AdInfo;
 
-                if (impressionData != null)
+                if (impressionDataMax != null)
                 {
                     mediation = "ApplovinMax";
-                    ad_network = GetMediationNetwork(impressionData.NetworkName, mediation);
-                    ad_format = impressionData.AdFormat;
-                    ad_unit_name = impressionData.AdUnitIdentifier;
+                    ad_network = GetMediationNetwork(impressionDataMax.NetworkName, mediation);
+                    ad_format = impressionDataMax.AdFormat;
+                    ad_unit_name = impressionDataMax.AdUnitIdentifier;
                     country = "";
-                    revenue = (double)impressionData.Revenue;
+                    revenue = (double)impressionDataMax.Revenue;
                     currency = "USD";
 
                     TotalRevenue += revenue;
                     PlayerPrefs.SetString("TotalRevenue", TotalRevenue.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
 
-#if USE_FIREBASE
-
-                impressionParameters = new Dictionary<string, object>
-                {
-                    {"ad_platform", mediation},
-                    {"ad_network", ad_network},
-                    {"ad_format", ad_format},
-                    {"ad_unit_name", ad_unit_name},
-                    {"country", country },
-                    {"revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture)},
-                    {"currency", "USD"},
-                    {"placement", placement}
-                };
-
-                FirebaseManager.Instance.LogEvent("ad_impression", impressionParameters);
-#endif
-
-                Log("ApplovinMax AdInfo: " + impressionData.Revenue + " Revenue: " + revenue + " CurrencyCode: " + currency + " Precision: " + impressionData.RevenuePrecision);
+                Log("ApplovinMax AdInfo: " + impressionDataMax.Revenue + " Revenue: " + revenue + " CurrencyCode: " + currency + " Precision: " + impressionDataMax.RevenuePrecision);
             }
 #endif
 
-#if USE_FIREBASE
-            FirebaseManager.Instance.LogEvent("taichi_ad_impression", impressionParameters);
-#endif
-
-
-#if USE_APPSFLYER
-            AppsFlyerManager.Instance.LogImpression(new Dictionary<string, string>()
+            Tracking.ImpressionData impData = new Tracking.ImpressionData
             {
-                { "ad_platform", mediation.ToString() },
-                { "ad_network", ad_network },
-                { "ad_format", ad_format },
-                { "ad_unit_name", ad_unit_name },
-                { "country", country },
-                { "revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
-                { "currency", currency },
-                { "placement", placement }
-            });
+                AdMediation = ad_mediation,
+                AdsType = adsType,
+                AdNetwork = ad_network,
+                AdUnitName = ad_unit_name,
+                AdFormat = ad_format,
+                Placement = placement,
+                Country = country,
+                Currency = currency,
+                Revenue = revenue
+            };
 
-            var appsflyersMediation = Enum.Parse<MediationNetwork>(mediation);
-
-            AppsFlyerManager.Instance.LogRevenue(ad_network, appsflyersMediation, currency, revenue, new Dictionary<string, string>()
+            foreach (var tracker in activeTrackers)
             {
-                { AdRevenueScheme.AD_UNIT, ad_unit_name },
-                { AdRevenueScheme.AD_TYPE, ad_format },
-                { AdRevenueScheme.COUNTRY, country },
-                { AdRevenueScheme.PLACEMENT, placement }
-            });
-#endif
-
-
-#if USE_DATABUCKETS
-
-            DatabucketsManager.Instance.RecordEvent("ad_impression", new Dictionary<string, object>
-            {
-                { "ad_format", ad_format },
-                { "ad_platform", mediation.ToString() },
-                { "ad_network", network},
-                { "ad_unit_id", adsUnitID },
-                { "placement", placement },
-                { "is_show", 1 },
-                { "value", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) }
-            });
-#endif
-
-#if USE_FACEBOOK
-            FacebookManager.Instance.LogEvent("AdImpression", (float)revenue, new Dictionary<string, object>()
-            {
-                {"ad_platform", mediation},
-                {"ad_network", ad_network},
-                {"ad_format", ad_format},
-                {"ad_unit_name", ad_unit_name},
-                {"country", country },
-                {"revenue", revenue.ToString(System.Globalization.CultureInfo.InvariantCulture)},
-                {"currency", "USD"},
-                {"placement", placement}
-            });
-#endif
+                if (tracker.CanTrack(adsType))
+                {
+                    tracker.Track(impData);
+                }
+            }
 
             OnImpressionRecored?.Invoke(ad_mediation, adsType, revenue);
         }

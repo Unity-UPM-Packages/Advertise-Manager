@@ -80,9 +80,16 @@ namespace TheLegends.Base.Ads
 
         [Header("Optional Services")]
         public bool useFirebase = false;
+        public List<AdsType> firebaseTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
+
         public bool useAppsFlyer = false;
+        public List<AdsType> appsFlyerTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
+
         public bool useDatabuckets = false;
+        public List<AdsType> databucketsTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
+
         public bool useFacebook = false;
+        public List<AdsType> facebookTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
 
         public string appsFlyerDevKey = "Qhno4yJY6KHmZp9uS9DRe4";
         public string appleAppId = "";

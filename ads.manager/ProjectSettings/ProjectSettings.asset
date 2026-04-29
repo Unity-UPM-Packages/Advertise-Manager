@@ -789,8 +789,8 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: USE_FIREBASE;USE_APPSFLYER;USE_ADMOB;USE_DATABUCKETS;USE_FACEBOOK
-    iPhone: USE_FIREBASE;USE_APPSFLYER;USE_ADMOB;USE_DATABUCKETS;USE_FACEBOOK
+    Android: USE_FIREBASE;USE_ADMOB;USE_DATABUCKETS;USE_APPSFLYER;USE_FACEBOOK
+    iPhone: USE_FIREBASE;USE_ADMOB;USE_DATABUCKETS;USE_APPSFLYER;USE_FACEBOOK
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

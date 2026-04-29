@@ -136,7 +136,7 @@ namespace TheLegends.Base.Ads
             // ║            SECTION 2 — SERVICES (Firebase / AF)             ║
             // ╚══════════════════════════════════════════════════════════════╝
             int activeServiceCount = (Instance.useFirebase ? 1 : 0) + (Instance.useAppsFlyer ? 1 : 0) + (Instance.useDatabuckets ? 1 : 0) + (Instance.useFacebook ? 1 : 0);
-            string servicesHeader = $"SERVICES  ({activeServiceCount} active)";
+            string servicesHeader = $"TRACKING SERVICES  ({activeServiceCount} active)";
 
             DrawSectionBackground(panelBg, () =>
             {
@@ -146,6 +146,23 @@ namespace TheLegends.Base.Ads
                     EditorGUILayout.Space(4);
                     DrawServicesGrid();
                     EditorGUILayout.Space(4);
+
+                    if (Instance.useFirebase)
+                    {
+                        DrawAdsTypeMultiSelect(Instance.firebaseTrackedTypes, "Firebase Tracked Types");
+                    }
+                    if (Instance.useAppsFlyer)
+                    {
+                        DrawAdsTypeMultiSelect(Instance.appsFlyerTrackedTypes, "AppsFlyer Tracked Types");
+                    }
+                    if (Instance.useDatabuckets)
+                    {
+                        DrawAdsTypeMultiSelect(Instance.databucketsTrackedTypes, "Databuckets Tracked Types");
+                    }
+                    if (Instance.useFacebook)
+                    {
+                        DrawAdsTypeMultiSelect(Instance.facebookTrackedTypes, "Facebook Tracked Types");
+                    }
                 }
             });
 
@@ -565,6 +582,111 @@ namespace TheLegends.Base.Ads
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             serializedObject.Update();
+        }
+
+        private void DrawAdsTypeMultiSelect(List<AdsType> trackedTypes, string labelStr)
+        {
+            if (trackedTypes == null) return;
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel(labelStr);
+
+            string buttonText = "Select Ads Types...";
+            if (trackedTypes.Count > 0)
+            {
+                int totalTypes = System.Enum.GetValues(typeof(AdsType)).Length - 1; // Exclude None
+                if (trackedTypes.Count >= totalTypes)
+                    buttonText = "Everything";
+                else
+                    buttonText = $"{trackedTypes.Count} Selected";
+            }
+            else
+            {
+                buttonText = "None Selected";
+            }
+
+            Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent(buttonText), EditorStyles.popup);
+            if (EditorGUI.DropdownButton(buttonRect, new GUIContent(buttonText), FocusType.Keyboard))
+            {
+                PopupWindow.Show(buttonRect, new MultiSelectPopup(trackedTypes, this));
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private class MultiSelectPopup : PopupWindowContent
+        {
+            private List<AdsType> _trackedTypes;
+            private Editor _editor;
+            private Vector2 _scrollPos;
+
+            public MultiSelectPopup(List<AdsType> trackedTypes, Editor editor)
+            {
+                _trackedTypes = trackedTypes;
+                _editor = editor;
+            }
+
+            public override Vector2 GetWindowSize()
+            {
+                return new Vector2(250, 300);
+            }
+
+            public override void OnGUI(Rect rect)
+            {
+                var allValues = (AdsType[])System.Enum.GetValues(typeof(AdsType));
+
+                GUILayout.Space(4);
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Select All", EditorStyles.miniButtonLeft))
+                {
+                    Undo.RecordObject(AdsSettingsEditor.Instance, "Select All Tracked Types");
+                    _trackedTypes.Clear();
+                    foreach (AdsType adsType in allValues)
+                    {
+                        if (adsType != AdsType.None) _trackedTypes.Add(adsType);
+                    }
+                    EditorUtility.SetDirty(AdsSettingsEditor.Instance);
+                    _editor.Repaint();
+                }
+                if (GUILayout.Button("Clear", EditorStyles.miniButtonRight))
+                {
+                    Undo.RecordObject(AdsSettingsEditor.Instance, "Clear Tracked Types");
+                    _trackedTypes.Clear();
+                    EditorUtility.SetDirty(AdsSettingsEditor.Instance);
+                    _editor.Repaint();
+                }
+                GUILayout.EndHorizontal();
+
+                GUILayout.Space(4);
+
+                _scrollPos = GUILayout.BeginScrollView(_scrollPos);
+                foreach (AdsType adsType in allValues)
+                {
+                    if (adsType == AdsType.None) continue;
+
+                    bool isSelected = _trackedTypes.Contains(adsType);
+
+                    EditorGUI.BeginChangeCheck();
+                    bool newSelected = EditorGUILayout.ToggleLeft($" {adsType}", isSelected);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        Undo.RecordObject(AdsSettingsEditor.Instance, "Change Tracked Types");
+                        if (newSelected)
+                        {
+                            if (!_trackedTypes.Contains(adsType))
+                                _trackedTypes.Add(adsType);
+                        }
+                        else
+                        {
+                            _trackedTypes.Remove(adsType);
+                        }
+
+                        EditorUtility.SetDirty(AdsSettingsEditor.Instance);
+                        _editor.Repaint();
+                    }
+                }
+                GUILayout.EndScrollView();
+            }
         }
     }
 }
