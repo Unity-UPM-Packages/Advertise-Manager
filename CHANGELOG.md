@@ -1,3 +1,11 @@
+## [1.1.58](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.57...v1.1.58) (2026-04-29)
+
+
+### Bug Fixes
+
+* refactor AdsManager ([75e2712](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/75e27121dad03671587bee940e7a82c360b3982e))
+* refactor AdsSettingsEditor ([0957c57](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/0957c57006f856175a0daf3e01220c1af2ce6f74))
+
 ## [1.1.57](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.56...v1.1.57) (2026-04-28)
 
 
