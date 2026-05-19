@@ -10,7 +10,7 @@
 		</data>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		pzVvPXTboo631JgDGLMoe7wtszs=
+		V7PdakApEGdfy2LZm3aV1HtTQH8=
 		</data>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		D8aAzetTLngBSzWi5pmPKQBccos=
+		jEcwhbnP07SaDEzZCaMuRQ+2el8=
 		</data>
 		<key>native_banner.nib</key>
 		<data>
@@ -51,11 +51,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pzVvPXTboo631JgDGLMoe7wtszs=
+			V7PdakApEGdfy2LZm3aV1HtTQH8=
 			</data>
 			<key>hash2</key>
 			<data>
-			3sC8pNIP0NnbxRdQFJr0dRW7q4/gbym0w6p0u/C1Kvc=
+			a7tF8bTa8a8rLZp86pyFp6uV2H1dR2jnmJxO5H6C+lE=
 			</data>
 		</dict>
 		<key>Modules/admob_native_unity.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
@@ -95,11 +95,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D8aAzetTLngBSzWi5pmPKQBccos=
+			jEcwhbnP07SaDEzZCaMuRQ+2el8=
 			</data>
 			<key>hash2</key>
 			<data>
-			MaG1WNRf7G/dlPsKQu/rqpHkr9aAOdtapyVs7tiO0Tg=
+			gXFyJiC6wV+eSHujNxZsOf5/BX5V/VjHpjTWMEpGlXY=
 			</data>
 		</dict>
 		<key>native_banner.nib</key>

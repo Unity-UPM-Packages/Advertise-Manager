@@ -3949,6 +3949,13 @@
       "value": "\"DynamicShowBehavior\""
     },
     {
+      "filePath": "\/Users\/macbf\/Unity Project\/Admob_Native_iOS\/admob_native_unity\/utils\/AdViewUtils.swift",
+      "kind": "Dictionary",
+      "offset": 2659,
+      "length": 3,
+      "value": "[]"
+    },
+    {
       "filePath": "\/Users\/macbf\/Unity Project\/Admob_Native_iOS\/admob_native_unity\/AdmobNativeBridge.swift",
       "kind": "Dictionary",
       "offset": 3416,
