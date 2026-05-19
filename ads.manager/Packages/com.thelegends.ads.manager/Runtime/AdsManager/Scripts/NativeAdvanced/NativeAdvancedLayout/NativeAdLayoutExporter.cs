@@ -152,6 +152,7 @@ namespace TheLegends.Base.Ads
                     isBold = txt.fontStyle == FontStyle.Bold || txt.fontStyle == FontStyle.BoldAndItalic,
                     isItalic = txt.fontStyle == FontStyle.Italic || txt.fontStyle == FontStyle.BoldAndItalic,
                     lineSpacing = txt.lineSpacing,
+                    fontName = txt.font != null ? txt.font.name : null,
                     rectTransform = new RectTransformConfig
                     {
                         anchorMin = new SerializableVector2(tXMin, tYMin),

@@ -112,6 +112,9 @@ namespace TheLegends.Base.Ads
         public float lineSpacing;
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string fontName;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public RectTransformConfig rectTransform;
     }
 }
