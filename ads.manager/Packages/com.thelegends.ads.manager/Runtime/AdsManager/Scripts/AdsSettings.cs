@@ -91,6 +91,18 @@ namespace TheLegends.Base.Ads
         public bool useFacebook = false;
         public List<AdsType> facebookTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
 
+        [SerializeField]
+        private double _facebookTrackingThreshold = 0.0;
+
+        /// <summary>
+        /// Gets or sets the minimum revenue threshold required to track Facebook impression events.
+        /// </summary>
+        public double FacebookTrackingThreshold
+        {
+            get => this._facebookTrackingThreshold;
+            set => this._facebookTrackingThreshold = value;
+        }
+
         public string appsFlyerDevKey = "Qhno4yJY6KHmZp9uS9DRe4";
         public string appleAppId = "";
 

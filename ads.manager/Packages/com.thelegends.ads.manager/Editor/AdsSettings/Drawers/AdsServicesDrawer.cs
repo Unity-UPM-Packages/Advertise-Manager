@@ -21,7 +21,10 @@ namespace TheLegends.Base.Ads.Editor
             if (instance.useDatabuckets)
                 DrawAdsTypeMultiSelect(instance.databucketsTrackedTypes, "Databuckets Tracked Types", editor);
             if (instance.useFacebook)
+            {
                 DrawAdsTypeMultiSelect(instance.facebookTrackedTypes, "Facebook Tracked Types", editor);
+                instance.FacebookTrackingThreshold = EditorGUILayout.DoubleField("Facebook Tracking Threshold", instance.FacebookTrackingThreshold);
+            }
         }
 
         private void DrawServicesGrid(AdsSettings instance)

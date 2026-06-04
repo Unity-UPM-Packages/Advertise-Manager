@@ -246,7 +246,9 @@ namespace TheLegends.Base.Ads
 
                 {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload},
                 {"maxNativeFullScreenLoadLoop", AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop},
-                {"maxNativeRewardLoadLoop", AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop}
+                {"maxNativeRewardLoadLoop", AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop},
+
+                {"facebookTrackingThreshold", (float)AdsManager.Instance.SettingsAds.FacebookTrackingThreshold}
             };
 
             return config;
@@ -299,6 +301,8 @@ namespace TheLegends.Base.Ads
             configs.nativeRewardMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCountdownTimerDuration", configs.nativeRewardMetaCountdownTimerDuration);
             configs.nativeRewardMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaDelayBeforeCountdown", configs.nativeRewardMetaDelayBeforeCountdown);
             configs.nativeRewardMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCloseClickableDelay", configs.nativeRewardMetaCloseClickableDelay);
+
+            AdsManager.Instance.SettingsAds.FacebookTrackingThreshold = FirebaseManager.Instance.RemoteGetValueFloat("facebookTrackingThreshold", (float)AdsManager.Instance.SettingsAds.FacebookTrackingThreshold);
         }
 #endif
 

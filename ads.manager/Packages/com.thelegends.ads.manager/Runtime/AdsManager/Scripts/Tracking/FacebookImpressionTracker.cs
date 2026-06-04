@@ -8,10 +8,12 @@ namespace TheLegends.Base.Ads.Tracking
     public class FacebookImpressionTracker : IImpressionTracker
     {
         private List<AdsType> _trackedTypes;
+        private double _threshold;
 
         public void Initialize(AdsSettings settings)
         {
             _trackedTypes = settings.facebookTrackedTypes ?? new List<AdsType>();
+            _threshold = settings.FacebookTrackingThreshold;
         }
 
         public bool CanTrack(AdsType adsType)
@@ -21,6 +23,11 @@ namespace TheLegends.Base.Ads.Tracking
 
         public void Track(ImpressionData data)
         {
+            if (data.Revenue < _threshold)
+            {
+                return;
+            }
+
             FacebookManager.Instance.LogEvent("AdImpression", (float)data.Revenue, new Dictionary<string, object>()
             {
                 { "ad_mediation", data.AdMediation.ToString() },
