@@ -1,6 +1,7 @@
 #if USE_FACEBOOK
 using System.Collections.Generic;
 using TheLegends.Base.Facebook;
+using Facebook.Unity;
 
 namespace TheLegends.Base.Ads.Tracking
 {
@@ -28,7 +29,7 @@ namespace TheLegends.Base.Ads.Tracking
                 { "ad_unit_name", data.AdUnitName },
                 { "country", data.Country },
                 { "revenue", data.Revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
-                { "currency", "USD" },
+                { AppEventParameterName.Currency, data.Currency },
                 { "placement", data.Placement }
             });
         }
