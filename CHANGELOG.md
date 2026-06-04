@@ -1,3 +1,10 @@
+## [1.1.59](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.58...v1.1.59) (2026-06-04)
+
+
+### Bug Fixes
+
+* facebook log: AdImpression - correct Currency param name ([7e62dc0](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/7e62dc035534ac31ed0365a95fedee668e52fd43))
+
 ## [1.1.58](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.57...v1.1.58) (2026-04-29)
 
 
