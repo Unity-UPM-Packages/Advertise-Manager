@@ -100,6 +100,10 @@ namespace TheLegends.Base.Ads
                 StopHandleTimeout();
 
                 OnAdsLoadAvailable();
+
+                networkName = AdsManager.Instance.GetMediationNetwork(adInfo.NetworkName, AdsMediation.Max.ToString());
+
+                AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + adInfo);
             });
         }
 

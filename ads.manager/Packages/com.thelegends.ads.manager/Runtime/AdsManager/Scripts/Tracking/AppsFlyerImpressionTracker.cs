@@ -24,7 +24,7 @@ namespace TheLegends.Base.Ads.Tracking
         {
             var dict = new Dictionary<string, string>
             {
-                { "ad_platform", data.AdMediation.ToString() },
+                { "ad_mediation", data.AdMediation.ToString() },
                 { "ad_network", data.AdNetwork },
                 { "ad_format", data.AdFormat },
                 { "ad_unit_name", data.AdUnitName },

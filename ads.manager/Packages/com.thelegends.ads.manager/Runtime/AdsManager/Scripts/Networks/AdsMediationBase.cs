@@ -53,6 +53,7 @@ namespace TheLegends.Base.Ads
         public abstract void RemoveAds();
         public abstract bool IsAdsReady(AdsType adsType, PlacementOrder order);
         public abstract bool IsAdsControllerExist(AdsType adsType, PlacementOrder order);
+        public abstract string GetNetworkName(AdsType adsType, PlacementOrder order);
     }
 }
 

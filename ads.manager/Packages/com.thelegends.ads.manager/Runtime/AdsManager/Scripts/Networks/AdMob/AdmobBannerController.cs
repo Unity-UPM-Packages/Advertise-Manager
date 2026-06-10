@@ -177,7 +177,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 _bannerView.Hide();
-                
+
                 if (_loadRequestId != _currentLoadRequestId)
                 {
                     // If the load request ID does not match, this callback is from a previous request
@@ -192,7 +192,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsLoadAvailable();
 
-                networkName = _bannerView.GetResponseInfo().GetMediationAdapterClassName();
+                networkName = AdsManager.Instance.GetMediationNetwork(_bannerView.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
 
                 AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + _bannerView.GetResponseInfo());
 

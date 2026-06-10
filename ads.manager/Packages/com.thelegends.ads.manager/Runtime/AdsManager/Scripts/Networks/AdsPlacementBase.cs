@@ -24,6 +24,17 @@ namespace TheLegends.Base.Ads
 
         protected string _currentLoadRequestId = "";
         protected string networkName = "";
+
+        /// <summary>
+        /// Gets the name of the ad network that served this ad.
+        /// </summary>
+        public string NetworkName
+        {
+            get
+            {
+                return networkName;
+            }
+        }
         private DateTime loadStartTime = DateTime.MinValue;
         private DateTime loadEndTime = DateTime.MinValue;
         protected float loadTime

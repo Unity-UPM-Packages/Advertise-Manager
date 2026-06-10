@@ -126,34 +126,7 @@ namespace TheLegends.Base.Ads
         public override AdsEvents GetAdsStatus(AdsType type, PlacementOrder order)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_MAX            
-            var listPlacement = new List<AdsPlacementBase>();
-
-            switch (type)
-            {
-                case AdsType.Banner:
-                    listPlacement = bannerList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.Interstitial:
-                    listPlacement = interList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.Rewarded:
-                    listPlacement = rewardList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.Mrec:
-                    listPlacement = mrecList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.AppOpen:
-                    listPlacement = appOpenList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.MrecOpen:
-                    listPlacement = mrecOpenList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                case AdsType.InterOpen:
-                    listPlacement = interOpenList.Cast<AdsPlacementBase>().ToList();
-                    break;
-                default:
-                    return AdsEvents.None;
-            }
+            var listPlacement = GetPlacementListByType(type);
 
             if (!IsListExist(listPlacement))
             {
@@ -171,6 +144,56 @@ namespace TheLegends.Base.Ads
             return listPlacement[index].Status;
 #else
             return AdsEvents.None;
+#endif
+        }
+
+        public override string GetNetworkName(AdsType type, PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX            
+            var listPlacement = GetPlacementListByType(type);
+
+            if (!IsListExist(listPlacement))
+            {
+                return string.Empty;
+            }
+
+            var index = GetPlacementIndex((int)order, listPlacement.Count);
+
+            if (index == -1)
+            {
+                return string.Empty;
+            }
+
+            return listPlacement[index].NetworkName;
+#else
+            return string.Empty;
+#endif
+        }
+
+        private List<AdsPlacementBase> GetPlacementListByType(AdsType type)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            switch (type)
+            {
+                case AdsType.Banner:
+                    return bannerList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.Interstitial:
+                    return interList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.Rewarded:
+                    return rewardList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.Mrec:
+                    return mrecList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.AppOpen:
+                    return appOpenList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.MrecOpen:
+                    return mrecOpenList.Cast<AdsPlacementBase>().ToList();
+                case AdsType.InterOpen:
+                    return interOpenList.Cast<AdsPlacementBase>().ToList();
+                default:
+                    return null;
+            }
+#else
+            return null;
 #endif
         }
 

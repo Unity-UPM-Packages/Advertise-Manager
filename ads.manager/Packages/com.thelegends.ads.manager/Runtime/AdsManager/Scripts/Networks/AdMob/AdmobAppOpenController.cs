@@ -85,7 +85,7 @@ namespace TheLegends.Base.Ads
                         return;
                     }
 
-                    networkName = ad.GetResponseInfo().GetMediationAdapterClassName();
+                    networkName = AdsManager.Instance.GetMediationNetwork(ad.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
 
                     AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
 
@@ -97,7 +97,7 @@ namespace TheLegends.Base.Ads
         }
 #endif
 
-        
+
 
 
         public void ShowAds(string showPosition, Action OnClose = null)

@@ -369,7 +369,7 @@ namespace TheLegends.Base.Ads
                     _nativeAd = args.nativeAd;
                 }
 
-                networkName = _nativeAd.GetResponseInfo().GetMediationAdapterClassName();
+                networkName = AdsManager.Instance.GetMediationNetwork(_nativeAd.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
 
                 AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + _nativeAd.GetResponseInfo());
 
