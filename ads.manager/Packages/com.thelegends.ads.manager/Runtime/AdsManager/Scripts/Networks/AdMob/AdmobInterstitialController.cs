@@ -52,7 +52,7 @@ namespace TheLegends.Base.Ads
                         return;
                     }
 
-                    networkName = ad.GetResponseInfo().GetMediationAdapterClassName();
+                    networkName = AdsManager.Instance.GetMediationNetwork(ad.GetResponseInfo().GetMediationAdapterClassName(), "admob");
 
                     AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + ad.GetResponseInfo());
 

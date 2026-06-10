@@ -107,6 +107,10 @@ namespace TheLegends.Base.Ads
 
                 isReady = true;
                 OnAdsLoadAvailable();
+
+                networkName = AdsManager.Instance.GetMediationNetwork(adInfo.NetworkName, "applovin");
+
+                AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + adInfo);
                 ShowAds(position);
             });
         }

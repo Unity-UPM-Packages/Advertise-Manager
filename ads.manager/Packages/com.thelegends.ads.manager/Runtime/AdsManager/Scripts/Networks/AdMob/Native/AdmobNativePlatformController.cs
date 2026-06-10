@@ -101,7 +101,7 @@ namespace TheLegends.Base.Ads
                     }
 
                     var responseInfo = native.GetResponseInfo();
-                    networkName = responseInfo.GetMediationAdapterClassName();
+                    networkName = AdsManager.Instance.GetMediationNetwork(responseInfo.GetMediationAdapterClassName(), "admob");
 
                     AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + responseInfo);
 
