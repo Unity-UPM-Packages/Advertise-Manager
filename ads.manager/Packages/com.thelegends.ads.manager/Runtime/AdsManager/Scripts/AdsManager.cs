@@ -1081,6 +1081,28 @@ namespace TheLegends.Base.Ads
             return bestStatus;
         }
 
+        /// <summary>
+        /// Gets the network name of the loaded ad for the specified placement type and order.
+        /// </summary>
+        /// <param name="adsType">The ad type.</param>
+        /// <param name="order">The placement order.</param>
+        /// <returns>The name of the ad network, or empty if not loaded.</returns>
+        public string GetNetworkName(AdsType adsType, PlacementOrder order)
+        {
+            if (!IsInitialized())
+            {
+                return string.Empty;
+            }
+
+            var mediation = GetMediationToShow(adsType, order);
+            if (mediation != null)
+            {
+                return mediation.GetNetworkName(adsType, order);
+            }
+
+            return string.Empty;
+        }
+
         public int GetPlacementInfo(AdsType adsType, out List<PlacementOrder> placementOrders)
         {
             placementOrders = new List<PlacementOrder>();
@@ -1329,7 +1351,7 @@ namespace TheLegends.Base.Ads
 
         }
 
-        private string GetMediationNetwork(string rawAdapterName, string fallbackName)
+        public string GetMediationNetwork(string rawAdapterName, string fallbackName)
         {
             if (string.IsNullOrEmpty(rawAdapterName))
             {
@@ -1338,9 +1360,16 @@ namespace TheLegends.Base.Ads
 
             string lowerName = rawAdapterName.ToLowerInvariant();
 
-            if (lowerName.Contains("admob")) return "googleadmob";
+            if (lowerName.Contains("admob")) return "admob";
+            if (lowerName.Contains("applovin")) return "applovin";
             if (lowerName.Contains("ironsource")) return "ironsource";
-            if (lowerName.Contains("applovin")) return "applovinmax";
+            if (lowerName.Contains("liftoff")) return "liftoff";
+            if (lowerName.Contains("meta")) return "meta";
+            if (lowerName.Contains("facebook")) return "facebook";
+            if (lowerName.Contains("fan")) return "fan";
+            if (lowerName.Contains("mintegral")) return "mintegral";
+            if (lowerName.Contains("pangle")) return "pangle";
+
             if (lowerName.Contains("fyber")) return "fyber";
             if (lowerName.Contains("appodeal")) return "appodeal";
             if (lowerName.Contains("admost")) return "admost";

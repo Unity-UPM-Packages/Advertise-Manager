@@ -147,6 +147,29 @@ namespace TheLegends.Base.Ads
 #endif
         }
 
+        public override string GetNetworkName(AdsType type, PlacementOrder order)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX            
+            var listPlacement = GetPlacementListByType(type);
+
+            if (!IsListExist(listPlacement))
+            {
+                return string.Empty;
+            }
+
+            var index = GetPlacementIndex((int)order, listPlacement.Count);
+
+            if (index == -1)
+            {
+                return string.Empty;
+            }
+
+            return listPlacement[index].NetworkName;
+#else
+            return string.Empty;
+#endif
+        }
+
         private List<AdsPlacementBase> GetPlacementListByType(AdsType type)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
