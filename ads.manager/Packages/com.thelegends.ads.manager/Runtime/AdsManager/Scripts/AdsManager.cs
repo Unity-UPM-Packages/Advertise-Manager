@@ -1362,6 +1362,7 @@ namespace TheLegends.Base.Ads
 
             if (lowerName.Contains("admob")) return "admob";
             if (lowerName.Contains("applovin")) return "applovin";
+            if (lowerName.Contains("max")) return "max";
             if (lowerName.Contains("ironsource")) return "ironsource";
             if (lowerName.Contains("liftoff")) return "liftoff";
             if (lowerName.Contains("meta")) return "meta";
