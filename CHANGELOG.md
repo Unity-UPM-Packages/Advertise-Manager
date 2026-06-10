@@ -1,3 +1,10 @@
+## [1.1.60](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.59...v1.1.60) (2026-06-10)
+
+
+### Bug Fixes
+
+* add GetNetworkName + refactor ([#1](https://github.com/Unity-UPM-Packages/Advertise-Manager/issues/1)) ([4fc11aa](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/4fc11aaf140042e26b6af3725a64545b2e0717f3))
+
 ## [1.1.59](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.58...v1.1.59) (2026-06-04)
 
 
