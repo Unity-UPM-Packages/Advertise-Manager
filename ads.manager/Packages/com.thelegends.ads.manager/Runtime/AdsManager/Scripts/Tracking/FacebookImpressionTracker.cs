@@ -23,7 +23,7 @@ namespace TheLegends.Base.Ads.Tracking
         {
             FacebookManager.Instance.LogEvent("AdImpression", (float)data.Revenue, new Dictionary<string, object>()
             {
-                { "ad_platform", data.AdMediation.ToString() },
+                { "ad_mediation", data.AdMediation.ToString() },
                 { "ad_network", data.AdNetwork },
                 { "ad_format", data.AdFormat },
                 { "ad_unit_name", data.AdUnitName },

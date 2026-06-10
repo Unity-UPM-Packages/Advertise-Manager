@@ -1216,7 +1216,7 @@ namespace TheLegends.Base.Ads
 
                 if (impressionDataAdmob != null)
                 {
-                    mediation = "GoogleAdMob";
+                    mediation = AdsMediation.Admob.ToString();
                     ad_network = GetMediationNetwork(network, mediation);
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
@@ -1239,7 +1239,7 @@ namespace TheLegends.Base.Ads
 
                 if (impressionDataMax != null)
                 {
-                    mediation = "ApplovinMax";
+                    mediation = AdsMediation.Applovin.ToString();
                     ad_network = GetMediationNetwork(impressionDataMax.NetworkName, mediation);
                     ad_format = impressionDataMax.AdFormat;
                     ad_unit_name = impressionDataMax.AdUnitIdentifier;
