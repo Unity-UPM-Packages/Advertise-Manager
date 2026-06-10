@@ -1261,7 +1261,7 @@ namespace TheLegends.Base.Ads
 
                 if (impressionDataMax != null)
                 {
-                    mediation = AdsMediation.Applovin.ToString();
+                    mediation = AdsMediation.Max.ToString();
                     ad_network = GetMediationNetwork(impressionDataMax.NetworkName, mediation);
                     ad_format = impressionDataMax.AdFormat;
                     ad_unit_name = impressionDataMax.AdUnitIdentifier;

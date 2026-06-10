@@ -248,7 +248,7 @@ namespace TheLegends.Base.Ads
 
                 OnAdsLoadAvailable();
 
-                networkName = AdsManager.Instance.GetMediationNetwork(_mrecView.GetResponseInfo().GetMediationAdapterClassName(), "admob");
+                networkName = AdsManager.Instance.GetMediationNetwork(_mrecView.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
 
                 AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + _mrecView.GetResponseInfo());
 
