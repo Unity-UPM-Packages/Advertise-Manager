@@ -13,6 +13,7 @@ namespace TheLegends.Base.Ads
 
         protected Action OnClose;
         protected Action OnShow;
+        protected Action OnClick;
         private Action OnAdDismissedFullScreenContent;
 
         // Unity-side config storage for persistence (only Countdown needs storage for native)
@@ -21,6 +22,8 @@ namespace TheLegends.Base.Ads
         // Unity AutoReload & ShowOnLoaded management (exactly like AdmobNativeController)
         protected float _autoReloadTime = 0f; // Like timeAutoReload in AdmobNativeController
         protected bool _isShowOnLoaded = false; // Like isShowOnLoaded in AdmobNativeController
+        protected int _customViewWidth = -1;
+        protected int _customViewHeight = -1;
         protected NativePlatformShowBuilder.PositionConfig _storedPosition;
 
         public override AdsMediation GetAdsMediation()
@@ -118,7 +121,7 @@ namespace TheLegends.Base.Ads
 
                     if (_isShowOnLoaded)
                     {
-                        ShowAds(position, _layoutName, OnShow, OnClose); // Use default layout like AdmobNativeController
+                        ShowAds(position, _layoutName, OnShow, OnClose, null, OnClick); // Use default layout like AdmobNativeController
                     }
 
                 });
@@ -127,7 +130,7 @@ namespace TheLegends.Base.Ads
         }
 
 
-        public void ShowAds(string showPosition, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public void ShowAds(string showPosition, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
 
 #if USE_ADMOB
@@ -143,6 +146,7 @@ namespace TheLegends.Base.Ads
             this.OnClose = OnClose;
             this.OnShow = OnShow;
             this.OnAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
+            this.OnClick = OnClick;
             base.ShowAds(showPosition);
 
             if (IsReady && IsAvailable)
@@ -162,6 +166,11 @@ namespace TheLegends.Base.Ads
                 }
 
                 _nativePlatformAd.Show(layoutName);
+
+                if (_customViewWidth != -1 && _customViewHeight != -1)
+                {
+                    _nativePlatformAd.UpdateAdViewSize(_customViewWidth, _customViewHeight);
+                }
 
                 CancelReloadAds();
                 if (_autoReloadTime > 0)
@@ -183,6 +192,7 @@ namespace TheLegends.Base.Ads
             OnShow = null;
             OnClose = null;
             OnAdDismissedFullScreenContent = null;
+            OnClick = null;
 
             ClearStoredConfigs();
             NativePlatformDestroy();
@@ -197,6 +207,33 @@ namespace TheLegends.Base.Ads
         private void CancelReloadAds()
         {
             CancelInvoke(nameof(LoadAds));
+        }
+
+        public float GetWidthInPixels()
+        {
+#if USE_ADMOB
+            return _nativePlatformAd?.GetWidthInPixels() ?? 0f;
+#endif
+        }
+
+        public float GetHeightInPixels()
+        {
+#if USE_ADMOB
+            return _nativePlatformAd?.GetHeightInPixels() ?? 0f;
+#endif
+        }
+
+        public void UpdateAdViewSize(int width, int height)
+        {
+            _customViewWidth = width;
+            _customViewHeight = height;
+
+#if USE_ADMOB
+            if (_nativePlatformAd != null && status == AdsEvents.ShowSuccess)
+            {
+                _nativePlatformAd.UpdateAdViewSize(width, height);
+            }
+#endif
         }
 
         #region Internal
@@ -287,6 +324,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
+                OnClick?.Invoke();
             });
 #endif
         }

@@ -64,6 +64,21 @@ namespace TheLegends.Base.Ads
             Debug.Log("DummyNativeClient: WithCountdown");
         }
 
+        public void updateAdViewSize(int width, int height)
+        {
+            Debug.Log("DummyNativeClient: updateAdViewSize " + width + "x" + height);
+        }
+
+        public float GetWidthInPixels()
+        {
+            return -1f;
+        }
+
+        public float GetHeightInPixels()
+        {
+            return -1f;
+        }
+
         public void WithAutoReload(string adUnitId, long intervalSeconds)
         {
             Debug.Log("DummyNativeClient: WithAutoReload");

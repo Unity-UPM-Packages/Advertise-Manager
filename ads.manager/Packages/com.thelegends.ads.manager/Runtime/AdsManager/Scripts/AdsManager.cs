@@ -549,7 +549,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeBanner(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public NativePlatformShowBuilder ShowNativeBanner(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -561,7 +561,7 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
-                return mediation.ShowNativeBanner(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeBanner(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent, OnClick);
             }
 
             return null;
@@ -620,6 +620,35 @@ namespace TheLegends.Base.Ads
                 ?.WithAutoReload(config.reloadTime)
                 ?.WithShowOnLoaded(config.showOnLoaded)
                 ?.Execute();
+            }
+        }
+
+        public float GetNativeBannerWidth(PlacementOrder order)
+        {
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+            if (mediation != null)
+            {
+                return mediation.GetNativeBannerWidth(order);
+            }
+            return -1f;
+        }
+
+        public float GetNativeBannerHeight(PlacementOrder order)
+        {
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+            if (mediation != null)
+            {
+                return mediation.GetNativeBannerHeight(order);
+            }
+            return -1f;
+        }
+
+        public void UpdateNativeBannerViewSize(PlacementOrder order, int width, int height)
+        {
+            var mediation = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+            if (mediation != null)
+            {
+                mediation.UpdateNativeBannerViewSize(order, width, height);
             }
         }
 

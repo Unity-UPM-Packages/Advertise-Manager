@@ -29,7 +29,7 @@ namespace TheLegends.Base.Ads
 
         public AdmobNativePlatformAndroidClient() : base("com.thelegends.admob_native_unity.NativeAdCallbacks") { }
 
-        public void Initialize() { } 
+        public void Initialize() { }
 
         public void LoadAd(string adUnitId, AdRequest request)
         {
@@ -39,7 +39,7 @@ namespace TheLegends.Base.Ads
             _kotlinController = new AndroidJavaObject(
                 "com.thelegends.admob_native_unity.AdmobNativeController",
                 activity,
-                this 
+                this
             );
 
             _kotlinController.Call("loadAd", adUnitId, adRequestJava);
@@ -48,6 +48,11 @@ namespace TheLegends.Base.Ads
         public void ShowAd(string layoutName) => _kotlinController?.Call("showAd", layoutName);
         public void DestroyAd() => _kotlinController?.Call("destroyAd");
         public bool IsAdAvailable() => _kotlinController?.Call<bool>("isAdAvailable") ?? false;
+        public float GetWidthInPixels() => _kotlinController?.Call<float>("getWidthInPixels") ?? -1f;
+
+        public float GetHeightInPixels() => _kotlinController?.Call<float>("getHeightInPixels") ?? -1f;
+
+        public void updateAdViewSize(int width, int height) => _kotlinController?.Call("updateAdViewSize", width, height);
 
         #region Builder Pattern Support - Direct Native Calls
 
@@ -55,7 +60,7 @@ namespace TheLegends.Base.Ads
         {
             _kotlinController?.Call<AndroidJavaObject>("withCountdown", initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
-        
+
         public void WithPosition(int positionX, int positionY)
         {
             _kotlinController?.Call<AndroidJavaObject>("withPosition", positionX, positionY);
@@ -66,7 +71,7 @@ namespace TheLegends.Base.Ads
 
         public IResponseInfoClient GetResponseInfoClient()
         {
-            return _kotlinController != null ? new AdmobNativePlatformAndroidResponseInfoClient (_kotlinController) : null;
+            return _kotlinController != null ? new AdmobNativePlatformAndroidResponseInfoClient(_kotlinController) : null;
         }
 
         #region Kotlin Callbacks Implementation
@@ -88,7 +93,7 @@ namespace TheLegends.Base.Ads
                 {
                     LoadAdErrorClient = new AdmobNativePlatformAndroidAdErrorClient(errorJO)
                 };
-                
+
                 OnAdFailedToLoad?.Invoke(this, args);
             });
         }
@@ -126,7 +131,7 @@ namespace TheLegends.Base.Ads
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                    OnAdDidRecordImpression?.Invoke(this, EventArgs.Empty);
+                OnAdDidRecordImpression?.Invoke(this, EventArgs.Empty);
             });
         }
         void onAdClicked()

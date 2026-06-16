@@ -80,6 +80,21 @@ namespace TheLegends.Base.Ads
             _client?.WithPosition(positionX, positionY);
         }
 
+        public float GetWidthInPixels()
+        {
+            return _client?.GetWidthInPixels() ?? -1f;
+        }
+
+        public float GetHeightInPixels()
+        {
+            return _client?.GetHeightInPixels() ?? -1f;
+        }
+
+        public void UpdateAdViewSize(int width, int height)
+        {
+            _client?.updateAdViewSize(width, height);
+        }
+
         #endregion
 
         public IResponseInfoClient GetResponseInfo()

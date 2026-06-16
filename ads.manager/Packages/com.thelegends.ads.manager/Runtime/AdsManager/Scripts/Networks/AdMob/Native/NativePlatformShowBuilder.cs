@@ -16,21 +16,23 @@ namespace TheLegends.Base.Ads
         private readonly string _layoutName;
         private readonly Action _onShow;
         private readonly Action _onClose;
+        private readonly Action _onClick;
         private readonly Action _onAdDismissedFullScreenContent;
         private bool _hasExecuted = false;
-        
+
         // Configuration storage for explicit execution
         private CountdownConfig _countdownConfig;
         private AutoReloadConfig _autoReloadConfig;
         private ShowOnLoadedConfig _showOnLoadedConfig;
         private PositionConfig _positionConfig;
-        internal NativePlatformShowBuilder(AdmobNativePlatformController controller, string position, string layoutName, Action onShow, Action onClose, Action OnAdDismissedFullScreenContent)
+        internal NativePlatformShowBuilder(AdmobNativePlatformController controller, string position, string layoutName, Action onShow, Action onClose, Action OnAdDismissedFullScreenContent, Action OnClick)
         {
             _controller = controller;
             _position = position;
             _layoutName = layoutName;
             _onShow = onShow;
             _onClose = onClose;
+            _onClick = OnClick;
             _onAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
             // Store parameters, wait for explicit Execute() call
         }
@@ -50,7 +52,7 @@ namespace TheLegends.Base.Ads
             }
 
             Debug.Log($"[NativePlatformShowBuilder] Storing countdown config: {initialDelaySeconds}s initial, {countdownDurationSeconds}s countdown, {closeButtonDelaySeconds}s close delay");
-            
+
             // Store configuration for explicit execution
             _countdownConfig = new CountdownConfig
             {
@@ -58,7 +60,7 @@ namespace TheLegends.Base.Ads
                 CountdownDurationSeconds = countdownDurationSeconds,
                 CloseButtonDelaySeconds = closeButtonDelaySeconds
             };
-            
+
             return this;
         }
 
@@ -76,13 +78,13 @@ namespace TheLegends.Base.Ads
             }
 
             Debug.Log($"[NativePlatformShowBuilder] Storing auto-reload config after {intervalSeconds}s");
-            
+
             // Store configuration for explicit execution
             _autoReloadConfig = new AutoReloadConfig
             {
                 IntervalSeconds = intervalSeconds
             };
-            
+
             return this;
         }
 
@@ -93,13 +95,13 @@ namespace TheLegends.Base.Ads
         public NativePlatformShowBuilder WithShowOnLoaded(bool enabled)
         {
             Debug.Log($"[NativePlatformShowBuilder] Storing show-on-loaded config: {enabled}");
-            
+
             // Store configuration for explicit execution
             _showOnLoadedConfig = new ShowOnLoadedConfig
             {
                 Enabled = enabled
             };
-            
+
             return this;
         }
 
@@ -121,14 +123,14 @@ namespace TheLegends.Base.Ads
         private void ExecuteWithConfigurations()
         {
             if (_hasExecuted) return;
-            
+
             Debug.Log($"[NativePlatformShowBuilder] Executing with configurations for position: {_position}, layout: {_layoutName}");
-            
+
             _controller.StoreConfigs(_countdownConfig, _autoReloadConfig, _showOnLoadedConfig, _positionConfig);
-            
+
             Debug.Log($"[NativePlatformShowBuilder] Executing show with stored configurations");
-            _controller.ShowAds(_position, _layoutName, _onShow, _onClose, _onAdDismissedFullScreenContent);
-            
+            _controller.ShowAds(_position, _layoutName, _onShow, _onClose, _onAdDismissedFullScreenContent, _onClick);
+
             _hasExecuted = true;
         }
 
@@ -148,38 +150,38 @@ namespace TheLegends.Base.Ads
             public float InitialDelaySeconds { get; set; }
             public float CountdownDurationSeconds { get; set; }
             public float CloseButtonDelaySeconds { get; set; }
-            
+
             public CountdownConfig Clone() => new CountdownConfig
             {
                 InitialDelaySeconds = this.InitialDelaySeconds,
                 CountdownDurationSeconds = this.CountdownDurationSeconds,
                 CloseButtonDelaySeconds = this.CloseButtonDelaySeconds
             };
-            
+
             public override string ToString() => $"{InitialDelaySeconds}s,{CountdownDurationSeconds}s,{CloseButtonDelaySeconds}s";
         }
 
         public class AutoReloadConfig
         {
             public float IntervalSeconds { get; set; }
-            
+
             public AutoReloadConfig Clone() => new AutoReloadConfig
             {
                 IntervalSeconds = this.IntervalSeconds
             };
-            
+
             public override string ToString() => $"{IntervalSeconds}s";
         }
 
         public class ShowOnLoadedConfig
         {
             public bool Enabled { get; set; }
-            
+
             public ShowOnLoadedConfig Clone() => new ShowOnLoadedConfig
             {
                 Enabled = this.Enabled
             };
-            
+
             public override string ToString() => $"{Enabled}";
         }
 
@@ -193,7 +195,7 @@ namespace TheLegends.Base.Ads
                 AdsPos = this.AdsPos,
                 Offset = this.Offset
             };
-            
+
             public override string ToString() => $"{Offset}";
         }
 
