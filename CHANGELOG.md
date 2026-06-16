@@ -1,3 +1,10 @@
+## [1.1.62](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.61...v1.1.62) (2026-06-16)
+
+
+### Bug Fixes
+
+* add change native platform size ([7b2babe](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/7b2babe42093d1d42890587a38a8f7d689c78918))
+
 ## [1.1.61](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.60...v1.1.61) (2026-06-16)
 
 
