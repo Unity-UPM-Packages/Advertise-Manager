@@ -82,12 +82,15 @@ namespace TheLegends.Base.Ads
 
         void onAdFailedToLoad(AndroidJavaObject errorJO)
         {
-            var args = new LoadAdErrorClientEventArgs()
+            PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                LoadAdErrorClient = new AdmobNativePlatformAndroidAdErrorClient(errorJO)
-            };
-            
-            OnAdFailedToLoad?.Invoke(this, args);
+                var args = new LoadAdErrorClientEventArgs()
+                {
+                    LoadAdErrorClient = new AdmobNativePlatformAndroidAdErrorClient(errorJO)
+                };
+                
+                OnAdFailedToLoad?.Invoke(this, args);
+            });
         }
 
         void onAdClosed()
