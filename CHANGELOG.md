@@ -1,3 +1,11 @@
+## [1.1.61](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.60...v1.1.61) (2026-06-16)
+
+
+### Bug Fixes
+
+* double.Parse revenue trackers ([d0b2d1c](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/d0b2d1c2f04340fccdcd6d83d14b76964c199cb5))
+* improve ANR ([1823995](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/18239956139011038a985b86096e1bbbe47e6cca))
+
 ## [1.1.60](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.59...v1.1.60) (2026-06-10)
 
 
