@@ -28,7 +28,7 @@ namespace TheLegends.Base.Ads.Tracking
                 { "ad_unit_id", data.AdUnitName },
                 { "placement", data.Placement },
                 { "is_show", 1 },
-                { "value", data.Revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) }
+                { "value", double.Parse(data.Revenue.ToString(System.Globalization.CultureInfo.InvariantCulture))}
             });
         }
     }
