@@ -197,10 +197,10 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
-            this.OnClose = OnClose;
-            this.OnShow = OnShow;
-            this.OnAdShowedFullScreenContent = OnAdShowedFullScreenContent;
-            this.OnAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
+            if (OnClose != null) this.OnClose = OnClose;
+            if (OnShow != null) this.OnShow = OnShow;
+            if (OnAdShowedFullScreenContent != null) this.OnAdShowedFullScreenContent = OnAdShowedFullScreenContent;
+            if (OnAdDismissedFullScreenContent != null) this.OnAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
             base.ShowAds(position);
 
             if (IsReady && IsAvailable)
@@ -226,6 +226,7 @@ namespace TheLegends.Base.Ads
             OnShow = null;
             OnClose = null;
             OnAdDismissedFullScreenContent = null;
+            OnAdShowedFullScreenContent = null;
 
             NativeAdvancedDestroy();
             OnNativeAdvancedClosed();
@@ -387,6 +388,11 @@ namespace TheLegends.Base.Ads
             {
                 OnAdsClosed();
                 OnClose?.Invoke();
+
+                OnShow = null;
+                OnClose = null;
+                OnAdDismissedFullScreenContent = null;
+                OnAdShowedFullScreenContent = null;
 
                 _showStratery.OnAdsClosed(this);
             });

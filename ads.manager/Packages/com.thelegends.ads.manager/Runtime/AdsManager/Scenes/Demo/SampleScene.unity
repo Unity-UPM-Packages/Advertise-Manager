@@ -1844,7 +1844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2481306453150291610, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5933510529498727382, guid: 861dd30f140c6db48b0749cf5eb7aecd, type: 3}
       propertyPath: m_Pivot.x
@@ -3921,11 +3921,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1038736188}
   m_SourcePrefab: {fileID: 100100000, guid: 15f2f3aafe47c554493cafd5ccaaf7d0, type: 3}
---- !u!1 &1038736187 stripped
+--- !u!1 &1038736187
 GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 2840755438860400301, guid: 15f2f3aafe47c554493cafd5ccaaf7d0, type: 3}
   m_PrefabInstance: {fileID: 1038736186}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038736190}
+  - component: {fileID: 1038736189}
+  - component: {fileID: 1038736188}
+  m_Layer: 0
+  m_Name: FirebaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &1038736188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3939,6 +3952,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 
+--- !u!114 &1038736189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 4631976628421766537, guid: 15f2f3aafe47c554493cafd5ccaaf7d0, type: 3}
+  m_PrefabInstance: {fileID: 1038736186}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038736187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e35a89e5f80b84cb444e1737e5e648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initializationStatus: 0
+  _status: 0
+--- !u!4 &1038736190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3415338048030775010, guid: 15f2f3aafe47c554493cafd5ccaaf7d0, type: 3}
+  m_PrefabInstance: {fileID: 1038736186}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038736187}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1049606859
 GameObject:
   m_ObjectHideFlags: 0
@@ -9057,7 +9099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059403665400051528, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2219491742314284916, guid: 718b27b6dee90134e892154fdb808be5, type: 3}
       propertyPath: m_Pivot.x
