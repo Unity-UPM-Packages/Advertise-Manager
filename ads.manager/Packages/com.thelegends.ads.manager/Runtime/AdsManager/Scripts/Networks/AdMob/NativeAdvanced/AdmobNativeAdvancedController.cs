@@ -12,8 +12,11 @@ namespace TheLegends.Base.Ads
         private INativeAdvancedShowStrategy _showStratery;
         protected Action OnClose;
         protected Action OnShow;
+        protected Action OnClick;
         protected Action OnAdShowedFullScreenContent;
         protected Action OnAdDismissedFullScreenContent;
+        protected int _customViewWidth = -1;
+        protected int _customViewHeight = -1;
 
         [SerializeField]
         private PlacementOrder _order = PlacementOrder.One;
@@ -151,10 +154,9 @@ namespace TheLegends.Base.Ads
                         return;
                     }
 
-                    var responseInfo = native.GetResponseInfo();
-                    networkName = responseInfo.GetMediationAdapterClassName();
+                    networkName = AdsManager.Instance.GetMediationNetwork(native.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
 
-                    AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + responseInfo);
+                    AdsManager.Instance.Log($"{AdsMediation}_{AdsType} " + "ad loaded with response : " + native.GetResponseInfo());
 
                     if (NativeAdvancedAd != null)
                     {
@@ -180,12 +182,12 @@ namespace TheLegends.Base.Ads
             ShowAds(position);
         }
 
-        public void ShowAds(Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null)
+        public void ShowAds(Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
-            ShowAds(position, OnShow, OnClose, OnAdShowedFullScreenContent, OnAdDismissedFullScreenContent);
+            ShowAds(position, OnShow, OnClose, OnAdShowedFullScreenContent, OnAdDismissedFullScreenContent, OnClick);
         }
 
-        public void ShowAds(string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null)
+        public void ShowAds(string showPosition, Action OnShow = null, Action OnClose = null, Action OnAdShowedFullScreenContent = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
 #if USE_ADMOB
 
@@ -201,6 +203,7 @@ namespace TheLegends.Base.Ads
             if (OnShow != null) this.OnShow = OnShow;
             if (OnAdShowedFullScreenContent != null) this.OnAdShowedFullScreenContent = OnAdShowedFullScreenContent;
             if (OnAdDismissedFullScreenContent != null) this.OnAdDismissedFullScreenContent = OnAdDismissedFullScreenContent;
+            if (OnClick != null) this.OnClick = OnClick;
             base.ShowAds(position);
 
             if (IsReady && IsAvailable)
@@ -211,6 +214,11 @@ namespace TheLegends.Base.Ads
                 CancelReloadAds();
 
                 _showStratery.ExecuteShow(this);
+
+                if (_customViewWidth != -1 && _customViewHeight != -1)
+                {
+                    _nativeAdvancedAd?.UpdateAdViewSize(_customViewWidth, _customViewHeight);
+                }
             }
             else
             {
@@ -227,6 +235,7 @@ namespace TheLegends.Base.Ads
             OnClose = null;
             OnAdDismissedFullScreenContent = null;
             OnAdShowedFullScreenContent = null;
+            OnClick = null;
 
             NativeAdvancedDestroy();
             OnNativeAdvancedClosed();
@@ -332,6 +341,7 @@ namespace TheLegends.Base.Ads
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 OnAdsClick();
+                OnClick?.Invoke();
             });
 #endif
         }
@@ -393,6 +403,7 @@ namespace TheLegends.Base.Ads
                 OnClose = null;
                 OnAdDismissedFullScreenContent = null;
                 OnAdShowedFullScreenContent = null;
+                OnClick = null;
 
                 _showStratery.OnAdsClosed(this);
             });
@@ -433,6 +444,35 @@ namespace TheLegends.Base.Ads
         public string GetNetworkName() => networkName;
         public string GetAdsUnitID() => adsUnitID;
         public string GetPosition() => position;
+
+        public float GetWidthInPixels()
+        {
+#if USE_ADMOB
+            return _nativeAdvancedAd?.GetWidthInPixels() ?? -1f;
+#else
+            return -1f;
+#endif
+        }
+
+        public float GetHeightInPixels()
+        {
+#if USE_ADMOB
+            return _nativeAdvancedAd?.GetHeightInPixels() ?? -1f;
+#else
+            return -1f;
+#endif
+        }
+
+        public void UpdateAdViewSize(int width, int height)
+        {
+#if USE_ADMOB
+            _customViewWidth = width;
+            _customViewHeight = height;
+
+            _nativeAdvancedAd.UpdateAdViewSize(width, height);
+
+#endif
+        }
 
         #endregion
 

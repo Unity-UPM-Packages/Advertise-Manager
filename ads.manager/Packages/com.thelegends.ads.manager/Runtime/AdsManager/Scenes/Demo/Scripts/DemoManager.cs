@@ -289,6 +289,10 @@ public class DemoManager : MonoBehaviour
         }, () =>
         {
             AdsManager.Instance.Log("NativeBanner closed");
+        }, null, null, () =>
+        {
+            AdsManager.Instance.Log("NativeBanner Clicked");
+            ResetNativeBannerSize();
         });
 #endif
     }
@@ -304,9 +308,9 @@ public class DemoManager : MonoBehaviour
     public void ChangeNativeBannerSize()
     {
 #if USE_ADMOB
-        var nativeBannerWidth = AdsManager.Instance.GetNativeBannerWidth(PlacementOrder.One);
-        var nativeBannerHeight = AdsManager.Instance.GetNativeBannerHeight(PlacementOrder.One);
-        AdsManager.Instance.UpdateNativeBannerViewSize(PlacementOrder.One, (int)nativeBannerWidth, 200);
+        var nativeBannerWidth = nativeBannerAdvanced.GetWidthInPixels();
+        var nativeBannerHeight = nativeBannerAdvanced.GetHeightInPixels();
+        nativeBannerAdvanced.UpdateAdViewSize((int)nativeBannerWidth, 200);
 #endif
     }
 
@@ -318,10 +322,12 @@ public class DemoManager : MonoBehaviour
     private IEnumerator IEResetNativeBannerSize()
     {
         yield return resetNativeSizeDelay;
-        var nativeBannerWidth = AdsManager.Instance.GetNativeBannerWidth(PlacementOrder.One);
-        var nativeBannerHeight = AdsManager.Instance.GetNativeBannerHeight(PlacementOrder.One);
-        AdsManager.Instance.UpdateNativeBannerViewSize(PlacementOrder.One, (int)nativeBannerWidth, (int)nativeBannerHeight);
-        AdsManager.Instance.UpdateNativeBannerViewSize(PlacementOrder.One, -1, -1);
+#if USE_ADMOB
+        var nativeBannerWidth = nativeBannerAdvanced.GetWidthInPixels();
+        var nativeBannerHeight = nativeBannerAdvanced.GetHeightInPixels();
+        nativeBannerAdvanced.UpdateAdViewSize((int)nativeBannerWidth, (int)nativeBannerHeight);
+        // nativeBannerAdvanced.UpdateAdViewSize(-1, -1);
+#endif
     }
 
     public void AdjustLayoutForNativeBanner()
