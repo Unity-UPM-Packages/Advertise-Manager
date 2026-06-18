@@ -1132,6 +1132,24 @@ namespace TheLegends.Base.Ads
             return string.Empty;
         }
 
+        public int GetAdsIdIndex(AdsType adsType, PlacementOrder order)
+        {
+            if (!IsInitialized())
+            {
+                return -1;
+            }
+
+            foreach (var mediation in adsMediations)
+            {
+                if (mediation.IsAdsControllerExist(adsType, order))
+                {
+                    return mediation.GetAdsIdIndex(adsType, order);
+                }
+            }
+
+            return -1;
+        }
+
         public int GetPlacementInfo(AdsType adsType, out List<PlacementOrder> placementOrders)
         {
             placementOrders = new List<PlacementOrder>();
