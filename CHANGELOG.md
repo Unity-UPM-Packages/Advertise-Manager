@@ -1,3 +1,10 @@
+## [1.1.63](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.62...v1.1.63) (2026-06-18)
+
+
+### Bug Fixes
+
+* add GetAdsIdIndex ([a53f4f1](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/a53f4f1c559079be15b9be4403fdb6e6d6674861))
+
 ## [1.1.62](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.61...v1.1.62) (2026-06-16)
 
 
