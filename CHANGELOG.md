@@ -1,3 +1,10 @@
+## [1.1.64](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.63...v1.1.64) (2026-06-22)
+
+
+### Bug Fixes
+
+* fix impression revenue data parse ([e147928](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/e1479281675133e54384d6f2e6049710161d320f))
+
 ## [1.1.63](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.62...v1.1.63) (2026-06-18)
 
 
