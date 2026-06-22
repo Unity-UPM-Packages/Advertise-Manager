@@ -23,7 +23,7 @@ namespace TheLegends.Base.Ads.Tracking
                 { "ad_format", AdFormat },
                 { "ad_unit_name", AdUnitName },
                 { "country", Country },
-                { "revenue", double.Parse(Revenue.ToString(System.Globalization.CultureInfo.InvariantCulture))},
+                { "revenue", Revenue },
                 { "currency", Currency },
                 { "placement", Placement }
             };
