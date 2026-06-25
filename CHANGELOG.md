@@ -1,3 +1,10 @@
+## [1.1.65](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.64...v1.1.65) (2026-06-25)
+
+
+### Bug Fixes
+
+* improve ANR ([943f396](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/943f396b7077fb2eb732512d715f2446ae27f206))
+
 ## [1.1.64](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.63...v1.1.64) (2026-06-22)
 
 
