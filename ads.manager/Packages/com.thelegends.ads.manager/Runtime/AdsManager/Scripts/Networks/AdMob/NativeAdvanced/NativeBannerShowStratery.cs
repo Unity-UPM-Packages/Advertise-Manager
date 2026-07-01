@@ -11,16 +11,22 @@ namespace TheLegends.Base.Ads
 
         public NativeLayer ZLayer => zLayer;
 
-        private INativeAdvancedHelper _helper;
+        private INativeAdvancedHelper[] _helpers;
 
         private void Awake()
         {
-            _helper = GetComponent<INativeAdvancedHelper>();
+            _helpers = GetComponents<INativeAdvancedHelper>();
         }
 
         public void ExecuteShow(AdmobNativeAdvancedController advancedController)
         {
-            _helper.Help();
+            if (_helpers != null)
+            {
+                foreach (var helper in _helpers)
+                {
+                    helper?.Help();
+                }
+            }
 
             string zLayerName = zLayer.ToString();
 

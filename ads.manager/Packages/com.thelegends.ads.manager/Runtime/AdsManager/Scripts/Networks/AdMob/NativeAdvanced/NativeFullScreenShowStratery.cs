@@ -11,7 +11,7 @@ namespace TheLegends.Base.Ads
 
         [SerializeField] private NativeLayer zLayer = NativeLayer.FullScreen;
         public NativeLayer ZLayer => zLayer;
-        private INativeAdvancedHelper _helper;
+        private INativeAdvancedHelper[] _helpers;
 
         [SerializeField] private float initialDelaySeconds = 5f;
         [SerializeField] private float countdownDurationSeconds = 5f;
@@ -43,12 +43,18 @@ namespace TheLegends.Base.Ads
 
         private void Awake()
         {
-            _helper = GetComponent<INativeAdvancedHelper>();
+            _helpers = GetComponents<INativeAdvancedHelper>();
         }
 
         public void ExecuteShow(AdmobNativeAdvancedController advancedController)
         {
-            _helper.Help();
+            if (_helpers != null)
+            {
+                foreach (var helper in _helpers)
+                {
+                    helper?.Help();
+                }
+            }
 
             string zLayerName = zLayer.ToString();
 
