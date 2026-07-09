@@ -1,3 +1,10 @@
+## [1.1.66](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.65...v1.1.66) (2026-07-09)
+
+
+### Bug Fixes
+
+* remove Appsflyer LogImpression ([7a941a7](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/7a941a73ed15319c8e11eed92b1baf8cebabb02b))
+
 ## [1.1.65](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.64...v1.1.65) (2026-06-25)
 
 
