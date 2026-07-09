@@ -88,8 +88,8 @@ namespace TheLegends.Base.Ads
         private static void ExtractGraphicComponents(NativeAdLayoutMark mark, NativeAdElementConfig elementConfig)
         {
             var img = mark.GetComponent<Image>();
-            // Exclude IconViews and MediaViews from image extraction as they are handled natively by the AdMob platform.
-            if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView && mark.elementTag != NativeAdElement.MediaView)
+            // Exclude IconViews, MediaViews and MainImage from image extraction as they are handled natively by the AdMob platform.
+            if (img != null && img.enabled && mark.elementTag != NativeAdElement.IconView && mark.elementTag != NativeAdElement.MediaView && mark.elementTag != NativeAdElement.MainImage)
             {
                 var imageConfig = new ImageConfig
                 {

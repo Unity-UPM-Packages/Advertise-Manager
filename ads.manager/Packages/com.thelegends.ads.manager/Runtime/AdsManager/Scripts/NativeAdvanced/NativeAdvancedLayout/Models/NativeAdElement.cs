@@ -26,6 +26,8 @@ namespace TheLegends.Base.Ads
         CountdownText = 12,
 
         // Custom Elements
-        Background = 13
+        Background = 13,
+
+        MainImage = 14
     }
 }
