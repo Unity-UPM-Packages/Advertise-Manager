@@ -34,8 +34,6 @@ namespace TheLegends.Base.Ads.Tracking
                 { "placement", data.Placement }
             };
 
-            AppsFlyerManager.Instance.LogImpression(dict);
-
             string mediationStr = "GoogleAdMob";
             if (data.AdMediation == AdsMediation.Max) mediationStr = "ApplovinMax";
             else if (data.AdMediation == AdsMediation.Iron) mediationStr = "IronSource";
