@@ -1,3 +1,10 @@
+## [1.1.67](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.66...v1.1.67) (2026-07-09)
+
+
+### Bug Fixes
+
+* separate fullscreen/video media/image ([0c4c0ae](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/0c4c0aef3a5bf39f7d8784c0faa407caa985467d))
+
 ## [1.1.66](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.65...v1.1.66) (2026-07-09)
 
 
