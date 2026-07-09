@@ -320,7 +320,7 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
+        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video_Image, () =>
         {
             AdsManager.Instance.Log("NativeVideoPlatform show");
             HideNativeBannerPlatform();

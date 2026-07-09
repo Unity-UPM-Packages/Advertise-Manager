@@ -401,7 +401,7 @@ namespace TheLegends.Base.Ads
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
-                    AdsManager.Instance.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", NativeName.Native_FullScreen, null, () =>
+                    AdsManager.Instance.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", NativeName.Native_FullScreen_Media, null, () =>
                     {
                         isShowAdOpen = false;
                     }, null)
