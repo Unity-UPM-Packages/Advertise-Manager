@@ -207,16 +207,13 @@ namespace TheLegends.Base.Ads
             var config = new Dictionary<string, object>
             {
                 {"isUseAdInterOpen", AdsManager.Instance.adsConfigs.isUseAdInterOpen},
-                {"adInterOpenTimeOut", AdsManager.Instance.adsConfigs.adInterOpenTimeOut},
                 {"isUseAdMrecOpen", AdsManager.Instance.adsConfigs.isUseAdMrecOpen},
-                {"adMrecOpenTimeOut", AdsManager.Instance.adsConfigs.adMrecOpenTimeOut},
                 {"isUseAdAppOpenOpen", AdsManager.Instance.adsConfigs.isUseAdAppOpenOpen},
                 {"adInterOnComplete", AdsManager.Instance.adsConfigs.adInterOnComplete},
                 {"adInterOnStart", AdsManager.Instance.adsConfigs.adInterOnStart},
                 {"timePlayToShowAds", AdsManager.Instance.adsConfigs.timePlayToShowAds},
                 {"adNativeBannerHeight", AdsManager.Instance.adsConfigs.adNativeBannerHeight},
                 {"adTimeReload", AdsManager.Instance.adsConfigs.adTimeReload},
-                {"adLoadTimeOut", AdsManager.Instance.adsConfigs.adLoadTimeOut},
                 {"isUseAdNative", AdsManager.Instance.adsConfigs.isUseAdNative},
                 {"nativeVideoCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration},
                 {"nativeVideoDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown},
@@ -254,16 +251,13 @@ namespace TheLegends.Base.Ads
             configs.timePlayToShowAds = FirebaseManager.Instance.RemoteGetValueFloat("timePlayToShowAds", configs.timePlayToShowAds);
             configs.adNativeBannerHeight = FirebaseManager.Instance.RemoteGetValueFloat("adNativeBannerHeight", configs.adNativeBannerHeight);
             configs.adTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("adTimeReload", configs.adTimeReload);
-            configs.adLoadTimeOut = FirebaseManager.Instance.RemoteGetValueFloat("adLoadTimeOut", configs.adLoadTimeOut);
             configs.isUseAdNative = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdNative", configs.isUseAdNative);
             configs.nativeVideoCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCountdownTimerDuration", configs.nativeVideoCountdownTimerDuration);
             configs.nativeVideoDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoDelayBeforeCountdown", configs.nativeVideoDelayBeforeCountdown);
             configs.nativeVideoCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCloseClickableDelay", configs.nativeVideoCloseClickableDelay);
             configs.nativeBannerTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("nativeBannerTimeReload", configs.nativeBannerTimeReload);
             configs.isUseAdInterOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdInterOpen", configs.isUseAdInterOpen);
-            configs.adInterOpenTimeOut = FirebaseManager.Instance.RemoteGetValueFloat("adInterOpenTimeOut", configs.adInterOpenTimeOut);
             configs.isUseAdMrecOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdMrecOpen", configs.isUseAdMrecOpen);
-            configs.adMrecOpenTimeOut = FirebaseManager.Instance.RemoteGetValueFloat("adMrecOpenTimeOut", configs.adMrecOpenTimeOut);
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
         }
 #endif

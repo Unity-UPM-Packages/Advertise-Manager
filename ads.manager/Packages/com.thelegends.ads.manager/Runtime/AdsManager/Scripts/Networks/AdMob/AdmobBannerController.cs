@@ -188,8 +188,6 @@ namespace TheLegends.Base.Ads
                 _bannerView.Hide();
 #endif
 
-                StopHandleTimeout();
-
                 OnAdsLoadAvailable();
 
                 networkName = AdsManager.Instance.GetMediationNetwork(_bannerView.GetResponseInfo().GetMediationAdapterClassName(), AdsMediation.Admob.ToString());
@@ -213,8 +211,6 @@ namespace TheLegends.Base.Ads
                     // If the load request ID does not match, this callback is from a previous request
                     return;
                 }
-
-                StopHandleTimeout();
 
                 var errorDescription = error?.GetMessage();
                 OnAdsLoadFailed(errorDescription);

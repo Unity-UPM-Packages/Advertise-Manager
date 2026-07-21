@@ -134,8 +134,6 @@ namespace TheLegends.Base.Ads
 
                 if (_loadRequestId != _currentLoadRequestId) return;
 
-                StopHandleTimeout();
-
                 isReady = true;
                 OnAdsLoadAvailable();
 
@@ -158,8 +156,6 @@ namespace TheLegends.Base.Ads
                 if (adUnitId != adsUnitID) return;
 
                 if (_loadRequestId != _currentLoadRequestId) return;
-
-                StopHandleTimeout();
 
                 OnAdsLoadFailed(errorInfo.Message);
 

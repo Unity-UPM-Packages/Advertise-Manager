@@ -91,8 +91,6 @@ namespace TheLegends.Base.Ads
 
                 if (_loadRequestId != _currentLoadRequestId) return;
 
-                StopHandleTimeout();
-
                 OnAdsLoadAvailable();
 
                 networkName = AdsManager.Instance.GetMediationNetwork(adInfo.NetworkName, AdsMediation.Max.ToString());
@@ -110,8 +108,6 @@ namespace TheLegends.Base.Ads
                 if (adUnitId != adsUnitID) return;
 
                 if (_loadRequestId != _currentLoadRequestId) return;
-
-                StopHandleTimeout();
 
                 MaxSdkCallbacks.Interstitial.OnAdLoadedEvent -= OnInterstitialLoadedEvent;
                 MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent -= OnInterstitialLoadFailedEvent;

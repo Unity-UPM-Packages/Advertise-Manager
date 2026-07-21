@@ -10,7 +10,6 @@ namespace TheLegends.Base.Ads
         LoadRequest,
         LoadAvailable,
         LoadFail,
-        LoadTimeOut,
         LoadNotAvailable,
         ShowSuccess,
         ShowFail,

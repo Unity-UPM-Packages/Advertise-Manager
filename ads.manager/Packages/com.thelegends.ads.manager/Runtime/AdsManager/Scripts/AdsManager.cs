@@ -1097,7 +1097,6 @@ namespace TheLegends.Base.Ads
                         break;
 
                     case AdsEvents.LoadFail:
-                    case AdsEvents.LoadTimeOut:
                     case AdsEvents.LoadNotAvailable:
                         if (bestStatus == AdsEvents.None)
                         {
@@ -1447,18 +1446,14 @@ namespace TheLegends.Base.Ads
     public class AdsConfigs
     {
         public bool isUseAdInterOpen = true;
-        public float adInterOpenTimeOut = 5f;
         public bool isUseAdMrecOpen = true;
-        public float adMrecOpenTimeOut = 5f;
         public bool isUseAdAppOpenOpen = true;
-        public float adAppOpenOpenTimeOut = 5f;
         public bool adInterOnComplete = true;
         public bool adInterOnStart = true;
         public float timePlayToShowAds = 20f;
         public bool isUseAdNative = true;
         public float adNativeBannerHeight = 140;
         public float adTimeReload = 15f;
-        public float adLoadTimeOut = 5f;
         public float nativeVideoCountdownTimerDuration = 5f;
         public float nativeVideoDelayBeforeCountdown = 5f;
         public float nativeVideoCloseClickableDelay = 2f;

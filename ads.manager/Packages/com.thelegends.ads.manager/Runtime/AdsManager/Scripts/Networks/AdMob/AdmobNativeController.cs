@@ -360,8 +360,6 @@ namespace TheLegends.Base.Ads
                     return;
                 }
 
-                StopHandleTimeout();
-
                 OnAdsLoadAvailable();
 
                 if (args != null)
@@ -404,8 +402,6 @@ namespace TheLegends.Base.Ads
                     // If the load request ID does not match, this callback is from a previous request
                     return;
                 }
-
-                StopHandleTimeout();
 
                 var errorDescription = error.LoadAdError.GetMessage();
                 OnAdsLoadFailed(errorDescription);

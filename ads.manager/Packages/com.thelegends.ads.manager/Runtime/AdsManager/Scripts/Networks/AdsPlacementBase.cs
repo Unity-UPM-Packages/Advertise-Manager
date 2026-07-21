@@ -74,18 +74,10 @@ namespace TheLegends.Base.Ads
 
         public AdsType AdsType { get => GetAdsType(); }
 
-        protected float timeOut = 10f;
-
         public virtual void Init(Placement placement, PlacementOrder order)
         {
-            SetTimeOut();
             this.Placement = placement;
             this.Order = order;
-        }
-
-        protected virtual void SetTimeOut()
-        {
-            timeOut = AdsManager.Instance.adsConfigs.adLoadTimeOut;
         }
 
         public abstract AdsMediation GetAdsMediation();
@@ -101,17 +93,6 @@ namespace TheLegends.Base.Ads
             _currentLoadRequestId = Guid.NewGuid().ToString();
             _loadRequestId = _currentLoadRequestId;
 
-            StartHandleTimeout();
-        }
-
-        protected void StartHandleTimeout()
-        {
-            Invoke(nameof(HandleTimeOut), AdsManager.Instance.adsConfigs.adLoadTimeOut);
-        }
-
-        protected void StopHandleTimeout()
-        {
-            CancelInvoke(nameof(HandleTimeOut));
         }
 
         protected bool IsCanLoadAds()
@@ -238,21 +219,6 @@ namespace TheLegends.Base.Ads
                 reloadCount = 0;
             }
 
-        }
-
-        protected void HandleTimeOut()
-        {
-            if (Status == AdsEvents.LoadRequest)
-            {
-                OnAdsLoadTimeOut();
-            }
-        }
-
-        protected virtual void OnAdsLoadTimeOut()
-        {
-            Status = AdsEvents.LoadTimeOut;
-            StopHandleTimeout();
-            OnAdsLoadFailed("TimeOut");
         }
 
         public virtual void ShowAds(string showPosition)

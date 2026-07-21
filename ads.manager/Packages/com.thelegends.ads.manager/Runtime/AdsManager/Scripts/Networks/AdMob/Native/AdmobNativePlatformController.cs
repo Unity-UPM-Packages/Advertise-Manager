@@ -86,8 +86,6 @@ namespace TheLegends.Base.Ads
                         return;
                     }
 
-                    StopHandleTimeout();
-
                     // if error is not null, the load request failed.
                     if (error != null)
                     {
