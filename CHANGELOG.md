@@ -1,3 +1,10 @@
+## [1.1.68](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.67...v1.1.68) (2026-07-21)
+
+
+### Bug Fixes
+
+* remove timeout ([515b5fd](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/515b5fd1fa0d29e542a7f7a1cdc8931b80f9a543))
+
 ## [1.1.67](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.66...v1.1.67) (2026-07-09)
 
 
