@@ -152,7 +152,7 @@ public class DemoManager : MonoBehaviour
             AdsManager.Instance.Log("Interstitial closed");
         });
         // #if USE_ADMOB
-        //         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_Inter, () =>
+        //         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_FullScreen_Media, () =>
         //         {
         //             AdsManager.Instance.Log("NativeInter show");
         //             HideNativeBannerPlatform();
@@ -320,7 +320,7 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video_Image, () =>
+        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
         {
             AdsManager.Instance.Log("NativeVideoPlatform show");
             HideNativeBannerPlatform();
