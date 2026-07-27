@@ -324,6 +324,12 @@ namespace TheLegends.Base.Ads
 
             if (!IsTimeToShowAd)
             {
+#if USE_ADMOB
+                if (GetAdsStatus(AdsType.NativeAppOpen, order) != AdsEvents.LoadAvailable)
+                {
+                    LoadNativeAppOpen(order);
+                }
+#endif
                 if (GetAdsStatus(AdsType.AppOpen, order) != AdsEvents.LoadAvailable)
                 {
                     LoadAppOpen(order);
@@ -336,7 +342,30 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
+#if USE_ADMOB
+                var admob = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+                if (GetAdsStatus(AdsType.NativeAppOpen, order) == AdsEvents.LoadAvailable)
+                {
+                    AdsCaller.ShowNativeAppOpen(PlacementOrder.One, "native_inter_open", null, null, null,
+                    new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
+                        CountdownDurationSeconds = adsConfigs.nativeVideoCountdownTimerDuration,
+                        CloseButtonDelaySeconds = adsConfigs.nativeVideoCloseClickableDelay
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        InitialDelaySeconds = adsConfigs.nativeMetaDelayBeforeCountdown,
+                        CountdownDurationSeconds = adsConfigs.nativeMetaCountdownTimerDuration,
+                        CloseButtonDelaySeconds = adsConfigs.nativeMetaCloseClickableDelay
+                    });
+                }
+                else
+                {
+                    mediation.ShowAppOpen(order, position, OnClose);
+                }
+#else
                 mediation.ShowAppOpen(order, position, OnClose);
+#endif
             }
         }
 
@@ -1457,7 +1486,11 @@ namespace TheLegends.Base.Ads
         public float nativeVideoCountdownTimerDuration = 5f;
         public float nativeVideoDelayBeforeCountdown = 5f;
         public float nativeVideoCloseClickableDelay = 2f;
+        public float nativeMetaDelayBeforeCountdown = 5f;
+        public float nativeMetaCountdownTimerDuration = 5f;
+        public float nativeMetaCloseClickableDelay = 2f;
         public float nativeBannerTimeReload = 15f;
+
     }
 
 }
