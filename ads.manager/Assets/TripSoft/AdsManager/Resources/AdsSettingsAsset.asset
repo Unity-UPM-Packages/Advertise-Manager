@@ -147,6 +147,8 @@ MonoBehaviour:
     nativeInterIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
+    - stringIDs:
+      - ca-app-pub-3940256099942544/2247696110
     nativeRewardIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110

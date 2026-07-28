@@ -1081,11 +1081,7 @@ namespace TheLegends.Base.Ads
             if ((adsType == AdsType.Interstitial ||
                 adsType == AdsType.AppOpen ||
                 adsType == AdsType.Rewarded ||
-                adsType == AdsType.InterOpen ||
-                adsType == AdsType.NativeInter ||
-                adsType == AdsType.NativeInterOpen ||
-                adsType == AdsType.NativeReward ||
-                adsType == AdsType.NativeAppOpen) &&
+                adsType == AdsType.InterOpen) &&
                 (adEvent == AdsEvents.ShowSuccess))
             {
                 lastTimeShowAd = DateTime.Now;

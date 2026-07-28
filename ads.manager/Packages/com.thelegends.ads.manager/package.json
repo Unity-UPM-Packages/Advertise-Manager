@@ -3,7 +3,7 @@
   "displayName": "Ads Manager",
   "description": "Ads Manager description goes here.",
   "keywords": [],
-  "version": "1.1.68-preview.10",
+  "version": "1.1.68-preview.11",
   "documentationUrl": "https://github.com/Unity-UPM-Packages/Advertise-Manager#documentation",
   "changelogUrl": "https://github.com/Unity-UPM-Packages/Advertise-Manager/releases",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "com.thelegends.unity.patterns": "1.0.1"
   },
   "optionalDependencies": {
-    "com.thelegends.firebase.manager": "1.0.10",
+    "com.thelegends.firebase.manager": "1.0.11",
     "com.thelegends.appsflyer.manager": "1.0.10",
     "com.google.ads.mobile": "9.6.0",
     "com.applovin.mediation.ads": "8.1.0",
