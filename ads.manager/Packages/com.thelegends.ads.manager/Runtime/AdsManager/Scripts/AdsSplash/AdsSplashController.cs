@@ -408,10 +408,34 @@ namespace TheLegends.Base.Ads
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
-                    AdsCaller.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", null, () =>
+                    AdsCaller.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", () =>
+                    {
+                        AdsManager.Instance.LoadNativeInterOpen(PlacementOrder.Two);
+                    }, () =>
                     {
                         isShowAdOpen = false;
-                    }, null, new NativePlatformShowBuilder.CountdownConfig
+                    }, () =>
+                    {
+                        if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.Two) == AdsEvents.LoadAvailable)
+                        {
+                            AdsManager.Instance.HideNativeInterOpen(PlacementOrder.One);
+                            AdsCaller.ShowNativeInterOpen(PlacementOrder.Two, "native_inter_open", null, () =>
+                            {
+                                isShowAdOpen = false;
+                            }, null,
+                            new NativePlatformShowBuilder.CountdownConfig
+                            {
+                                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
+                                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay
+                            }, new NativePlatformShowBuilder.CountdownConfig
+                            {
+                                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown,
+                                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+                                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay
+                            });
+                        }
+                    }, new NativePlatformShowBuilder.CountdownConfig
                     {
                         InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
                         CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
