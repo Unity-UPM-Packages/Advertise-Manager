@@ -153,34 +153,14 @@ public class DemoManager : MonoBehaviour
         // });
 #if USE_ADMOB
 
-        AdsCaller.ShowNativeInter(PlacementOrder.One, "native_inter", () =>
+        AdsCaller.ShowNativeInter(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
         {
             AdsManager.Instance.Log("NativeInter show");
             HideNativeBannerPlatform();
-
-            AdsManager.Instance.LoadNativeInter(PlacementOrder.Two);
         }, () =>
         {
             AdsManager.Instance.Log("NativeInter closed");
             ShowNativeBannerPlatform();
-        }, () =>
-        {
-            AdsManager.Instance.Log("NativeInter full screen content closed");
-
-            AdsManager.Instance.HideNativeInter(PlacementOrder.One);
-
-            AdsCaller.ShowNativeInter(PlacementOrder.Two, "native_inter_2", null, null, null, new NativePlatformShowBuilder.CountdownConfig
-            {
-                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
-                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
-                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
-            }, new NativePlatformShowBuilder.CountdownConfig
-            {
-                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
-                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
-                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
-            });
-
         }, new NativePlatformShowBuilder.CountdownConfig
         {
             CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,

@@ -223,7 +223,7 @@ namespace TheLegends.Base.Ads
 
             ClearStoredConfigs();
             NativePlatformDestroy();
-            OnNativePlatformClosed();
+            OnAdsClosed();
         }
 
         protected void DelayReloadAd(float time)

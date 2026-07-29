@@ -80,7 +80,11 @@ MonoBehaviour:
   ADMOB_Android:
     bannerIds: []
     interIds: []
-    rewardIds: []
+    rewardIds:
+    - stringIDs:
+      - A
+    - stringIDs:
+      - A
     mrecIds: []
     appOpenIds: []
     interOpenIds: []
@@ -152,10 +156,14 @@ MonoBehaviour:
     nativeRewardIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
+    - stringIDs:
+      - ca-app-pub-3940256099942544/2247696110
     nativeMrecIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
     nativeAppOpenIds:
+    - stringIDs:
+      - ca-app-pub-3940256099942544/2247696110
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
     nativeInterOpenIds:
@@ -203,7 +211,11 @@ MonoBehaviour:
     nativeInterIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511
+    - stringIDs:
+      - ca-app-pub-3940256099942544/3986624511
     nativeRewardIds:
+    - stringIDs:
+      - ca-app-pub-3940256099942544/3986624511
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511
     nativeMrecIds:
@@ -212,7 +224,11 @@ MonoBehaviour:
     nativeAppOpenIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511
+    - stringIDs:
+      - ca-app-pub-3940256099942544/3986624511
     nativeInterOpenIds:
+    - stringIDs:
+      - ca-app-pub-3940256099942544/3986624511
     - stringIDs:
       - ca-app-pub-3940256099942544/3986624511
     nativeMrecOpenIds:

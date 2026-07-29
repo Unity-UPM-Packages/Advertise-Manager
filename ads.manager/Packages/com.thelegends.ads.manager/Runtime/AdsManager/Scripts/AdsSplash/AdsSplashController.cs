@@ -408,43 +408,19 @@ namespace TheLegends.Base.Ads
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
-                    AdsCaller.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", () =>
-                    {
-                        AdsManager.Instance.LoadNativeInterOpen(PlacementOrder.Two);
-                    }, () =>
+                    AdsCaller.ShowNativeInterOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, () =>
                     {
                         isShowAdOpen = false;
-                    }, () =>
-                    {
-                        if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.Two) == AdsEvents.LoadAvailable)
-                        {
-                            AdsManager.Instance.HideNativeInterOpen(PlacementOrder.One);
-                            AdsCaller.ShowNativeInterOpen(PlacementOrder.Two, "native_inter_open", null, () =>
-                            {
-                                isShowAdOpen = false;
-                            }, null,
-                            new NativePlatformShowBuilder.CountdownConfig
-                            {
-                                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
-                                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
-                                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay
-                            }, new NativePlatformShowBuilder.CountdownConfig
-                            {
-                                InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown,
-                                CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
-                                CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay
-                            });
-                        }
                     }, new NativePlatformShowBuilder.CountdownConfig
                     {
-                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
                         CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
-                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
                     }, new NativePlatformShowBuilder.CountdownConfig
                     {
-                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown,
                         CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
-                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
                     });
 
                     isShowAdOpen = true;
@@ -469,19 +445,19 @@ namespace TheLegends.Base.Ads
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
-                    AdsCaller.ShowNativeAppOpen(PlacementOrder.One, "native_inter_open", null, () =>
+                    AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_appopen_open", null, () =>
                     {
                         isShowAdOpen = false;
-                    }, null, new NativePlatformShowBuilder.CountdownConfig
-                    {
-                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
-                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
-                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay
                     }, new NativePlatformShowBuilder.CountdownConfig
                     {
-                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown,
+                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
                         CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
-                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
                     });
 
                     isShowAdOpen = true;
