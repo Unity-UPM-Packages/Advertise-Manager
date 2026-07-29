@@ -15,6 +15,15 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
             var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, currentPlacement);
             string layoutName = NativeName.Native_FullScreen_Media;
 
@@ -55,6 +64,14 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
             var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInterOpen, currentPlacement);
             string layoutName = NativeName.Native_FullScreen_Media;
 
@@ -95,6 +112,14 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) == AdsEvents.LoadAvailable &&
+            AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
             var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, currentPlacement);
             string layoutName = NativeName.Native_FullScreen_Media;
 
@@ -135,6 +160,14 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable &&
+            AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
             var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, currentPlacement);
             string layoutName = NativeName.Native_FullScreen_Media;
 
