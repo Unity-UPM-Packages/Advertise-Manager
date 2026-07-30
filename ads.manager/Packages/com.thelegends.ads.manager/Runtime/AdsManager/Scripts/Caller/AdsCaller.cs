@@ -6,6 +6,8 @@ namespace TheLegends.Base.Ads
 {
     public static class AdsCaller
     {
+        #region NativeInter
+
         public static void ShowNativeInter(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -55,6 +57,36 @@ namespace TheLegends.Base.Ads
             .Execute();
         }
 
+        public static void ShowNativeInterNoLoop(PlacementOrder placementOrder,
+        string position,
+        Action onShow,
+        Action onClose,
+        Action onAdDismissedFullScreenContent,
+        NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+        NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, placementOrder) == AdsEvents.LoadAvailable)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, placementOrder);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
+        }
+
+        #endregion
+
+        #region NativeInterOpen
+
         public static void ShowNativeInterOpen(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -102,6 +134,36 @@ namespace TheLegends.Base.Ads
             .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
             .Execute();
         }
+
+        public static void ShowNativeInterOpenNoLoop(PlacementOrder placementOrder,
+            string position,
+            Action onShow,
+            Action onClose,
+            Action onAdDismissedFullScreenContent,
+            NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+            NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, placementOrder) == AdsEvents.LoadAvailable)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInterOpen, placementOrder);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeInterOpen(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
+        }
+
+        #endregion
+
+        #region NativeAppOpen
 
         public static void ShowNativeAppOpen(
             PlacementOrder currentPlacement,
@@ -151,6 +213,36 @@ namespace TheLegends.Base.Ads
             .Execute();
         }
 
+        public static void ShowNativeAppOpenNoLoop(PlacementOrder placementOrder,
+        string position,
+        Action onShow,
+        Action onClose,
+        Action onAdDismissedFullScreenContent,
+        NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+        NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, placementOrder) == AdsEvents.LoadAvailable)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, placementOrder);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeAppOpen(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
+        }
+
+        #endregion
+
+        #region NativeReward
+
         public static void ShowNativeReward(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -198,6 +290,36 @@ namespace TheLegends.Base.Ads
             .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
             .Execute();
         }
+
+        public static void ShowNativeRewardNoLoop(PlacementOrder placementOrder,
+            string position,
+            Action onShow,
+            Action onClose,
+            Action onAdDismissedFullScreenContent,
+            NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+            NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, placementOrder) == AdsEvents.LoadAvailable)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, placementOrder);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeReward(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+
+            }
+        }
+
+        #endregion
+
 
         public static void ShowNativeInterHalfScreen(PlacementOrder placementOrder, string position, Action onShow, Action onClose, Action OnAdDismissedFullScreenContent, NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig, NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
