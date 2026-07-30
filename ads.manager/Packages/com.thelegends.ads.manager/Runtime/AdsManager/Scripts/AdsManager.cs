@@ -72,12 +72,20 @@ namespace TheLegends.Base.Ads
         }
 
         private DateTime lastTimeShowAd = DateTime.Now.AddSeconds(-600);
+        private HashSet<string> showingFullScreenAds = new HashSet<string>();
+        public bool IsFullScreenAdShowing => showingFullScreenAds.Count > 0;
 
 
         public bool IsTimeToShowAd
         {
             get
             {
+                if (IsFullScreenAdShowing)
+                {
+                    LogWarning("IsTimeToShowAd: false because a full screen ad is currently showing.");
+                    return false;
+                }
+
                 float totalTimePlay = (float)(DateTime.Now - lastTimeShowAd).TotalSeconds;
                 bool canShowAds = Mathf.FloorToInt(totalTimePlay) >= adsConfigs.timePlayToShowAds;
 
@@ -1078,17 +1086,28 @@ namespace TheLegends.Base.Ads
             });
 #endif
 
-            if ((adsType == AdsType.Interstitial ||
-                adsType == AdsType.AppOpen ||
-                adsType == AdsType.Rewarded ||
-                adsType == AdsType.InterOpen ||
-                adsType == AdsType.NativeInter ||
-                adsType == AdsType.NativeInterOpen ||
-                adsType == AdsType.NativeReward ||
-                adsType == AdsType.NativeAppOpen) &&
-                (adEvent == AdsEvents.ShowSuccess))
+            bool isFullScreenType = adsType == AdsType.Interstitial ||
+                                     adsType == AdsType.AppOpen ||
+                                     adsType == AdsType.Rewarded ||
+                                     adsType == AdsType.InterOpen ||
+                                     adsType == AdsType.NativeInter ||
+                                     adsType == AdsType.NativeInterOpen ||
+                                     adsType == AdsType.NativeReward ||
+                                     adsType == AdsType.NativeAppOpen;
+
+            if (isFullScreenType)
             {
-                lastTimeShowAd = DateTime.Now;
+                string adKey = $"{AdsMediation}_{adsType}_{adsUnitID}_{position}";
+                if (adEvent == AdsEvents.ShowSuccess)
+                {
+                    showingFullScreenAds.Add(adKey);
+                    lastTimeShowAd = DateTime.Now;
+                }
+                else if (adEvent == AdsEvents.Close)
+                {
+                    showingFullScreenAds.Remove(adKey);
+                    lastTimeShowAd = DateTime.Now;
+                }
             }
         }
 
