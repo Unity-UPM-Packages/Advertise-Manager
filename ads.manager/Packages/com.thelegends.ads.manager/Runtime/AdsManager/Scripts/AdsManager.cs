@@ -333,9 +333,12 @@ namespace TheLegends.Base.Ads
             if (!IsTimeToShowAd)
             {
 #if USE_ADMOB
-                if (GetAdsStatus(AdsType.NativeAppOpen, order) != AdsEvents.LoadAvailable)
+                if (!showingFullScreenAds.Any(key => key.Contains($"_{AdsType.NativeAppOpen}_")))
                 {
-                    LoadNativeAppOpen(order);
+                    if (GetAdsStatus(AdsType.NativeAppOpen, order) != AdsEvents.LoadAvailable)
+                    {
+                        LoadNativeAppOpen(order);
+                    }
                 }
 #endif
                 if (GetAdsStatus(AdsType.AppOpen, order) != AdsEvents.LoadAvailable)
