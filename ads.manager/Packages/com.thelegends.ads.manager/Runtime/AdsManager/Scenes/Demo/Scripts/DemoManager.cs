@@ -47,6 +47,7 @@ public class DemoManager : MonoBehaviour
     public Button ChangeNativeBannerSizeBtn;
     public Button adjustLayoutForNativeBannerBtn;
     public Button removeAdsBtn;
+    public Button inspector;
 
 #if USE_ADMOB && USE_ADMOB_NATIVE_UNITY
     public AdmobNativeController nativeAdsMrec;
@@ -91,6 +92,16 @@ public class DemoManager : MonoBehaviour
         ChangeNativeBannerSizeBtn.onClick.AddListener(ChangeNativeBannerSize);
         adjustLayoutForNativeBannerBtn.onClick.AddListener(AdjustLayoutForNativeBanner);
         removeAdsBtn.onClick.AddListener(RemoveAds);
+        inspector.onClick.AddListener(InSpector);
+    }
+
+    private void InSpector()
+    {
+        var admob = AdsManager.Instance.GetComponentInChildren<AdmobMediationController>();
+        if (admob != null)
+        {
+            admob.OpenAdInspector();
+        }
     }
 
 
@@ -247,7 +258,7 @@ public class DemoManager : MonoBehaviour
         // AdsManager.Instance.ShowMrec(AdsType.Mrec, order, mrecPos, new Vector2Int(0, 0), "Default");
 
 
-        AdsCaller.ShowNativeMrec(PlacementOrder.One, "Default", null, null, null, AdsPos.Bottom, new Vector2Int(0, 0));
+        AdsCaller.ShowNativeMrec(PlacementOrder.One, "Default", null, null, null, (AdsPos)MrecPosDropdown.value, new Vector2Int(0, -75));
     }
 
     private void HideMrec()
