@@ -1512,6 +1512,8 @@ namespace TheLegends.Base.Ads
         public float nativeMetaCountdownTimerDuration = 5f;
         public float nativeMetaCloseClickableDelay = 2f;
         public float nativeBannerTimeReload = 15f;
+        public int maxNativeFullScreenLoadLoop = 3;
+        public int maxNativeRewardLoadLoop = 3;
 
     }
 

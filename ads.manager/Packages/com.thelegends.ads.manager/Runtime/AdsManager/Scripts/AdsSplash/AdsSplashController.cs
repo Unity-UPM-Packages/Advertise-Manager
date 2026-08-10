@@ -221,7 +221,9 @@ namespace TheLegends.Base.Ads
                 {"nativeMetaCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration},
                 {"nativeMetaDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown},
                 {"nativeMetaCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay},
-                {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload}
+                {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload},
+                {"maxNativeFullScreenLoadLoop", AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop},
+                {"maxNativeRewardLoadLoop", AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop}
             };
 
             return config;
@@ -265,6 +267,8 @@ namespace TheLegends.Base.Ads
             configs.isUseAdInterOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdInterOpen", configs.isUseAdInterOpen);
             configs.isUseAdMrecOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdMrecOpen", configs.isUseAdMrecOpen);
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
+            configs.maxNativeFullScreenLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeFullScreenLoadLoop", configs.maxNativeFullScreenLoadLoop);
+            configs.maxNativeRewardLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeRewardLoadLoop", configs.maxNativeRewardLoadLoop);
         }
 #endif
 

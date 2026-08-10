@@ -17,6 +17,7 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
 
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable &&
                 AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
@@ -26,35 +27,45 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, currentPlacement);
-            string layoutName = NativeName.Native_FullScreen_Media;
+            ShowLoop(currentPlacement, nextPlacement, onShow);
 
-            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+            void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
 
-            if (network == "facebook" || network == "meta" || network == "fan")
-            {
-                layoutName = NativeName.Native_FullScreen_No_Media;
-                countdownConfig = metaCountdownConfig;
-            }
-            AdsManager.Instance.ShowNativeInter(currentPlacement, position, layoutName, () =>
-            {
-                AdsManager.Instance.LoadNativeInter(nextPlacement);
-                onShow?.Invoke();
-            },
-            onClose, null, () =>
-            {
-                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
                 {
-                    if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeInter(currentPlacement);
-                        ShowNativeInter(nextPlacement, currentPlacement, position, null, onClose, defaultCountdownConfig, metaCountdownConfig);
-                    }
-                });
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
 
-            })
-            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-            .Execute();
+                AdsManager.Instance.ShowNativeInter(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeInter(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                onClose, null, () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeInter(current);
+                            ShowLoop(next, current, null);
+                        }
+                    });
+
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeInterNoLoop(PlacementOrder placementOrder,
@@ -96,6 +107,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
+
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, nextPlacement) == AdsEvents.LoadAvailable &&
                 AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, currentPlacement) != AdsEvents.LoadAvailable)
             {
@@ -104,35 +117,45 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInterOpen, currentPlacement);
-            string layoutName = NativeName.Native_FullScreen_Media;
+            ShowLoop(currentPlacement, nextPlacement, onShow);
 
-            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+            void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInterOpen, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
 
-            if (network == "facebook" || network == "meta" || network == "fan")
-            {
-                layoutName = NativeName.Native_FullScreen_No_Media;
-                countdownConfig = metaCountdownConfig;
-            }
-            AdsManager.Instance.ShowNativeInterOpen(currentPlacement, position, layoutName, () =>
-            {
-                AdsManager.Instance.LoadNativeInterOpen(nextPlacement);
-                onShow?.Invoke();
-            },
-            onClose, null, () =>
-            {
-                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
                 {
-                    if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, nextPlacement) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeInterOpen(currentPlacement);
-                        ShowNativeInterOpen(nextPlacement, currentPlacement, position, null, onClose, defaultCountdownConfig, metaCountdownConfig);
-                    }
-                });
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
 
-            })
-            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-            .Execute();
+                AdsManager.Instance.ShowNativeInterOpen(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeInterOpen(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                onClose, null, () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeInterOpen(current);
+                            ShowLoop(next, current, null);
+                        }
+                    });
+
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeInterOpenNoLoop(PlacementOrder placementOrder,
@@ -174,6 +197,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
+
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) == AdsEvents.LoadAvailable &&
             AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) != AdsEvents.LoadAvailable)
             {
@@ -182,35 +207,45 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, currentPlacement);
-            string layoutName = NativeName.Native_FullScreen_Media;
+            ShowLoop(currentPlacement, nextPlacement, onShow);
 
-            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+            void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
 
-            if (network == "facebook" || network == "meta" || network == "fan")
-            {
-                layoutName = NativeName.Native_FullScreen_No_Media;
-                countdownConfig = metaCountdownConfig;
-            }
-            AdsManager.Instance.ShowNativeAppOpen(currentPlacement, position, layoutName, () =>
-            {
-                AdsManager.Instance.LoadNativeAppOpen(nextPlacement);
-                onShow?.Invoke();
-            },
-            onClose, null, () =>
-            {
-                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
                 {
-                    if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeAppOpen(currentPlacement);
-                        ShowNativeAppOpen(nextPlacement, currentPlacement, position, null, onClose, defaultCountdownConfig, metaCountdownConfig);
-                    }
-                });
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
 
-            })
-            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-            .Execute();
+                AdsManager.Instance.ShowNativeAppOpen(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeAppOpen(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                onClose, null, () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeAppOpen(current);
+                            ShowLoop(next, current, null);
+                        }
+                    });
+
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeAppOpenNoLoop(PlacementOrder placementOrder,
@@ -252,6 +287,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop;
+
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable &&
             AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
             {
@@ -260,35 +297,45 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, currentPlacement);
-            string layoutName = NativeName.Native_FullScreen_Media;
+            ShowLoop(currentPlacement, nextPlacement, onShow);
 
-            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+            void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
 
-            if (network == "facebook" || network == "meta" || network == "fan")
-            {
-                layoutName = NativeName.Native_FullScreen_No_Media;
-                countdownConfig = metaCountdownConfig;
-            }
-            AdsManager.Instance.ShowNativeReward(currentPlacement, position, layoutName, () =>
-            {
-                AdsManager.Instance.LoadNativeReward(nextPlacement);
-                onShow?.Invoke();
-            },
-            onClose, null, () =>
-            {
-                PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
                 {
-                    if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeReward(currentPlacement);
-                        ShowNativeReward(nextPlacement, currentPlacement, position, null, onClose, defaultCountdownConfig, metaCountdownConfig);
-                    }
-                });
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
 
-            })
-            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-            .Execute();
+                AdsManager.Instance.ShowNativeReward(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeReward(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                onClose, null, () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeReward(current);
+                            ShowLoop(next, current, null);
+                        }
+                    });
+
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeRewardNoLoop(PlacementOrder placementOrder,
