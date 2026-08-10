@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TheLegends.Base.UI;
 using UnityEngine;
 
 namespace TheLegends.Base.Ads
@@ -207,7 +208,17 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            ShowLoop(currentPlacement, nextPlacement, onShow);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) == AdsEvents.LoadAvailable)
+            {
+                ShowLoop(currentPlacement, nextPlacement, onShow);
+            }
+            else
+            {
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen)
+                {
+                    AdsManager.Instance.LoadNativeAppOpen(currentPlacement);
+                }
+            }
 
             void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
             {
@@ -272,6 +283,14 @@ namespace TheLegends.Base.Ads
                 .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
                 .Execute();
             }
+            else
+            {
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen)
+                {
+
+                    AdsManager.Instance.LoadNativeAppOpen(placementOrder);
+                }
+            }
         }
 
         #endregion
@@ -297,7 +316,19 @@ namespace TheLegends.Base.Ads
                 nextPlacement = temp;
             }
 
-            ShowLoop(currentPlacement, nextPlacement, onShow);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) == AdsEvents.LoadAvailable)
+            {
+                ShowLoop(currentPlacement, nextPlacement, onShow);
+            }
+            else
+            {
+                UIToatsController.Show("Ads not available", 0.5f, ToastPosition.BottomCenter);
+
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward)
+                {
+                    AdsManager.Instance.LoadNativeReward(currentPlacement);
+                }
+            }
 
             void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
             {
@@ -362,6 +393,17 @@ namespace TheLegends.Base.Ads
                 .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
                 .Execute();
 
+            }
+            else
+            {
+                UIToatsController.Show("Ads not available", 0.5f, ToastPosition.BottomCenter);
+
+
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward)
+                {
+
+                    AdsManager.Instance.LoadNativeReward(placementOrder);
+                }
             }
         }
 

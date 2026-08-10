@@ -355,25 +355,22 @@ namespace TheLegends.Base.Ads
             {
 #if USE_ADMOB
                 var admob = (AdmobMediationController)GetMediation(AdsMediation.Admob);
-                if (GetAdsStatus(AdsType.NativeAppOpen, order) == AdsEvents.LoadAvailable)
+
+                AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null,
+                new NativePlatformShowBuilder.CountdownConfig
                 {
-                    AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null,
-                    new NativePlatformShowBuilder.CountdownConfig
-                    {
-                        InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
-                        CountdownDurationSeconds = adsConfigs.nativeVideoCountdownTimerDuration,
-                        CloseButtonDelaySeconds = adsConfigs.nativeVideoCloseClickableDelay
-                    }, new NativePlatformShowBuilder.CountdownConfig
-                    {
-                        InitialDelaySeconds = adsConfigs.nativeMetaDelayBeforeCountdown,
-                        CountdownDurationSeconds = adsConfigs.nativeMetaCountdownTimerDuration,
-                        CloseButtonDelaySeconds = adsConfigs.nativeMetaCloseClickableDelay
-                    });
-                }
-                else
+                    InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
+                    CountdownDurationSeconds = adsConfigs.nativeVideoCountdownTimerDuration,
+                    CloseButtonDelaySeconds = adsConfigs.nativeVideoCloseClickableDelay
+                }, new NativePlatformShowBuilder.CountdownConfig
                 {
-                    mediation.ShowAppOpen(order, position, OnClose);
-                }
+                    InitialDelaySeconds = adsConfigs.nativeMetaDelayBeforeCountdown,
+                    CountdownDurationSeconds = adsConfigs.nativeMetaCountdownTimerDuration,
+                    CloseButtonDelaySeconds = adsConfigs.nativeMetaCloseClickableDelay
+                });
+
+                mediation.ShowAppOpen(order, position, OnClose);
+
 #else
                 mediation.ShowAppOpen(order, position, OnClose);
 #endif
@@ -1512,8 +1509,8 @@ namespace TheLegends.Base.Ads
         public float nativeMetaCountdownTimerDuration = 5f;
         public float nativeMetaCloseClickableDelay = 2f;
         public float nativeBannerTimeReload = 15f;
-        public int maxNativeFullScreenLoadLoop = 3;
-        public int maxNativeRewardLoadLoop = 3;
+        public int maxNativeFullScreenLoadLoop = 20;
+        public int maxNativeRewardLoadLoop = 0;
 
     }
 

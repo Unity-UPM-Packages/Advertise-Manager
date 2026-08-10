@@ -37,13 +37,13 @@ public class ForceHardwareAccelerationAndroid : IPostGenerateGradleAndroidProjec
         XmlNamespaceManager nsManager = new XmlNamespaceManager(manifest.NameTable);
         nsManager.AddNamespace("android", "http://schemas.android.com/apk/res/android");
 
-        // Find the correct <activity> tag for UnityPlayerActivity.
-        string xPath = "/manifest/application/activity[@android:name='com.unity3d.player.UnityPlayerActivity']";
+        // Find the correct <activity> tag for UnityPlayerActivity or UnityPlayerGameActivity.
+        string xPath = "/manifest/application/activity[@android:name='com.unity3d.player.UnityPlayerActivity' or @android:name='com.unity3d.player.UnityPlayerGameActivity']";
         XmlNode activityNode = manifest.SelectSingleNode(xPath, nsManager);
 
         if (activityNode == null)
         {
-            Debug.LogWarning("ForceHardwareAcceleration: Activity tag for UnityPlayerActivity not found.");
+            Debug.LogWarning("ForceHardwareAcceleration: Activity tag for UnityPlayerActivity or UnityPlayerGameActivity not found.");
             return;
         }
 
