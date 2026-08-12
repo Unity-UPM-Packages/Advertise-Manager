@@ -215,12 +215,25 @@ namespace TheLegends.Base.Ads
                 {"adNativeBannerHeight", AdsManager.Instance.adsConfigs.adNativeBannerHeight},
                 {"adTimeReload", AdsManager.Instance.adsConfigs.adTimeReload},
                 {"isUseAdNative", AdsManager.Instance.adsConfigs.isUseAdNative},
+                
+                #region ADMOB
                 {"nativeVideoCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration},
                 {"nativeVideoDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown},
                 {"nativeVideoCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay},
+                {"nativeRewardAdmobCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeRewardAdmobCountdownTimerDuration},
+                {"nativeRewardAdmobDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeRewardAdmobDelayBeforeCountdown},
+                {"nativeRewardAdmobCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeRewardAdmobCloseClickableDelay},
+                #endregion
+
+                #region FACEBOOK
                 {"nativeMetaCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration},
                 {"nativeMetaDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown},
                 {"nativeMetaCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay},
+                {"nativeRewardMetaCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeRewardMetaCountdownTimerDuration},
+                {"nativeRewardMetaDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeRewardMetaDelayBeforeCountdown},
+                {"nativeRewardMetaCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeRewardMetaCloseClickableDelay},
+                #endregion
+
                 {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload},
                 {"maxNativeFullScreenLoadLoop", AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop},
                 {"maxNativeRewardLoadLoop", AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop}
@@ -257,18 +270,26 @@ namespace TheLegends.Base.Ads
             configs.adNativeBannerHeight = FirebaseManager.Instance.RemoteGetValueFloat("adNativeBannerHeight", configs.adNativeBannerHeight);
             configs.adTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("adTimeReload", configs.adTimeReload);
             configs.isUseAdNative = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdNative", configs.isUseAdNative);
-            configs.nativeVideoCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCountdownTimerDuration", configs.nativeVideoCountdownTimerDuration);
-            configs.nativeVideoDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoDelayBeforeCountdown", configs.nativeVideoDelayBeforeCountdown);
-            configs.nativeVideoCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCloseClickableDelay", configs.nativeVideoCloseClickableDelay);
-            configs.nativeMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCountdownTimerDuration", configs.nativeMetaCountdownTimerDuration);
-            configs.nativeMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaDelayBeforeCountdown", configs.nativeMetaDelayBeforeCountdown);
-            configs.nativeMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCloseClickableDelay", configs.nativeMetaCloseClickableDelay);
             configs.nativeBannerTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("nativeBannerTimeReload", configs.nativeBannerTimeReload);
             configs.isUseAdInterOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdInterOpen", configs.isUseAdInterOpen);
             configs.isUseAdMrecOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdMrecOpen", configs.isUseAdMrecOpen);
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
             configs.maxNativeFullScreenLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeFullScreenLoadLoop", configs.maxNativeFullScreenLoadLoop);
             configs.maxNativeRewardLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeRewardLoadLoop", configs.maxNativeRewardLoadLoop);
+
+            configs.nativeVideoCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCountdownTimerDuration", configs.nativeVideoCountdownTimerDuration);
+            configs.nativeVideoDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoDelayBeforeCountdown", configs.nativeVideoDelayBeforeCountdown);
+            configs.nativeVideoCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCloseClickableDelay", configs.nativeVideoCloseClickableDelay);
+            configs.nativeRewardAdmobCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobCountdownTimerDuration", configs.nativeRewardAdmobCountdownTimerDuration);
+            configs.nativeRewardAdmobDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobDelayBeforeCountdown", configs.nativeRewardAdmobDelayBeforeCountdown);
+            configs.nativeRewardAdmobCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobCloseClickableDelay", configs.nativeRewardAdmobCloseClickableDelay);
+
+            configs.nativeMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCountdownTimerDuration", configs.nativeMetaCountdownTimerDuration);
+            configs.nativeMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaDelayBeforeCountdown", configs.nativeMetaDelayBeforeCountdown);
+            configs.nativeMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCloseClickableDelay", configs.nativeMetaCloseClickableDelay);
+            configs.nativeRewardMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCountdownTimerDuration", configs.nativeRewardMetaCountdownTimerDuration);
+            configs.nativeRewardMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaDelayBeforeCountdown", configs.nativeRewardMetaDelayBeforeCountdown);
+            configs.nativeRewardMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCloseClickableDelay", configs.nativeRewardMetaCloseClickableDelay);
         }
 #endif
 

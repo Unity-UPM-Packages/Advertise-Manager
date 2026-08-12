@@ -1502,12 +1502,26 @@ namespace TheLegends.Base.Ads
         public bool isUseAdNative = true;
         public float adNativeBannerHeight = 140;
         public float adTimeReload = 15f;
+
+        #region ADMOB
         public float nativeVideoCountdownTimerDuration = 5f;
         public float nativeVideoDelayBeforeCountdown = 5f;
         public float nativeVideoCloseClickableDelay = 2f;
-        public float nativeMetaDelayBeforeCountdown = 5f;
+        public float nativeRewardAdmobCountdownTimerDuration = 30f;
+        public float nativeRewardAdmobDelayBeforeCountdown = 5f;
+        public float nativeRewardAdmobCloseClickableDelay = 2f;
+        #endregion
+
+        #region FAN
         public float nativeMetaCountdownTimerDuration = 5f;
+        public float nativeMetaDelayBeforeCountdown = 5f;
         public float nativeMetaCloseClickableDelay = 2f;
+        public float nativeRewardMetaCountdownTimerDuration = 30f;
+        public float nativeRewardMetaDelayBeforeCountdown = 5f;
+        public float nativeRewardMetaCloseClickableDelay = 2f;
+        #endregion
+
+
         public float nativeBannerTimeReload = 15f;
         public int maxNativeFullScreenLoadLoop = 20;
         public int maxNativeRewardLoadLoop = 0;
