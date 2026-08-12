@@ -37,32 +37,40 @@ public class ForceHardwareAccelerationAndroid : IPostGenerateGradleAndroidProjec
         XmlNamespaceManager nsManager = new XmlNamespaceManager(manifest.NameTable);
         nsManager.AddNamespace("android", "http://schemas.android.com/apk/res/android");
 
-        // Find the correct <activity> tag for UnityPlayerActivity or UnityPlayerGameActivity.
+        // Find all matching <activity> tags for UnityPlayerActivity or UnityPlayerGameActivity.
         string xPath = "/manifest/application/activity[@android:name='com.unity3d.player.UnityPlayerActivity' or @android:name='com.unity3d.player.UnityPlayerGameActivity']";
-        XmlNode activityNode = manifest.SelectSingleNode(xPath, nsManager);
+        XmlNodeList activityNodes = manifest.SelectNodes(xPath, nsManager);
 
-        if (activityNode == null)
+        if (activityNodes == null || activityNodes.Count == 0)
         {
             Debug.LogWarning("ForceHardwareAcceleration: Activity tag for UnityPlayerActivity or UnityPlayerGameActivity not found.");
             return;
         }
 
-        // Get the hardwareAccelerated attribute.
-        XmlAttribute attribute = activityNode.Attributes["android:hardwareAccelerated"];
+        foreach (XmlNode activityNode in activityNodes)
+        {
+            if (activityNode.Attributes == null)
+            {
+                continue;
+            }
 
-        if (attribute != null)
-        {
-            // If the attribute already exists, update its value.
-            Debug.Log("ForceHardwareAcceleration: The hardwareAccelerated attribute already exists with value '" + attribute.Value + "'. Overwriting to 'true'.");
-            attribute.Value = "true";
-        }
-        else
-        {
-            // If the attribute does not exist, create and add it.
-            Debug.Log("ForceHardwareAcceleration: The hardwareAccelerated attribute does not exist. Creating and setting to 'true'.");
-            XmlAttribute newAttribute = manifest.CreateAttribute("android", "hardwareAccelerated", "http://schemas.android.com/apk/res/android");
-            newAttribute.Value = "true";
-            activityNode.Attributes.Append(newAttribute);
+            // Get the hardwareAccelerated attribute.
+            XmlAttribute attribute = activityNode.Attributes["android:hardwareAccelerated"];
+
+            if (attribute != null)
+            {
+                // If the attribute already exists, update its value.
+                Debug.Log($"ForceHardwareAcceleration: The hardwareAccelerated attribute already exists for {activityNode.Attributes["android:name"]?.Value} with value '{attribute.Value}'. Overwriting to 'true'.");
+                attribute.Value = "true";
+            }
+            else
+            {
+                // If the attribute does not exist, create and add it.
+                Debug.Log($"ForceHardwareAcceleration: The hardwareAccelerated attribute does not exist for {activityNode.Attributes["android:name"]?.Value}. Creating and setting to 'true'.");
+                XmlAttribute newAttribute = manifest.CreateAttribute("android", "hardwareAccelerated", "http://schemas.android.com/apk/res/android");
+                newAttribute.Value = "true";
+                activityNode.Attributes.Append(newAttribute);
+            }
         }
 
         // Save the changes to the manifest file.
