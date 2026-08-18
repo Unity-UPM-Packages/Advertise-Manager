@@ -9,6 +9,17 @@ namespace TheLegends.Base.Ads
     {
         #region NativeInter
 
+        public static void LoadNativeInter(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) == AdsEvents.LoadAvailable ||
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable)
+            {
+                return;
+            }
+
+            AdsManager.Instance.LoadNativeInter(currentPlacement);
+        }
+
         public static void ShowNativeInter(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -19,6 +30,13 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
             int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) != AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                onClose?.Invoke();
+                return;
+            }
 
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable &&
                 AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
@@ -92,6 +110,10 @@ namespace TheLegends.Base.Ads
                 AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
                 .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
                 .Execute();
+            }
+            else
+            {
+                onClose?.Invoke();
             }
         }
 
@@ -297,6 +319,17 @@ namespace TheLegends.Base.Ads
 
         #region NativeReward
 
+        public static void LoadNativeReward(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
+        {
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) == AdsEvents.LoadAvailable ||
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable)
+            {
+                return;
+            }
+
+            AdsManager.Instance.LoadNativeReward(currentPlacement);
+        }
+
         public static void ShowNativeReward(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -408,7 +441,6 @@ namespace TheLegends.Base.Ads
         }
 
         #endregion
-
 
         public static void ShowNativeInterHalfScreen(PlacementOrder placementOrder, string position, Action onShow, Action onClose, Action OnAdDismissedFullScreenContent, NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig, NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
