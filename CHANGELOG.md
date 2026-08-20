@@ -1,3 +1,10 @@
+## [1.1.69](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.68...v1.1.69) (2026-08-20)
+
+
+### Bug Fixes
+
+* new meta implement for monet ([#2](https://github.com/Unity-UPM-Packages/Advertise-Manager/issues/2)) ([39b327d](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/39b327d4833fe2c90acd703ac8f27de79a38f7d1))
+
 ## [1.1.68](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.67...v1.1.68) (2026-07-21)
 
 
