@@ -191,6 +191,7 @@ namespace TheLegends.Base.Ads
                 case AdsType.MrecOpen:
                 case AdsType.NativeMrecOpen:
                 case AdsType.NativeInterOpen:
+                case AdsType.NativeInter:
                     timeWait = 0.125f;
                     break;
             }

@@ -215,10 +215,28 @@ namespace TheLegends.Base.Ads
                 {"adNativeBannerHeight", AdsManager.Instance.adsConfigs.adNativeBannerHeight},
                 {"adTimeReload", AdsManager.Instance.adsConfigs.adTimeReload},
                 {"isUseAdNative", AdsManager.Instance.adsConfigs.isUseAdNative},
+                
+                #region ADMOB
                 {"nativeVideoCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration},
                 {"nativeVideoDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown},
                 {"nativeVideoCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay},
-                {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload}
+                {"nativeRewardAdmobCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeRewardAdmobCountdownTimerDuration},
+                {"nativeRewardAdmobDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeRewardAdmobDelayBeforeCountdown},
+                {"nativeRewardAdmobCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeRewardAdmobCloseClickableDelay},
+                #endregion
+
+                #region FACEBOOK
+                {"nativeMetaCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration},
+                {"nativeMetaDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown},
+                {"nativeMetaCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay},
+                {"nativeRewardMetaCountdownTimerDuration", AdsManager.Instance.adsConfigs.nativeRewardMetaCountdownTimerDuration},
+                {"nativeRewardMetaDelayBeforeCountdown", AdsManager.Instance.adsConfigs.nativeRewardMetaDelayBeforeCountdown},
+                {"nativeRewardMetaCloseClickableDelay", AdsManager.Instance.adsConfigs.nativeRewardMetaCloseClickableDelay},
+                #endregion
+
+                {"nativeBannerTimeReload", AdsManager.Instance.adsConfigs.nativeBannerTimeReload},
+                {"maxNativeFullScreenLoadLoop", AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop},
+                {"maxNativeRewardLoadLoop", AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop}
             };
 
             return config;
@@ -252,13 +270,26 @@ namespace TheLegends.Base.Ads
             configs.adNativeBannerHeight = FirebaseManager.Instance.RemoteGetValueFloat("adNativeBannerHeight", configs.adNativeBannerHeight);
             configs.adTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("adTimeReload", configs.adTimeReload);
             configs.isUseAdNative = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdNative", configs.isUseAdNative);
-            configs.nativeVideoCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCountdownTimerDuration", configs.nativeVideoCountdownTimerDuration);
-            configs.nativeVideoDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoDelayBeforeCountdown", configs.nativeVideoDelayBeforeCountdown);
-            configs.nativeVideoCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCloseClickableDelay", configs.nativeVideoCloseClickableDelay);
             configs.nativeBannerTimeReload = FirebaseManager.Instance.RemoteGetValueFloat("nativeBannerTimeReload", configs.nativeBannerTimeReload);
             configs.isUseAdInterOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdInterOpen", configs.isUseAdInterOpen);
             configs.isUseAdMrecOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdMrecOpen", configs.isUseAdMrecOpen);
             configs.isUseAdAppOpenOpen = FirebaseManager.Instance.RemoteGetValueBoolean("isUseAdAppOpenOpen", configs.isUseAdAppOpenOpen);
+            configs.maxNativeFullScreenLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeFullScreenLoadLoop", configs.maxNativeFullScreenLoadLoop);
+            configs.maxNativeRewardLoadLoop = FirebaseManager.Instance.RemoteGetValueInt("maxNativeRewardLoadLoop", configs.maxNativeRewardLoadLoop);
+
+            configs.nativeVideoCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCountdownTimerDuration", configs.nativeVideoCountdownTimerDuration);
+            configs.nativeVideoDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoDelayBeforeCountdown", configs.nativeVideoDelayBeforeCountdown);
+            configs.nativeVideoCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeVideoCloseClickableDelay", configs.nativeVideoCloseClickableDelay);
+            configs.nativeRewardAdmobCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobCountdownTimerDuration", configs.nativeRewardAdmobCountdownTimerDuration);
+            configs.nativeRewardAdmobDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobDelayBeforeCountdown", configs.nativeRewardAdmobDelayBeforeCountdown);
+            configs.nativeRewardAdmobCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardAdmobCloseClickableDelay", configs.nativeRewardAdmobCloseClickableDelay);
+
+            configs.nativeMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCountdownTimerDuration", configs.nativeMetaCountdownTimerDuration);
+            configs.nativeMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaDelayBeforeCountdown", configs.nativeMetaDelayBeforeCountdown);
+            configs.nativeMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeMetaCloseClickableDelay", configs.nativeMetaCloseClickableDelay);
+            configs.nativeRewardMetaCountdownTimerDuration = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCountdownTimerDuration", configs.nativeRewardMetaCountdownTimerDuration);
+            configs.nativeRewardMetaDelayBeforeCountdown = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaDelayBeforeCountdown", configs.nativeRewardMetaDelayBeforeCountdown);
+            configs.nativeRewardMetaCloseClickableDelay = FirebaseManager.Instance.RemoteGetValueFloat("nativeRewardMetaCloseClickableDelay", configs.nativeRewardMetaCloseClickableDelay);
         }
 #endif
 
@@ -346,8 +377,15 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.adsConfigs.isUseAdAppOpenOpen
                 && !AdsManager.Instance.adsConfigs.isUseAdInterOpen)
             {
-                AdsManager.Instance.LoadAppOpen(PlacementOrder.One);
-                yield return AdsManager.Instance.WaitAdLoaded(AdsType.AppOpen, PlacementOrder.One);
+#if USE_ADMOB
+                AdsManager.Instance.LoadNativeAppOpen(PlacementOrder.One);
+                yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeAppOpen, PlacementOrder.One);
+#endif
+                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, PlacementOrder.One) != AdsEvents.LoadAvailable)
+                {
+                    AdsManager.Instance.LoadAppOpen(PlacementOrder.One);
+                    yield return AdsManager.Instance.WaitAdLoaded(AdsType.AppOpen, PlacementOrder.One);
+                }
             }
         }
 
@@ -395,12 +433,20 @@ namespace TheLegends.Base.Ads
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
-                    AdsManager.Instance.ShowNativeInterOpen(PlacementOrder.One, "native_inter_open", NativeName.Native_FullScreen_Media, null, () =>
+                    AdsCaller.ShowNativeInterOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, () =>
                     {
                         isShowAdOpen = false;
-                    }, null)
-                    .WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-                    .Execute();
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
+                    });
 
                     isShowAdOpen = true;
 #endif
@@ -421,6 +467,27 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.adsConfigs.isUseAdAppOpenOpen
                 && !AdsManager.Instance.adsConfigs.isUseAdInterOpen)
             {
+                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
+                {
+#if USE_ADMOB
+                    AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_appopen_open", null, () =>
+                    {
+                        isShowAdOpen = false;
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+                    }, new NativePlatformShowBuilder.CountdownConfig
+                    {
+                        CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+                        CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                        InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
+                    });
+
+                    isShowAdOpen = true;
+#endif
+                }
                 if (AdsManager.Instance.GetAdsStatus(AdsType.AppOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
                 {
                     AdsManager.Instance.ShowAppOpen(PlacementOrder.One, "App Open", () =>
@@ -458,9 +525,7 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeMrecOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
             {
 #if USE_ADMOB
-                AdsManager.Instance.ShowNativeMrecOpen(PlacementOrder.One, "native_mrec_open", NativeName.Native_Mrec, null, null, null)
-                .WithPosition(mrecOpenPos, mrecOpenOffset)
-                .Execute();
+                AdsCaller.ShowNativeMrecOpen(PlacementOrder.One, "native_mrec_open", null, null, null, mrecOpenPos, mrecOpenOffset);
                 brandScreen.Show();
                 brandScreen.OnClose += CompleteSplash;
 #endif

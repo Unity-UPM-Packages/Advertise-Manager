@@ -72,12 +72,20 @@ namespace TheLegends.Base.Ads
         }
 
         private DateTime lastTimeShowAd = DateTime.Now.AddSeconds(-600);
+        private HashSet<string> showingFullScreenAds = new HashSet<string>();
+        public bool IsFullScreenAdShowing => showingFullScreenAds.Count > 0;
 
 
         public bool IsTimeToShowAd
         {
             get
             {
+                if (IsFullScreenAdShowing)
+                {
+                    LogWarning("IsTimeToShowAd: false because a full screen ad is currently showing.");
+                    return false;
+                }
+
                 float totalTimePlay = (float)(DateTime.Now - lastTimeShowAd).TotalSeconds;
                 bool canShowAds = Mathf.FloorToInt(totalTimePlay) >= adsConfigs.timePlayToShowAds;
 
@@ -324,6 +332,15 @@ namespace TheLegends.Base.Ads
 
             if (!IsTimeToShowAd)
             {
+#if USE_ADMOB
+                if (!showingFullScreenAds.Any(key => key.Contains($"_{AdsType.NativeAppOpen}_")))
+                {
+                    if (GetAdsStatus(AdsType.NativeAppOpen, order) != AdsEvents.LoadAvailable)
+                    {
+                        LoadNativeAppOpen(order);
+                    }
+                }
+#endif
                 if (GetAdsStatus(AdsType.AppOpen, order) != AdsEvents.LoadAvailable)
                 {
                     LoadAppOpen(order);
@@ -336,7 +353,27 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
+#if USE_ADMOB
+                var admob = (AdmobMediationController)GetMediation(AdsMediation.Admob);
+
+                AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null,
+                new NativePlatformShowBuilder.CountdownConfig
+                {
+                    InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
+                    CountdownDurationSeconds = adsConfigs.nativeVideoCountdownTimerDuration,
+                    CloseButtonDelaySeconds = adsConfigs.nativeVideoCloseClickableDelay
+                }, new NativePlatformShowBuilder.CountdownConfig
+                {
+                    InitialDelaySeconds = adsConfigs.nativeMetaDelayBeforeCountdown,
+                    CountdownDurationSeconds = adsConfigs.nativeMetaCountdownTimerDuration,
+                    CloseButtonDelaySeconds = adsConfigs.nativeMetaCloseClickableDelay
+                });
+
                 mediation.ShowAppOpen(order, position, OnClose);
+
+#else
+                mediation.ShowAppOpen(order, position, OnClose);
+#endif
             }
         }
 
@@ -671,7 +708,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeInter(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public NativePlatformShowBuilder ShowNativeInter(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -683,7 +720,7 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
-                return mediation.ShowNativeInter(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeInter(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent, OnClick);
             }
 
             return null;
@@ -723,7 +760,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeReward(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public NativePlatformShowBuilder ShowNativeReward(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -735,7 +772,7 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
-                return mediation.ShowNativeReward(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeReward(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent, OnClick);
             }
 
             return null;
@@ -837,7 +874,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeAppOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public NativePlatformShowBuilder ShowNativeAppOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -849,7 +886,7 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
-                return mediation.ShowNativeAppOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeAppOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent, OnClick);
             }
 
             return null;
@@ -889,7 +926,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeInterOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        public NativePlatformShowBuilder ShowNativeInterOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -901,7 +938,7 @@ namespace TheLegends.Base.Ads
 
             if (mediation != null)
             {
-                return mediation.ShowNativeInterOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent);
+                return mediation.ShowNativeInterOpen(order, position, layoutName, OnShow, OnClose, OnAdDismissedFullScreenContent, OnClick);
             }
 
             return null;
@@ -1049,17 +1086,28 @@ namespace TheLegends.Base.Ads
             });
 #endif
 
-            if ((adsType == AdsType.Interstitial ||
-                adsType == AdsType.AppOpen ||
-                adsType == AdsType.Rewarded ||
-                adsType == AdsType.InterOpen ||
-                adsType == AdsType.NativeInter ||
-                adsType == AdsType.NativeInterOpen ||
-                adsType == AdsType.NativeReward ||
-                adsType == AdsType.NativeAppOpen) &&
-                (adEvent == AdsEvents.ShowSuccess))
+            bool isFullScreenType = adsType == AdsType.Interstitial ||
+                                     adsType == AdsType.AppOpen ||
+                                     adsType == AdsType.Rewarded ||
+                                     adsType == AdsType.InterOpen ||
+                                     adsType == AdsType.NativeInter ||
+                                     adsType == AdsType.NativeInterOpen ||
+                                     adsType == AdsType.NativeReward ||
+                                     adsType == AdsType.NativeAppOpen;
+
+            if (isFullScreenType)
             {
-                lastTimeShowAd = DateTime.Now;
+                string adKey = $"{AdsMediation}_{adsType}_{adsUnitID}_{position}";
+                if (adEvent == AdsEvents.ShowSuccess)
+                {
+                    showingFullScreenAds.Add(adKey);
+                    lastTimeShowAd = DateTime.Now;
+                }
+                else if (adEvent == AdsEvents.Close)
+                {
+                    showingFullScreenAds.Remove(adKey);
+                    lastTimeShowAd = DateTime.Now;
+                }
             }
         }
 
@@ -1454,10 +1502,30 @@ namespace TheLegends.Base.Ads
         public bool isUseAdNative = true;
         public float adNativeBannerHeight = 140;
         public float adTimeReload = 15f;
+
+        #region ADMOB
         public float nativeVideoCountdownTimerDuration = 5f;
         public float nativeVideoDelayBeforeCountdown = 5f;
         public float nativeVideoCloseClickableDelay = 2f;
+        public float nativeRewardAdmobCountdownTimerDuration = 30f;
+        public float nativeRewardAdmobDelayBeforeCountdown = 5f;
+        public float nativeRewardAdmobCloseClickableDelay = 2f;
+        #endregion
+
+        #region FAN
+        public float nativeMetaCountdownTimerDuration = 5f;
+        public float nativeMetaDelayBeforeCountdown = 5f;
+        public float nativeMetaCloseClickableDelay = 2f;
+        public float nativeRewardMetaCountdownTimerDuration = 30f;
+        public float nativeRewardMetaDelayBeforeCountdown = 5f;
+        public float nativeRewardMetaCloseClickableDelay = 2f;
+        #endregion
+
+
         public float nativeBannerTimeReload = 15f;
+        public int maxNativeFullScreenLoadLoop = 20;
+        public int maxNativeRewardLoadLoop = 0;
+
     }
 
 }

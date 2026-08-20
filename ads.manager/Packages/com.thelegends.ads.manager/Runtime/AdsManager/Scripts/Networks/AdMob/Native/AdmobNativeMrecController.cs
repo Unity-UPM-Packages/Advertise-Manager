@@ -2,7 +2,7 @@
 
 namespace TheLegends.Base.Ads
 {
-    public class AdmobNativeMrecController : AdmobNativeBannerController
+    public class AdmobNativeMrecController : AdmobNativePlatformController
     {
         public override AdsType GetAdsType()
         {
@@ -11,19 +11,6 @@ namespace TheLegends.Base.Ads
 #else
             return AdsType.None;
 #endif
-        }
-
-        protected override void OnNativePlatformShow()
-        {
-#if USE_ADMOB
-            OnShow += () => RegisterConfig();
-            base.OnNativePlatformShow();
-#endif
-        }
-
-        protected override void RegisterConfig()
-        {
-
         }
     }
 }

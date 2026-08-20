@@ -178,9 +178,38 @@ namespace TheLegends.Base.Ads
             }
             else
             {
-                AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
-                reloadCount = 0;
-                LoadAds();
+                bool isPreload = false;
+                var settings = AdsManager.Instance.SettingsAds.preloadSettings;
+                switch (AdsType)
+                {
+                    case AdsType.NativeBanner:
+                        isPreload = settings.nativeAds.preloadNativeBanner;
+                        break;
+                    case AdsType.NativeInter:
+                        isPreload = settings.nativeAds.preloadNativeInter;
+                        break;
+                    case AdsType.NativeReward:
+                        isPreload = settings.nativeAds.preloadNativeReward;
+                        break;
+                    case AdsType.NativeMrec:
+                        isPreload = settings.nativeAds.preloadNativeMrec;
+                        break;
+                    case AdsType.NativeAppOpen:
+                        isPreload = settings.nativeAds.preloadNativeAppOpen;
+                        break;
+                    case AdsType.NativeVideo:
+                        isPreload = settings.nativeAds.preloadNativeVideo;
+                        break;
+                }
+
+                if (isPreload)
+                {
+                    AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
+                    reloadCount = 0;
+                    LoadAds();
+                }
+
+
             }
 #endif
         }
@@ -194,7 +223,7 @@ namespace TheLegends.Base.Ads
 
             ClearStoredConfigs();
             NativePlatformDestroy();
-            OnNativePlatformClosed();
+            OnAdsClosed();
         }
 
         protected void DelayReloadAd(float time)
@@ -469,8 +498,8 @@ namespace TheLegends.Base.Ads
 
             Debug.Log("AAAAA " + "adWidthNative: " + adWidth + " adHeightNative: " + adHeight);
 
-            var safeAreaWidth = Screen.width / deviceScale;
-            var safeAreaHeight = Screen.height / deviceScale;
+            var safeAreaWidth = Display.main.systemWidth / deviceScale;
+            var safeAreaHeight = Display.main.systemHeight / deviceScale;
 
             int xMax = (int)(safeAreaWidth - adWidth);
             int yMax = (int)(safeAreaHeight - adHeight);

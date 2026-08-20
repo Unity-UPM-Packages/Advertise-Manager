@@ -47,6 +47,7 @@ public class DemoManager : MonoBehaviour
     public Button ChangeNativeBannerSizeBtn;
     public Button adjustLayoutForNativeBannerBtn;
     public Button removeAdsBtn;
+    public Button inspector;
 
 #if USE_ADMOB && USE_ADMOB_NATIVE_UNITY
     public AdmobNativeController nativeAdsMrec;
@@ -91,6 +92,16 @@ public class DemoManager : MonoBehaviour
         ChangeNativeBannerSizeBtn.onClick.AddListener(ChangeNativeBannerSize);
         adjustLayoutForNativeBannerBtn.onClick.AddListener(AdjustLayoutForNativeBanner);
         removeAdsBtn.onClick.AddListener(RemoveAds);
+        inspector.onClick.AddListener(InSpector);
+    }
+
+    private void InSpector()
+    {
+        var admob = AdsManager.Instance.GetComponentInChildren<AdmobMediationController>();
+        if (admob != null)
+        {
+            admob.OpenAdInspector();
+        }
     }
 
 
@@ -139,34 +150,56 @@ public class DemoManager : MonoBehaviour
 
     private void LoadInterstitial()
     {
-        AdsManager.Instance.LoadInterstitial(AdsType.Interstitial, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.LoadNativeInter(order);
-        // #endif
+        // AdsManager.Instance.LoadInterstitial(AdsType.Interstitial, order);
+#if USE_ADMOB
+        AdsManager.Instance.LoadNativeInter(order);
+#endif
     }
 
     private void ShowInterstitial()
     {
-        AdsManager.Instance.ShowInterstitial(AdsType.Interstitial, order, "Default", () =>
+        // AdsManager.Instance.ShowInterstitial(AdsType.Interstitial, order, "Default", () =>
+        // {
+        //     AdsManager.Instance.Log("Interstitial closed");
+        // });
+#if USE_ADMOB
+
+        AdsCaller.ShowNativeInter(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
         {
-            AdsManager.Instance.Log("Interstitial closed");
+            AdsManager.Instance.Log("NativeInter show");
+            HideNativeBannerPlatform();
+        }, () =>
+        {
+            AdsManager.Instance.Log("NativeInter closed");
+            ShowNativeBannerPlatform();
+        }, new NativePlatformShowBuilder.CountdownConfig
+        {
+            CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+            CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+            InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+        }, new NativePlatformShowBuilder.CountdownConfig
+        {
+            CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+            CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+            InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
         });
-        // #if USE_ADMOB
-        //         AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_Inter, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter show");
-        //             HideNativeBannerPlatform();
-        //         }, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter closed");
-        //             ShowNativeBannerPlatform();
-        //         }, () =>
-        //         {
-        //             AdsManager.Instance.Log("NativeInter full screen content closed");
-        //         })
-        //         ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-        //         ?.Execute();
-        // #endif
+
+
+        // AdsManager.Instance.ShowNativeInter(PlacementOrder.One, "Default", NativeName.Native_FullScreen_Media, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeInter show");
+        //     HideNativeBannerPlatform();
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeInter closed");
+        //     ShowNativeBannerPlatform();
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeInter full screen content closed");
+        // })
+        // ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
+        // ?.Execute();
+#endif
     }
 
     private void Loadrewarded()
@@ -213,29 +246,27 @@ public class DemoManager : MonoBehaviour
 
     private void LoadMrec()
     {
-        AdsManager.Instance.LoadMrec(AdsType.Mrec, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.LoadNativeMrec(PlacementOrder.One);
-        // #endif
+        // AdsManager.Instance.LoadMrec(AdsType.Mrec, order);
+#if USE_ADMOB
+        AdsManager.Instance.LoadNativeMrec(PlacementOrder.One);
+#endif
     }
 
     private void ShowMrec()
     {
-        var mrecPos = (AdsPos)MrecPosDropdown.value;
-        AdsManager.Instance.ShowMrec(AdsType.Mrec, order, mrecPos, new Vector2Int(0, 0), "Default");
-        // AdsManager.Instance.ShowNativeMrec(PlacementOrder.One, "Default", NativeName.Native_Mrec, null, null, null)
-        // ?.WithPosition(mrecPos, new Vector2Int(0, 0))
-        // ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
-        // ?.WithShowOnLoaded(true)
-        // ?.Execute();
+        // var mrecPos = (AdsPos)MrecPosDropdown.value;
+        // AdsManager.Instance.ShowMrec(AdsType.Mrec, order, mrecPos, new Vector2Int(0, 0), "Default");
+
+
+        AdsCaller.ShowNativeMrec(PlacementOrder.One, "Default", null, null, null, (AdsPos)MrecPosDropdown.value, new Vector2Int(0, -75));
     }
 
     private void HideMrec()
     {
-        AdsManager.Instance.HideMrec(AdsType.Mrec, order);
-        // #if USE_ADMOB
-        //         AdsManager.Instance.HideNativeMrec(PlacementOrder.One);
-        // #endif
+        // AdsManager.Instance.HideMrec(AdsType.Mrec, order);
+#if USE_ADMOB
+        AdsManager.Instance.HideNativeMrec(PlacementOrder.One);
+#endif
     }
 
     private void LoadNativeOverlay()
@@ -320,20 +351,38 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeVideoPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video_Image, () =>
+
+        AdsCaller.ShowNativeVideo(PlacementOrder.One, "Default", () =>
         {
             AdsManager.Instance.Log("NativeVideoPlatform show");
-            HideNativeBannerPlatform();
         }, () =>
         {
             AdsManager.Instance.Log("NativeVideoPlatform closed");
-            ShowNativeBannerPlatform();
         }, () =>
         {
             AdsManager.Instance.Log("NativeVideoPlatform full screen content closed");
-        })
-        ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
-        ?.Execute();
+        }, new NativePlatformShowBuilder.CountdownConfig()
+        {
+            InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown,
+            CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+            CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay
+        });
+
+
+        // AdsManager.Instance.ShowNativeVideo(PlacementOrder.One, "Default", NativeName.Native_Video, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeVideoPlatform show");
+        //     HideNativeBannerPlatform();
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeVideoPlatform closed");
+        //     ShowNativeBannerPlatform();
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeVideoPlatform full screen content closed");
+        // })
+        // ?.WithCountdown(AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration, AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown, AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay)
+        // ?.Execute();
 #endif
     }
 
@@ -355,7 +404,8 @@ public class DemoManager : MonoBehaviour
     public void ShowNativeBannerPlatform()
     {
 #if USE_ADMOB
-        AdsManager.Instance.ShowNativeBanner(PlacementOrder.One, "Default", NativeName.Native_Banner, () =>
+
+        AdsCaller.ShowNativeBanner(PlacementOrder.One, "Default", () =>
         {
             AdsManager.Instance.Log("NativeBannerPlatform show");
         }, () =>
@@ -368,10 +418,25 @@ public class DemoManager : MonoBehaviour
         {
             AdsManager.Instance.Log("NativeBannerPlatform Clicked");
             ResetNativeBannerSize();
-        })
-        ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
-        ?.WithShowOnLoaded(true)
-        ?.Execute();
+        });
+
+        // AdsManager.Instance.ShowNativeBanner(PlacementOrder.One, "Default", NativeName.Native_Banner, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform show");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform closed");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform full screen content closed");
+        // }, () =>
+        // {
+        //     AdsManager.Instance.Log("NativeBannerPlatform Clicked");
+        //     ResetNativeBannerSize();
+        // })
+        // ?.WithAutoReload(AdsManager.Instance.adsConfigs.nativeBannerTimeReload)
+        // ?.WithShowOnLoaded(true)
+        // ?.Execute();
 #endif
     }
 
