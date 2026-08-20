@@ -152,7 +152,7 @@ public class DemoManager : MonoBehaviour
     {
         // AdsManager.Instance.LoadInterstitial(AdsType.Interstitial, order);
 #if USE_ADMOB
-        AdsManager.Instance.LoadNativeInter(order);
+        AdsCaller.LoadNativeInter(order, PlacementOrder.Two);
 #endif
     }
 
