@@ -97,11 +97,7 @@ namespace TheLegends.Base.Ads
 
                 void OnAdDismiss()
                 {
-                    if (next.HasValue && AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, next.Value) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeInter(current);
-                        ShowAd(next.Value, null, null);
-                    }
+                    OnAdClose();
                 }
 
                 AdsManager.Instance.ShowNativeInter(

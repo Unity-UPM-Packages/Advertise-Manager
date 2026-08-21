@@ -103,11 +103,7 @@ namespace TheLegends.Base.Ads
 
                 void OnAdDismiss()
                 {
-                    if (next.HasValue && AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, next.Value) == AdsEvents.LoadAvailable)
-                    {
-                        AdsManager.Instance.HideNativeReward(current);
-                        ShowAd(next.Value, null, null);
-                    }
+                    OnAdClose();
                 }
 
                 AdsManager.Instance.ShowNativeReward(
