@@ -368,8 +368,16 @@ namespace TheLegends.Base.Ads
 
                 if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) != AdsEvents.LoadAvailable)
                 {
-                    AdsManager.Instance.LoadInterstitial(AdsType.InterOpen, PlacementOrder.One);
-                    yield return AdsManager.Instance.WaitAdLoaded(AdsType.InterOpen, PlacementOrder.One);
+#if USE_ADMOB
+                    AdsManager.Instance.LoadNativeInterOpen(PlacementOrder.Two);
+                    yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeInterOpen, PlacementOrder.Two);
+#endif
+                    if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.Two) != AdsEvents.LoadAvailable)
+                    {
+                        AdsManager.Instance.LoadInterstitial(AdsType.InterOpen, PlacementOrder.One);
+                        yield return AdsManager.Instance.WaitAdLoaded(AdsType.InterOpen, PlacementOrder.One);
+                    }
+
                 }
 
             }
@@ -430,7 +438,8 @@ namespace TheLegends.Base.Ads
 
             if (AdsManager.Instance.adsConfigs.isUseAdInterOpen)
             {
-                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable)
+                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.One) == AdsEvents.LoadAvailable
+                || AdsManager.Instance.GetAdsStatus(AdsType.NativeInterOpen, PlacementOrder.Two) == AdsEvents.LoadAvailable)
                 {
 #if USE_ADMOB
                     AdsCaller.ShowNativeInterOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, () =>
