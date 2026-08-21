@@ -41,15 +41,9 @@ namespace TheLegends.Base.Ads
             void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
             {
                 var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, current);
-                string layoutName = NativeName.Native_FullScreen_Media;
-
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
-
-                if (network == "facebook" || network == "meta" || network == "fan")
-                {
-                    layoutName = NativeName.Native_FullScreen_No_Media;
-                    countdownConfig = metaCountdownConfig;
-                }
+                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
+                string layoutName = isMeta ? NativeName.Native_AppOpen_No_Media : NativeName.Native_AppOpen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 AdsManager.Instance.ShowNativeAppOpen(current, position, layoutName, () =>
                 {
@@ -88,14 +82,9 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, placementOrder) == AdsEvents.LoadAvailable)
             {
                 var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, placementOrder);
-                string layoutName = NativeName.Native_FullScreen_Media;
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
-
-                if (network == "facebook" || network == "meta" || network == "fan")
-                {
-                    layoutName = NativeName.Native_FullScreen_No_Media;
-                    countdownConfig = metaCountdownConfig;
-                }
+                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
+                string layoutName = isMeta ? NativeName.Native_AppOpen_No_Media : NativeName.Native_AppOpen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 AdsManager.Instance.ShowNativeAppOpen(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
                 .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)

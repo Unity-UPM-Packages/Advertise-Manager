@@ -164,8 +164,6 @@ MonoBehaviour:
     nativeAppOpenIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110
-    - stringIDs:
-      - ca-app-pub-3940256099942544/2247696110
     nativeInterOpenIds:
     - stringIDs:
       - ca-app-pub-3940256099942544/2247696110

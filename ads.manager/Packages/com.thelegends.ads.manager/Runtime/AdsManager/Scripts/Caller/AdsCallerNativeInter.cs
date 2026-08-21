@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TheLegends.Base.UI;
 using UnityEngine;
 
@@ -16,7 +17,22 @@ namespace TheLegends.Base.Ads
                 return;
             }
 
+            AdsManager.Instance.StartCoroutine(IELoadNativeInter(currentPlacement, nextPlacement));
+        }
+
+        private static IEnumerator IELoadNativeInter(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
+        {
             AdsManager.Instance.LoadNativeInter(currentPlacement);
+
+            yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeInter, currentPlacement);
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) == AdsEvents.LoadNotAvailable)
+            {
+                if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) != AdsEvents.LoadAvailable)
+                {
+                    AdsManager.Instance.LoadNativeInter(nextPlacement);
+                }
+            }
         }
 
         public static void ShowNativeInter(
@@ -48,15 +64,19 @@ namespace TheLegends.Base.Ads
             void ShowAd(PlacementOrder current, PlacementOrder? next, Action currentOnShow)
             {
                 var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, current);
-                string layoutName = NativeName.Native_FullScreen_Media;
+                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
 
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
-
-                if (network == "facebook" || network == "meta" || network == "fan")
+                string layoutName;
+                if (next.HasValue)
                 {
-                    layoutName = NativeName.Native_FullScreen_No_Media;
-                    countdownConfig = metaCountdownConfig;
+                    layoutName = isMeta ? NativeName.Native_Inter_No_Media : NativeName.Native_Inter_Media;
                 }
+                else
+                {
+                    layoutName = isMeta ? NativeName.Native_Inter_No_Media_2 : NativeName.Native_Inter_Media_2;
+                }
+
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 void OnAdClose()
                 {
@@ -113,14 +133,9 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, placementOrder) == AdsEvents.LoadAvailable)
             {
                 var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, placementOrder);
-                string layoutName = NativeName.Native_FullScreen_Media;
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
-
-                if (network == "facebook" || network == "meta" || network == "fan")
-                {
-                    layoutName = NativeName.Native_FullScreen_No_Media;
-                    countdownConfig = metaCountdownConfig;
-                }
+                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
+                string layoutName = isMeta ? NativeName.Native_Inter_No_Media : NativeName.Native_Inter_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow, () =>
                 {
