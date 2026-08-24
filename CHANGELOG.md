@@ -1,3 +1,10 @@
+## [1.1.70](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.69...v1.1.70) (2026-08-24)
+
+
+### Bug Fixes
+
+* replace body with secondary in banner ([c2cbdda](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/c2cbddae54053bc5d875415e3340ea85c4fc99dc))
+
 ## [1.1.69](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.68...v1.1.69) (2026-08-20)
 
 
