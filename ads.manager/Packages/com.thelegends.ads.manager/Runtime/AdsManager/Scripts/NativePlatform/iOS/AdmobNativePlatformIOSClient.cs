@@ -81,6 +81,9 @@ namespace TheLegends.Base.Ads
         [DllImport("__Internal")]
         private static extern float AdmobNative_GetHeightInPixels(IntPtr handle);
 
+        [DllImport("__Internal")]
+        private static extern void AdmobNative_UpdateAdViewSize(IntPtr handle, int width, int height);
+
         // MARK: - Callback Delegates
 
         // Delegate types for native callbacks
@@ -202,21 +205,28 @@ namespace TheLegends.Base.Ads
             AdmobNative_WithCountdown(_nativeControllerPtr, initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
         }
 
-        public void WithPosition(int positionX, int positionY)
+        public float GetWidthInPixels()
         {
-            if (_nativeControllerPtr == IntPtr.Zero)
-            {
-                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
-                return;
-            }
+            if (_nativeControllerPtr == IntPtr.Zero) return -1f;
+            return AdmobNative_GetWidthInPixels(_nativeControllerPtr);
+        }
 
-            Debug.Log($"AdmobNativePlatformIOSClient: WithPosition({positionX}, {positionY})");
-            AdmobNative_WithPosition(_nativeControllerPtr, positionX, positionY);
+        public float GetHeightInPixels()
+        {
+            if (_nativeControllerPtr == IntPtr.Zero) return -1f;
+            return AdmobNative_GetHeightInPixels(_nativeControllerPtr);
+        }
+
+        public void updateAdViewSize(int width, int height)
+        {
+            if (_nativeControllerPtr != IntPtr.Zero)
+            {
+                AdmobNative_UpdateAdViewSize(_nativeControllerPtr, width, height);
+            }
         }
 
         // MARK: - MonoPInvokeCallback Methods (Static callbacks từ native)
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdLoadedCallback(IntPtr nativeClient)
         {
