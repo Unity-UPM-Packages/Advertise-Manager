@@ -192,7 +192,6 @@ namespace TheLegends.Base.Ads
         }
 
         // MARK: - Builder Pattern Support
-
         public void WithCountdown(float initialDelaySeconds, float countdownDurationSeconds, float closeButtonDelaySeconds)
         {
             if (_nativeControllerPtr == IntPtr.Zero)
@@ -203,6 +202,18 @@ namespace TheLegends.Base.Ads
 
             Debug.Log($"AdmobNativePlatformIOSClient: WithCountdown({initialDelaySeconds}, {countdownDurationSeconds}, {closeButtonDelaySeconds})");
             AdmobNative_WithCountdown(_nativeControllerPtr, initialDelaySeconds, countdownDurationSeconds, closeButtonDelaySeconds);
+        }
+
+        public void WithPosition(int positionX, int positionY)
+        {
+            if (_nativeControllerPtr == IntPtr.Zero)
+            {
+                Debug.LogError("AdmobNativePlatformIOSClient: Controller not initialized");
+                return;
+            }
+
+            Debug.Log($"AdmobNativePlatformIOSClient: WithPosition({positionX}, {positionY})");
+            AdmobNative_WithPosition(_nativeControllerPtr, positionX, positionY);
         }
 
         public float GetWidthInPixels()
@@ -241,22 +252,19 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(ErrorCallback))]
-        [MonoPInvokeCallback(typeof(ErrorCallback))]
-        private static void OnAdFailedToLoadCallback(IntPtr nativeClient, string errorMessage)
+        private static void OnAdFailedToLoadCallback(IntPtr nativeClient, string errorJson)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.LogError($"AdmobNativePlatformIOSClient: OnAdFailedToLoad - {errorMessage}");
-                    var errorClient = new AdmobNativePlatformIOSAdErrorClient(errorMessage);
-                    var args = new LoadAdErrorClientEventArgs { LoadAdErrorClient = errorClient };
-                    client.OnAdFailedToLoad?.Invoke(client, args);
+                    Debug.LogError($"AdmobNativePlatformIOSClient: OnAdFailedToLoad callback - {errorJson}");
+                    var error = JsonUtility.FromJson<LoadAdErrorClientEventArgs>(errorJson);
+                    client.OnAdFailedToLoad?.Invoke(client, error);
                 }
             });
         }
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdShowCallback(IntPtr nativeClient)
         {
@@ -271,7 +279,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VoidCallback))]
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdClosedCallback(IntPtr nativeClient)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -284,7 +291,6 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        [MonoPInvokeCallback(typeof(PaidEventCallback))]
         [MonoPInvokeCallback(typeof(PaidEventCallback))]
         private static void OnPaidEventCallback(IntPtr nativeClient, int precisionType, long valueMicros, string currencyCode)
         {
@@ -300,7 +306,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VoidCallback))]
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdDidRecordImpressionCallback(IntPtr nativeClient)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -313,7 +318,6 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdClickedCallback(IntPtr nativeClient)
         {
@@ -328,7 +332,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VoidCallback))]
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoStartCallback(IntPtr nativeClient)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -341,7 +344,6 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoEndCallback(IntPtr nativeClient)
         {
@@ -356,7 +358,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VideoMuteCallback))]
-        [MonoPInvokeCallback(typeof(VideoMuteCallback))]
         private static void OnVideoMuteCallback(IntPtr nativeClient, bool isMuted)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -369,7 +370,6 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoPlayCallback(IntPtr nativeClient)
         {
@@ -384,7 +384,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VoidCallback))]
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnVideoPauseCallback(IntPtr nativeClient)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -398,7 +397,6 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(VoidCallback))]
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdShowedFullScreenContentCallback(IntPtr nativeClient)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -411,7 +409,6 @@ namespace TheLegends.Base.Ads
             });
         }
 
-        [MonoPInvokeCallback(typeof(VoidCallback))]
         [MonoPInvokeCallback(typeof(VoidCallback))]
         private static void OnAdDismissedFullScreenContentCallback(IntPtr nativeClient)
         {
