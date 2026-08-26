@@ -1,3 +1,10 @@
+## [1.1.71](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.70...v1.1.71) (2026-08-26)
+
+
+### Bug Fixes
+
+* change native cta background color ([56c57d2](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/56c57d2017cab00c8bbc1ca25e4defd74a70d6f8))
+
 ## [1.1.70](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.69...v1.1.70) (2026-08-24)
 
 
