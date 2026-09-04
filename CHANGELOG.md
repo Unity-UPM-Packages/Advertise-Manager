@@ -1,3 +1,10 @@
+## [1.1.73](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.72...v1.1.73) (2026-09-04)
+
+
+### Bug Fixes
+
+* fix show loop ([2739e3a](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/2739e3ad94ec530bcffd6f3740ccbe5fe5c309ff))
+
 ## [1.1.72](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.71...v1.1.72) (2026-09-04)
 
 
