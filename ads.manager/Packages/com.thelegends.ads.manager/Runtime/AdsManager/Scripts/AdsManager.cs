@@ -356,7 +356,7 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
                 var admob = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-                AdsCaller.ShowNativeAppOpen(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null,
+                AdsCaller.ShowNativeAppOpenNoLoop(PlacementOrder.One, "native_inter_open", null, null, null,
                 new NativePlatformShowBuilder.CountdownConfig
                 {
                     InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
@@ -1495,7 +1495,6 @@ namespace TheLegends.Base.Ads
     {
         public bool isUseAdInterOpen = true;
         public bool isUseAdMrecOpen = true;
-        public bool isUseAdAppOpenOpen = true;
         public bool adInterOnComplete = true;
         public bool adInterOnStart = true;
         public float timePlayToShowAds = 20f;
