@@ -237,21 +237,20 @@ namespace TheLegends.Base.Ads
                 void OnAdClose()
                 {
                     config.HideAction(current);
-
-                    if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(config.AdsType, next) == AdsEvents.LoadAvailable)
-                    {
-                        remainingLoops--;
-                        ShowAd(next, current, null);
-                    }
-                    else
-                    {
-                        FinishAd(config.UseLoadingAnimation, onClose);
-                    }
+                    FinishAd(config.UseLoadingAnimation, onClose);
                 }
 
-                void OnAdDismiss()
+                void OnAdClick()
                 {
-                    OnAdClose();
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(config.AdsType, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            config.HideAction(current);
+                            ShowAd(next, current, null);
+                        }
+                    });
                 }
 
                 config.ShowAction(
@@ -267,8 +266,8 @@ namespace TheLegends.Base.Ads
                         currentOnShow?.Invoke();
                     },
                     OnAdClose,
-                    OnAdDismiss,
-                    null
+                    null,
+                    OnAdClick
                 )
                 .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
                 .Execute();
