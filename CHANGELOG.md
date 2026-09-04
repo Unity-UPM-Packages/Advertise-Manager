@@ -1,3 +1,10 @@
+## [1.1.72](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.71...v1.1.72) (2026-09-04)
+
+
+### Bug Fixes
+
+* new layout + add show native loop2 - loop max ([261fc76](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/261fc76b09d9542b81cd1f3fc45c7aba8dcb9321))
+
 ## [1.1.71](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.70...v1.1.71) (2026-08-26)
 
 
