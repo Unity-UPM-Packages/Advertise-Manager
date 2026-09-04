@@ -164,7 +164,7 @@ public class DemoManager : MonoBehaviour
         // });
 #if USE_ADMOB
 
-        AdsCaller.ShowNativeInter(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+        AdsCaller.ShowNativeInterLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
         {
             AdsManager.Instance.Log("NativeInter show");
             HideNativeBannerPlatform();
