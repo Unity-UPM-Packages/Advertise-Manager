@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
@@ -7,7 +6,26 @@ namespace TheLegends.Base.Ads
     {
         #region NativeAppOpen
 
-        public static void ShowNativeAppOpen(
+        private static readonly NativeAdFormatConfig NativeAppOpenConfig = new NativeAdFormatConfig
+        {
+            AdsType = AdsType.NativeAppOpen,
+            LayoutPair = new NativeLayoutPair
+            {
+                Media1 = NativeName.Native_AppOpen_Media,
+                NoMedia1 = NativeName.Native_AppOpen_No_Media,
+                Media2 = null,
+                NoMedia2 = null
+            },
+            UseLoadingAnimation = false,
+            ShowToastOnUnavailable = false,
+            ShouldPreloadOnUnavailable = () => AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen,
+            ShowAction = (order, pos, layout, onShow, onClose, onDismiss, onClick) =>
+                AdsManager.Instance.ShowNativeAppOpen(order, pos, layout, onShow, onClose, onDismiss, onClick),
+            HideAction = order => AdsManager.Instance.HideNativeAppOpen(order),
+            LoadAction = order => AdsManager.Instance.LoadNativeAppOpen(order)
+        };
+
+        public static void ShowNativeAppOpenLoop2(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
             string position,
@@ -16,88 +34,31 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
-
-            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) == AdsEvents.LoadAvailable &&
-            AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) != AdsEvents.LoadAvailable)
-            {
-                var temp = currentPlacement;
-                currentPlacement = nextPlacement;
-                nextPlacement = temp;
-            }
-
-            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) == AdsEvents.LoadAvailable)
-            {
-                ShowLoop(currentPlacement, nextPlacement, onShow);
-            }
-            else
-            {
-                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen)
-                {
-                    AdsManager.Instance.LoadNativeAppOpen(currentPlacement);
-                }
-            }
-
-            void ShowLoop(PlacementOrder current, PlacementOrder next, Action currentOnShow)
-            {
-                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, current);
-                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
-                string layoutName = isMeta ? NativeName.Native_AppOpen_No_Media : NativeName.Native_AppOpen_Media;
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
-
-                AdsManager.Instance.ShowNativeAppOpen(current, position, layoutName, () =>
-                {
-                    if (remainingLoops > 0)
-                    {
-                        AdsManager.Instance.LoadNativeAppOpen(next);
-                    }
-                    currentOnShow?.Invoke();
-                },
-                onClose, null, () =>
-                {
-                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
-                    {
-                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, next) == AdsEvents.LoadAvailable)
-                        {
-                            remainingLoops--;
-                            AdsManager.Instance.HideNativeAppOpen(current);
-                            ShowLoop(next, current, null);
-                        }
-                    });
-
-                })
-                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-                .Execute();
-            }
+            ShowLoop2Core(NativeAppOpenConfig, currentPlacement, nextPlacement, position, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
         }
 
-        public static void ShowNativeAppOpenNoLoop(PlacementOrder placementOrder,
-        string position,
-        Action onShow,
-        Action onClose,
-        Action onAdDismissedFullScreenContent,
-        NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
-        NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        public static void ShowNativeAppOpenLoopMax(
+            PlacementOrder currentPlacement,
+            PlacementOrder nextPlacement,
+            string position,
+            Action onShow,
+            Action onClose,
+            NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+            NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, placementOrder) == AdsEvents.LoadAvailable)
-            {
-                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeAppOpen, placementOrder);
-                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
-                string layoutName = isMeta ? NativeName.Native_AppOpen_No_Media : NativeName.Native_AppOpen_Media;
-                NativePlatformShowBuilder.CountdownConfig countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
+            ShowLoopMaxCore(NativeAppOpenConfig, currentPlacement, nextPlacement, position, AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
+        }
 
-                AdsManager.Instance.ShowNativeAppOpen(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
-                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
-                .Execute();
-            }
-            else
-            {
-                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen)
-                {
-
-                    AdsManager.Instance.LoadNativeAppOpen(placementOrder);
-                }
-            }
+        public static void ShowNativeAppOpenNoLoop(
+            PlacementOrder placementOrder,
+            string position,
+            Action onShow,
+            Action onClose,
+            Action onAdDismissedFullScreenContent,
+            NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
+            NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
+        {
+            ShowNoLoopCore(NativeAppOpenConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
         }
 
         #endregion

@@ -1495,7 +1495,6 @@ namespace TheLegends.Base.Ads
     {
         public bool isUseAdInterOpen = true;
         public bool isUseAdMrecOpen = true;
-        public bool isUseAdAppOpenOpen = true;
         public bool adInterOnComplete = true;
         public bool adInterOnStart = true;
         public float timePlayToShowAds = 20f;
