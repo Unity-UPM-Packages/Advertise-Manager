@@ -1337,7 +1337,7 @@ namespace TheLegends.Base.Ads
                     ad_format = adsType.ToString();
                     ad_unit_name = adsUnitID;
                     country = "";
-                    revenue = (double)impressionDataAdmob.Value / 1000000f;
+                    revenue = impressionDataAdmob.Value / 1000000.0;
                     currency = impressionDataAdmob.CurrencyCode;
 
                     TotalRevenue += revenue;
@@ -1360,7 +1360,7 @@ namespace TheLegends.Base.Ads
                     ad_format = impressionDataMax.AdFormat;
                     ad_unit_name = impressionDataMax.AdUnitIdentifier;
                     country = "";
-                    revenue = (double)impressionDataMax.Revenue;
+                    revenue = impressionDataMax.Revenue;
                     currency = "USD";
 
                     TotalRevenue += revenue;

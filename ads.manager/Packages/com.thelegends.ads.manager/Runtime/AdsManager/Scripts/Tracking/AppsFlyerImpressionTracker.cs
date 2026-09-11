@@ -22,18 +22,6 @@ namespace TheLegends.Base.Ads.Tracking
 
         public void Track(ImpressionData data)
         {
-            var dict = new Dictionary<string, string>
-            {
-                { "ad_mediation", data.AdMediation.ToString() },
-                { "ad_network", data.AdNetwork },
-                { "ad_format", data.AdFormat },
-                { "ad_unit_name", data.AdUnitName },
-                { "country", data.Country },
-                { "revenue", data.Revenue.ToString(System.Globalization.CultureInfo.InvariantCulture) },
-                { "currency", data.Currency },
-                { "placement", data.Placement }
-            };
-
             string mediationStr = "GoogleAdMob";
             if (data.AdMediation == AdsMediation.Max) mediationStr = "ApplovinMax";
             else if (data.AdMediation == AdsMediation.Iron) mediationStr = "IronSource";
