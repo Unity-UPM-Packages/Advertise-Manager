@@ -1,3 +1,10 @@
+## [1.1.74](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.73...v1.1.74) (2026-09-11)
+
+
+### Bug Fixes
+
+* try fix log appsflyer ([f349444](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/f34944485fe3ceb517abaf46af5a42b81693994d))
+
 ## [1.1.73](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.72...v1.1.73) (2026-09-04)
 
 
