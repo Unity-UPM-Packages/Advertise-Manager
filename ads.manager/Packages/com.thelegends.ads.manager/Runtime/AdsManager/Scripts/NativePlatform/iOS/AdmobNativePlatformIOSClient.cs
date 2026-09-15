@@ -252,15 +252,18 @@ namespace TheLegends.Base.Ads
         }
 
         [MonoPInvokeCallback(typeof(ErrorCallback))]
-        private static void OnAdFailedToLoadCallback(IntPtr nativeClient, string errorJson)
+        private static void OnAdFailedToLoadCallback(IntPtr nativeClient, string errorMessage)
         {
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 if (_instances.TryGetValue(nativeClient, out var client))
                 {
-                    Debug.LogError($"AdmobNativePlatformIOSClient: OnAdFailedToLoad callback - {errorJson}");
-                    var error = JsonUtility.FromJson<LoadAdErrorClientEventArgs>(errorJson);
-                    client.OnAdFailedToLoad?.Invoke(client, error);
+                    Debug.LogError($"AdmobNativePlatformIOSClient: OnAdFailedToLoad callback - {errorMessage}");
+                    var args = new LoadAdErrorClientEventArgs
+                    {
+                        LoadAdErrorClient = new AdmobNativePlatformIOSAdErrorClient(errorMessage)
+                    };
+                    client.OnAdFailedToLoad?.Invoke(client, args);
                 }
             });
         }
