@@ -1,3 +1,10 @@
+## [1.1.75](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.74...v1.1.75) (2026-09-15)
+
+
+### Bug Fixes
+
+* fix ios OnAdFailedToLoadCallback ([43bf3bf](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/43bf3bfbbf0693ddef396b74296e2a69b3a2604c))
+
 ## [1.1.74](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.73...v1.1.74) (2026-09-11)
 
 
