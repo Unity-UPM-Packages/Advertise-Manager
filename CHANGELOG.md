@@ -1,3 +1,10 @@
+## [1.1.76](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.75...v1.1.76) (2026-09-21)
+
+
+### Bug Fixes
+
+* fix onclose native reward if notavailable ([584f22b](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/584f22b034ee0eb964497037c523208551bf523f))
+
 ## [1.1.75](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.74...v1.1.75) (2026-09-15)
 
 
