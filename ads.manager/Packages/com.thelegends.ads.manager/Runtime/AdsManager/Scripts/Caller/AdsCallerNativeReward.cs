@@ -30,6 +30,23 @@ namespace TheLegends.Base.Ads
             LoadDualPlacement(AdsType.NativeReward, NativeRewardConfig.LoadAction, currentPlacement, nextPlacement);
         }
 
+        private static void WrapRewardCallbacks(Action onShow, Action onClose, out Action wrappedOnShow, out Action wrappedOnClose)
+        {
+            bool isAdShowed = false;
+            wrappedOnShow = () =>
+            {
+                isAdShowed = true;
+                onShow?.Invoke();
+            };
+            wrappedOnClose = () =>
+            {
+                if (isAdShowed)
+                {
+                    onClose?.Invoke();
+                }
+            };
+        }
+
         public static void ShowNativeRewardLoop2(
             PlacementOrder currentPlacement,
             PlacementOrder nextPlacement,
@@ -39,7 +56,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowLoop2Core(NativeRewardConfig, currentPlacement, nextPlacement, position, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
+            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
+            ShowLoop2Core(NativeRewardConfig, currentPlacement, nextPlacement, position, wrappedOnShow, wrappedOnClose, defaultCountdownConfig, metaCountdownConfig);
         }
 
         public static void ShowNativeRewardLoopMax(
@@ -51,7 +69,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowLoopMaxCore(NativeRewardConfig, currentPlacement, nextPlacement, position, AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
+            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
+            ShowLoopMaxCore(NativeRewardConfig, currentPlacement, nextPlacement, position, AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop, wrappedOnShow, wrappedOnClose, defaultCountdownConfig, metaCountdownConfig);
         }
 
         public static void ShowNativeRewardNoLoop(
@@ -63,7 +82,8 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowNoLoopCore(NativeRewardConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
+            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
+            ShowNoLoopCore(NativeRewardConfig, placementOrder, position, wrappedOnShow, wrappedOnClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
         }
 
         #endregion
