@@ -11,10 +11,8 @@ namespace TheLegends.Base.Ads
             AdsType = AdsType.NativeReward,
             LayoutPair = new NativeLayoutPair
             {
-                Media1 = NativeName.Native_Reward_Media,
-                NoMedia1 = NativeName.Native_Reward_No_Media,
-                Media2 = NativeName.Native_Reward_Media_2,
-                NoMedia2 = NativeName.Native_Reward_No_Media_2
+                Media = NativeName.Native_FullScreen_Media,
+                NoMedia = NativeName.Native_FullScreen_No_Media
             },
             UseLoadingAnimation = true,
             ShowToastOnUnavailable = true,

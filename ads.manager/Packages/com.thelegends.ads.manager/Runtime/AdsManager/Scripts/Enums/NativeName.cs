@@ -11,17 +11,7 @@ namespace TheLegends.Base.Ads
         public const string Native_Mrec_No_Media = "native_mrec_no_media";
         public const string Native_Video = "native_video";
 
-        public const string Native_Inter_Media = "native_inter_media";
-        public const string Native_Inter_No_Media = "native_inter_no_media";
-        public const string Native_Reward_Media = "native_reward_media";
-        public const string Native_Reward_No_Media = "native_reward_no_media";
-
-        public const string Native_Inter_Media_2 = "native_inter_media_2";
-        public const string Native_Inter_No_Media_2 = "native_inter_no_media_2";
-        public const string Native_Reward_Media_2 = "native_reward_media_2";
-        public const string Native_Reward_No_Media_2 = "native_reward_no_media_2";
-
-        public const string Native_AppOpen_Media = "native_appopen_media";
-        public const string Native_AppOpen_No_Media = "native_appopen_no_media";
+        public const string Native_FullScreen_Media = "native_fullscreen_media";
+        public const string Native_FullScreen_No_Media = "native_fullscreen_no_media";
     }
 }

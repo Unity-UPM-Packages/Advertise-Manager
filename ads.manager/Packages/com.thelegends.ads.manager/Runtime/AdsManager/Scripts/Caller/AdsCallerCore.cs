@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using TheLegends.Base.UI;
-using UnityEngine;
 
 namespace TheLegends.Base.Ads
 {
@@ -19,28 +18,12 @@ namespace TheLegends.Base.Ads
 
     public struct NativeLayoutPair
     {
-        public string Media1;
-        public string NoMedia1;
-        public string Media2;
-        public string NoMedia2;
+        public string Media;
+        public string NoMedia;
 
-        public string GetRandomLayout(bool isMeta)
+        public string GetLayout(bool isMeta)
         {
-            bool isLayout1 = UnityEngine.Random.Range(0, 2) == 0;
-            if (isLayout1 || string.IsNullOrEmpty(Media2))
-            {
-                return isMeta ? NoMedia1 : Media1;
-            }
-            return isMeta ? (NoMedia2 ?? NoMedia1) : (Media2 ?? Media1);
-        }
-
-        public string GetLayout(bool isMeta, bool isFirstStep)
-        {
-            if (isFirstStep || string.IsNullOrEmpty(Media2))
-            {
-                return isMeta ? NoMedia1 : Media1;
-            }
-            return isMeta ? (NoMedia2 ?? NoMedia1) : (Media2 ?? Media1);
+            return isMeta ? NoMedia : Media;
         }
     }
 
@@ -166,8 +149,8 @@ namespace TheLegends.Base.Ads
             void ShowAd(PlacementOrder current, PlacementOrder? next, Action currentOnShow)
             {
                 var network = AdsManager.Instance.GetNetworkName(config.AdsType, current);
-                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
-                string layoutName = config.LayoutPair.GetLayout(isMeta, isFirstStep: next.HasValue);
+                bool isMeta = network == "facebook" || network == "meta" || network == "fan";
+                string layoutName = config.LayoutPair.GetLayout(isMeta);
                 var countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 void OnAdClose()
@@ -230,8 +213,8 @@ namespace TheLegends.Base.Ads
             void ShowAd(PlacementOrder current, PlacementOrder next, Action currentOnShow)
             {
                 var network = AdsManager.Instance.GetNetworkName(config.AdsType, current);
-                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
-                string layoutName = config.LayoutPair.GetRandomLayout(isMeta);
+                bool isMeta = network == "facebook" || network == "meta" || network == "fan";
+                string layoutName = config.LayoutPair.GetLayout(isMeta);
                 var countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 void OnAdClose()
@@ -287,8 +270,8 @@ namespace TheLegends.Base.Ads
             if (AdsManager.Instance.GetAdsStatus(config.AdsType, placementOrder) == AdsEvents.LoadAvailable)
             {
                 var network = AdsManager.Instance.GetNetworkName(config.AdsType, placementOrder);
-                bool isMeta = (network == "facebook" || network == "meta" || network == "fan");
-                string layoutName = config.LayoutPair.GetLayout(isMeta, isFirstStep: true);
+                bool isMeta = network == "facebook" || network == "meta" || network == "fan";
+                string layoutName = config.LayoutPair.GetLayout(isMeta);
                 var countdownConfig = isMeta ? metaCountdownConfig : defaultCountdownConfig;
 
                 config.ShowAction(

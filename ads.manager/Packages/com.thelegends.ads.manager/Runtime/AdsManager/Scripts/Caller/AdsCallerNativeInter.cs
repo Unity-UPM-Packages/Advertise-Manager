@@ -11,10 +11,8 @@ namespace TheLegends.Base.Ads
             AdsType = AdsType.NativeInter,
             LayoutPair = new NativeLayoutPair
             {
-                Media1 = NativeName.Native_Inter_Media,
-                NoMedia1 = NativeName.Native_Inter_No_Media,
-                Media2 = NativeName.Native_Inter_Media_2,
-                NoMedia2 = NativeName.Native_Inter_No_Media_2
+                Media = NativeName.Native_FullScreen_Media,
+                NoMedia = NativeName.Native_FullScreen_No_Media
             },
             UseLoadingAnimation = true,
             ShowToastOnUnavailable = false,
@@ -66,6 +64,23 @@ namespace TheLegends.Base.Ads
             ShowNoLoopCore(NativeInterConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
         }
 
+        private static readonly NativeAdFormatConfig NativeHalfScreenConfig = new NativeAdFormatConfig
+        {
+            AdsType = AdsType.NativeInter,
+            LayoutPair = new NativeLayoutPair
+            {
+                Media = NativeName.Native_HalfScreen_Media,
+                NoMedia = NativeName.Native_HalfScreen_No_Media
+            },
+            UseLoadingAnimation = false,
+            ShowToastOnUnavailable = false,
+            ShouldPreloadOnUnavailable = null,
+            ShowAction = (order, pos, layout, onShow, onClose, onDismiss, onClick) =>
+                AdsManager.Instance.ShowNativeInter(order, pos, layout, onShow, onClose, onDismiss, onClick),
+            HideAction = order => AdsManager.Instance.HideNativeInter(order),
+            LoadAction = order => AdsManager.Instance.LoadNativeInter(order)
+        };
+
         public static void ShowNativeInterHalfScreen(
             PlacementOrder placementOrder,
             string position,
@@ -75,24 +90,7 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, placementOrder);
-            string layoutName = NativeName.Native_HalfScreen_Media;
-            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
-
-            if (network == "facebook" || network == "meta" || network == "fan")
-            {
-                layoutName = NativeName.Native_HalfScreen_No_Media;
-                countdownConfig = metaCountdownConfig;
-            }
-
-            var builder = AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent);
-
-            if (countdownConfig != null)
-            {
-                builder.WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds);
-            }
-
-            builder.Execute();
+            ShowNoLoopCore(NativeHalfScreenConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
         }
 
         #endregion

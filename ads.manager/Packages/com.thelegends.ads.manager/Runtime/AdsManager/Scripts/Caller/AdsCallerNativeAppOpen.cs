@@ -11,10 +11,8 @@ namespace TheLegends.Base.Ads
             AdsType = AdsType.NativeAppOpen,
             LayoutPair = new NativeLayoutPair
             {
-                Media1 = NativeName.Native_AppOpen_Media,
-                NoMedia1 = NativeName.Native_AppOpen_No_Media,
-                Media2 = null,
-                NoMedia2 = null
+                Media = NativeName.Native_FullScreen_Media,
+                NoMedia = NativeName.Native_FullScreen_No_Media
             },
             UseLoadingAnimation = false,
             ShowToastOnUnavailable = false,
