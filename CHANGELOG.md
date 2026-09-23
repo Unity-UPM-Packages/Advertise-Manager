@@ -1,3 +1,10 @@
+## [1.1.77](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.76...v1.1.77) (2026-09-23)
+
+
+### Bug Fixes
+
+* only 1 layout native fullscreen ([9ae4302](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/9ae4302fa2b3b707c5082f14e4d59081ce917945))
+
 ## [1.1.76](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.75...v1.1.76) (2026-09-21)
 
 
