@@ -97,7 +97,9 @@ namespace TheLegends.Base.Ads
 
         protected bool IsCanLoadAds()
         {
-            if (!AdsManager.Instance.IsCanShowAds && AdsType != AdsType.Rewarded)
+            bool isRewardAd = (AdsType == AdsType.Rewarded || AdsType == AdsType.NativeReward);
+
+            if (!AdsManager.Instance.IsCanShowAds && !isRewardAd)
             {
                 AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not can show ads --> return");
                 return false;
