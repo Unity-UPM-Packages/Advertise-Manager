@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
 {
@@ -6,43 +8,27 @@ namespace TheLegends.Base.Ads
     {
         #region NativeReward
 
-        private static readonly NativeAdFormatConfig NativeRewardConfig = new NativeAdFormatConfig
-        {
-            AdsType = AdsType.NativeReward,
-            LayoutPair = new NativeLayoutPair
-            {
-                Media = NativeName.Native_FullScreen_Media,
-                NoMedia = NativeName.Native_FullScreen_No_Media
-            },
-            UseLoadingAnimation = true,
-            ShowToastOnUnavailable = true,
-            ShouldPreloadOnUnavailable = () => AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward,
-            ShowAction = (order, pos, layout, onShow, onClose, onDismiss, onClick) =>
-                AdsManager.Instance.ShowNativeReward(order, pos, layout, onShow, onClose, onDismiss, onClick),
-            HideAction = order => AdsManager.Instance.HideNativeReward(order),
-            LoadAction = order => AdsManager.Instance.LoadNativeReward(order)
-        };
-
         public static void LoadNativeReward(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
         {
-            LoadDualPlacement(AdsType.NativeReward, NativeRewardConfig.LoadAction, currentPlacement, nextPlacement);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) == AdsEvents.LoadAvailable ||
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable)
+            {
+                return;
+            }
+
+            AdsManager.Instance.StartCoroutine(IELoadNativeReward(currentPlacement, nextPlacement));
         }
 
-        private static void WrapRewardCallbacks(Action onShow, Action onClose, out Action wrappedOnShow, out Action wrappedOnClose)
+        private static IEnumerator IELoadNativeReward(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
         {
-            bool isAdShowed = false;
-            wrappedOnShow = () =>
+            AdsManager.Instance.LoadNativeReward(currentPlacement);
+            yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeReward, currentPlacement);
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) == AdsEvents.LoadNotAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) != AdsEvents.LoadAvailable)
             {
-                isAdShowed = true;
-                onShow?.Invoke();
-            };
-            wrappedOnClose = () =>
-            {
-                if (isAdShowed)
-                {
-                    onClose?.Invoke();
-                }
-            };
+                AdsManager.Instance.LoadNativeReward(nextPlacement);
+            }
         }
 
         public static void ShowNativeRewardLoop2(
@@ -54,8 +40,74 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
-            ShowLoop2Core(NativeRewardConfig, currentPlacement, nextPlacement, position, wrappedOnShow, wrappedOnClose, defaultCountdownConfig, metaCountdownConfig);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) != AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                UIToatsController.Show("Ads not available", 0.5f, ToastPosition.BottomCenter);
+
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward)
+                {
+                    AdsManager.Instance.LoadNativeReward(currentPlacement);
+                }
+                return;
+            }
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
+            ShowAd(currentPlacement, nextPlacement, onShow);
+
+            void ShowAd(PlacementOrder current, PlacementOrder? next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                void OnAdClose()
+                {
+                    AdsManager.Instance.HideNativeReward(current);
+
+                    if (next.HasValue && AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, next.Value) == AdsEvents.LoadAvailable)
+                    {
+                        ShowAd(next.Value, null, null);
+                    }
+                    else
+                    {
+                        UILoadingController.Show(1f, () => onClose?.Invoke());
+                    }
+                }
+
+                AdsManager.Instance.ShowNativeReward(current, position, layoutName, () =>
+                {
+                    if (next.HasValue)
+                    {
+                        AdsManager.Instance.LoadNativeReward(next.Value);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                () =>
+                {
+                    OnAdClose();
+                },
+                () =>
+                {
+                    OnAdClose();
+                },
+                null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeRewardLoopMax(
@@ -67,8 +119,70 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
-            ShowLoopMaxCore(NativeRewardConfig, currentPlacement, nextPlacement, position, AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop, wrappedOnShow, wrappedOnClose, defaultCountdownConfig, metaCountdownConfig);
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeRewardLoadLoop;
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) != AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                UIToatsController.Show("Ads not available", 0.5f, ToastPosition.BottomCenter);
+
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward)
+                {
+                    AdsManager.Instance.LoadNativeReward(currentPlacement);
+                }
+                return;
+            }
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
+            ShowAd(currentPlacement, nextPlacement, onShow);
+
+            void ShowAd(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeReward(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeReward(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                () =>
+                {
+                    UILoadingController.Show(1f, () => onClose?.Invoke());
+                },
+                null,
+                () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeReward(current);
+                            ShowAd(next, current, null);
+                        }
+                    });
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeRewardNoLoop(
@@ -80,8 +194,32 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            WrapRewardCallbacks(onShow, onClose, out var wrappedOnShow, out var wrappedOnClose);
-            ShowNoLoopCore(NativeRewardConfig, placementOrder, position, wrappedOnShow, wrappedOnClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeReward, placementOrder) != AdsEvents.LoadAvailable)
+            {
+                UIToatsController.Show("Ads not available", 0.5f, ToastPosition.BottomCenter);
+
+                if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeReward)
+                {
+                    AdsManager.Instance.LoadNativeReward(placementOrder);
+                }
+                return;
+            }
+
+            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeReward, placementOrder);
+            string layoutName = NativeName.Native_FullScreen_Media;
+            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+            if (network == "facebook" || network == "meta" || network == "fan")
+            {
+                layoutName = NativeName.Native_FullScreen_No_Media;
+                countdownConfig = metaCountdownConfig;
+            }
+
+            AdsManager.Instance.ShowNativeReward(placementOrder, position, layoutName, onShow,
+                () => UILoadingController.Show(1f, () => onClose?.Invoke()),
+                onAdDismissedFullScreenContent, null)
+            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+            .Execute();
         }
 
         #endregion

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TheLegends.Base.UI;
 
 namespace TheLegends.Base.Ads
 {
@@ -6,26 +8,27 @@ namespace TheLegends.Base.Ads
     {
         #region NativeInter
 
-        private static readonly NativeAdFormatConfig NativeInterConfig = new NativeAdFormatConfig
-        {
-            AdsType = AdsType.NativeInter,
-            LayoutPair = new NativeLayoutPair
-            {
-                Media = NativeName.Native_FullScreen_Media,
-                NoMedia = NativeName.Native_FullScreen_No_Media
-            },
-            UseLoadingAnimation = true,
-            ShowToastOnUnavailable = false,
-            ShouldPreloadOnUnavailable = null,
-            ShowAction = (order, pos, layout, onShow, onClose, onDismiss, onClick) =>
-                AdsManager.Instance.ShowNativeInter(order, pos, layout, onShow, onClose, onDismiss, onClick),
-            HideAction = order => AdsManager.Instance.HideNativeInter(order),
-            LoadAction = order => AdsManager.Instance.LoadNativeInter(order)
-        };
-
         public static void LoadNativeInter(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
         {
-            LoadDualPlacement(AdsType.NativeInter, NativeInterConfig.LoadAction, currentPlacement, nextPlacement);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) == AdsEvents.LoadAvailable ||
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable)
+            {
+                return;
+            }
+
+            AdsManager.Instance.StartCoroutine(IELoadNativeInter(currentPlacement, nextPlacement));
+        }
+
+        private static IEnumerator IELoadNativeInter(PlacementOrder currentPlacement, PlacementOrder nextPlacement)
+        {
+            AdsManager.Instance.LoadNativeInter(currentPlacement);
+            yield return AdsManager.Instance.WaitAdLoaded(AdsType.NativeInter, currentPlacement);
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) == AdsEvents.LoadNotAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) != AdsEvents.LoadAvailable)
+            {
+                AdsManager.Instance.LoadNativeInter(nextPlacement);
+            }
         }
 
         public static void ShowNativeInterLoop2(
@@ -37,7 +40,68 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowLoop2Core(NativeInterConfig, currentPlacement, nextPlacement, position, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) != AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                onClose?.Invoke();
+                return;
+            }
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
+            ShowAd(currentPlacement, nextPlacement, onShow);
+
+            void ShowAd(PlacementOrder current, PlacementOrder? next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                void OnAdClose()
+                {
+                    AdsManager.Instance.HideNativeInter(current);
+
+                    if (next.HasValue && AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, next.Value) == AdsEvents.LoadAvailable)
+                    {
+                        ShowAd(next.Value, null, null);
+                    }
+                    else
+                    {
+                        UILoadingController.Show(1f, () => onClose?.Invoke());
+                    }
+                }
+
+                AdsManager.Instance.ShowNativeInter(current, position, layoutName, () =>
+                {
+                    if (next.HasValue)
+                    {
+                        AdsManager.Instance.LoadNativeInter(next.Value);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                () =>
+                {
+                    OnAdClose();
+                },
+                () =>
+                {
+                    OnAdClose();
+                }, null)
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeInterLoopMax(
@@ -49,7 +113,65 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowLoopMaxCore(NativeInterConfig, currentPlacement, nextPlacement, position, AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop, onShow, onClose, defaultCountdownConfig, metaCountdownConfig);
+            int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) != AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                onClose?.Invoke();
+                return;
+            }
+
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, nextPlacement) == AdsEvents.LoadAvailable &&
+                AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, currentPlacement) != AdsEvents.LoadAvailable)
+            {
+                var temp = currentPlacement;
+                currentPlacement = nextPlacement;
+                nextPlacement = temp;
+            }
+
+            ShowAd(currentPlacement, nextPlacement, onShow);
+
+            void ShowAd(PlacementOrder current, PlacementOrder next, Action currentOnShow)
+            {
+                var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, current);
+                string layoutName = NativeName.Native_FullScreen_Media;
+                NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+                if (network == "facebook" || network == "meta" || network == "fan")
+                {
+                    layoutName = NativeName.Native_FullScreen_No_Media;
+                    countdownConfig = metaCountdownConfig;
+                }
+
+                AdsManager.Instance.ShowNativeInter(current, position, layoutName, () =>
+                {
+                    if (remainingLoops > 0)
+                    {
+                        AdsManager.Instance.LoadNativeInter(next);
+                    }
+                    currentOnShow?.Invoke();
+                },
+                () =>
+                {
+                    UILoadingController.Show(1f, () => onClose?.Invoke());
+                },
+                null,
+                () =>
+                {
+                    PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        if (remainingLoops > 0 && AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, next) == AdsEvents.LoadAvailable)
+                        {
+                            remainingLoops--;
+                            AdsManager.Instance.HideNativeInter(current);
+                            ShowAd(next, current, null);
+                        }
+                    });
+                })
+                .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+                .Execute();
+            }
         }
 
         public static void ShowNativeInterNoLoop(
@@ -61,25 +183,31 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowNoLoopCore(NativeInterConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
-        }
-
-        private static readonly NativeAdFormatConfig NativeHalfScreenConfig = new NativeAdFormatConfig
-        {
-            AdsType = AdsType.NativeInter,
-            LayoutPair = new NativeLayoutPair
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, placementOrder) != AdsEvents.LoadAvailable)
             {
-                Media = NativeName.Native_HalfScreen_Media,
-                NoMedia = NativeName.Native_HalfScreen_No_Media
+                onClose?.Invoke();
+                return;
+            }
+
+            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, placementOrder);
+            string layoutName = NativeName.Native_FullScreen_Media;
+            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+            if (network == "facebook" || network == "meta" || network == "fan")
+            {
+                layoutName = NativeName.Native_FullScreen_No_Media;
+                countdownConfig = metaCountdownConfig;
+            }
+
+            AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow,
+            () =>
+            {
+                UILoadingController.Show(1f, () => onClose?.Invoke());
             },
-            UseLoadingAnimation = false,
-            ShowToastOnUnavailable = false,
-            ShouldPreloadOnUnavailable = null,
-            ShowAction = (order, pos, layout, onShow, onClose, onDismiss, onClick) =>
-                AdsManager.Instance.ShowNativeInter(order, pos, layout, onShow, onClose, onDismiss, onClick),
-            HideAction = order => AdsManager.Instance.HideNativeInter(order),
-            LoadAction = order => AdsManager.Instance.LoadNativeInter(order)
-        };
+            onAdDismissedFullScreenContent, null)
+            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+            .Execute();
+        }
 
         public static void ShowNativeInterHalfScreen(
             PlacementOrder placementOrder,
@@ -90,7 +218,25 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
-            ShowNoLoopCore(NativeHalfScreenConfig, placementOrder, position, onShow, onClose, onAdDismissedFullScreenContent, defaultCountdownConfig, metaCountdownConfig);
+            if (AdsManager.Instance.GetAdsStatus(AdsType.NativeInter, placementOrder) != AdsEvents.LoadAvailable)
+            {
+                onClose?.Invoke();
+                return;
+            }
+
+            var network = AdsManager.Instance.GetNetworkName(AdsType.NativeInter, placementOrder);
+            string layoutName = NativeName.Native_HalfScreen_Media;
+            NativePlatformShowBuilder.CountdownConfig countdownConfig = defaultCountdownConfig;
+
+            if (network == "facebook" || network == "meta" || network == "fan")
+            {
+                layoutName = NativeName.Native_HalfScreen_No_Media;
+                countdownConfig = metaCountdownConfig;
+            }
+
+            AdsManager.Instance.ShowNativeInter(placementOrder, position, layoutName, onShow, onClose, onAdDismissedFullScreenContent, null)
+            .WithCountdown(countdownConfig.InitialDelaySeconds, countdownConfig.CountdownDurationSeconds, countdownConfig.CloseButtonDelaySeconds)
+            .Execute();
         }
 
         #endregion
