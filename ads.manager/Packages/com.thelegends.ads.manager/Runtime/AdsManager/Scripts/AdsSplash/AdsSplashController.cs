@@ -23,13 +23,6 @@ using UnityEngine.SceneManagement;
 
 namespace TheLegends.Base.Ads
 {
-    public enum NativeInterOpenLoopType
-    {
-        None = 0,
-        Loop2 = 1,
-        LoopMax = 2,
-    }
-
     public class AdsSplashController : MonoBehaviour
     {
         [SerializeField]
@@ -42,10 +35,6 @@ namespace TheLegends.Base.Ads
         private AdsPos mrecOpenPos = AdsPos.CenterLeft;
         [SerializeField, ShowField(nameof(isUseSelectBrand))]
         private Vector2Int mrecOpenOffset = Vector2Int.zero;
-
-        [Space(10)]
-        [SerializeField, ShowField(nameof(isUseSelectBrand))]
-        private NativeInterOpenLoopType nativeInterOpenLoopType = NativeInterOpenLoopType.LoopMax;
 
         [Space(10)]
         [SerializeField, ShowField(nameof(isUseSelectBrand))]
@@ -451,21 +440,21 @@ namespace TheLegends.Base.Ads
                         InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
                     };
 
-                    switch (nativeInterOpenLoopType)
+                    switch (AdsManager.Instance.adsConfigs.nativeInterOpenLoopType)
                     {
-                        case NativeInterOpenLoopType.None:
+                        case NativeLoopType.None:
                             AdsCaller.ShowNativeInterOpenNoLoop(PlacementOrder.One, "native_inter_open", null, () =>
                             {
                                 isShowAdOpen = false;
                             }, null, defaultCountdownConfig, metaCountdownConfig);
                             break;
-                        case NativeInterOpenLoopType.Loop2:
+                        case NativeLoopType.Loop2:
                             AdsCaller.ShowNativeInterOpenLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, () =>
                             {
                                 isShowAdOpen = false;
                             }, defaultCountdownConfig, metaCountdownConfig);
                             break;
-                        case NativeInterOpenLoopType.LoopMax:
+                        case NativeLoopType.LoopMax:
                             AdsCaller.ShowNativeInterOpenLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, () =>
                             {
                                 isShowAdOpen = false;

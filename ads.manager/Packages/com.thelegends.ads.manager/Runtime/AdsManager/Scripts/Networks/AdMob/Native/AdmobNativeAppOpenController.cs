@@ -1,7 +1,5 @@
 #if USE_ADMOB
 
-using TheLegends.Base.UI;
-
 namespace TheLegends.Base.Ads
 {
     public class AdmobNativeAppOpenController : AdmobNativePlatformController
@@ -20,11 +18,8 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
             PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                UILoadingController.Show(1f, () =>
-                {
-                    OnClose?.Invoke();
-                    AdsManager.Instance.OnFullScreenAdsClosed();
-                });
+                OnClose?.Invoke();
+                AdsManager.Instance.OnFullScreenAdsClosed();
                 OnAdsClosed();
             });
 #endif

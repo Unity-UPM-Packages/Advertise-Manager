@@ -164,14 +164,12 @@ public class DemoManager : MonoBehaviour
         // });
 #if USE_ADMOB
 
-        AdsCaller.ShowNativeInterLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+        AdsCaller.ShowNativeInterLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
         {
-            AdsManager.Instance.Log("NativeInter show");
-            HideNativeBannerPlatform();
+            AdsManager.Instance.Log("AAAAA NativeInter show");
         }, () =>
         {
-            AdsManager.Instance.Log("NativeInter closed");
-            ShowNativeBannerPlatform();
+            AdsManager.Instance.Log("AAAAA NativeInter closed");
         }, new NativePlatformShowBuilder.CountdownConfig
         {
             CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
@@ -204,26 +202,62 @@ public class DemoManager : MonoBehaviour
 
     private void Loadrewarded()
     {
-        AdsManager.Instance.LoadRewarded(order);
+        // AdsManager.Instance.LoadRewarded(order);.
+        AdsCaller.LoadNativeReward(PlacementOrder.One, PlacementOrder.Two);
     }
 
     private void ShowRewarded()
     {
-        AdsManager.Instance.ShowRewarded(order, "Default", () =>
-        {
-            AdsManager.Instance.Log("Rewarded successfully");
-        });
+        // AdsManager.Instance.ShowRewarded(order, "Default", () =>
+        // {
+        //     AdsManager.Instance.Log("Rewarded successfully");
+        // });
 
+        AdsCaller.ShowNativeRewardLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+                {
+                    AdsManager.Instance.Log("AAAAA NativeReward show");
+                }, () =>
+                {
+                    AdsManager.Instance.Log("AAAAA NativeReward closed");
+                }, new NativePlatformShowBuilder.CountdownConfig
+                {
+                    CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                    CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                    InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+                }, new NativePlatformShowBuilder.CountdownConfig
+                {
+                    CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+                    CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                    InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
+                });
     }
 
     private void LoadAppOpen()
     {
-        AdsManager.Instance.LoadAppOpen(order);
+        // AdsManager.Instance.LoadAppOpen(order);
+        AdsManager.Instance.LoadNativeAppOpen(order);
     }
 
     private void ShowAppOpen()
     {
-        AdsManager.Instance.ShowAppOpen(order, "Default");
+        // AdsManager.Instance.ShowAppOpen(order, "Default");
+        AdsCaller.ShowNativeAppOpenLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+                {
+                    AdsManager.Instance.Log("AAAAA NativeAppOpen show");
+                }, () =>
+                {
+                    AdsManager.Instance.Log("AAAAA NativeAppOpen closed");
+                }, new NativePlatformShowBuilder.CountdownConfig
+                {
+                    CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeVideoCountdownTimerDuration,
+                    CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoCloseClickableDelay,
+                    InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeVideoDelayBeforeCountdown
+                }, new NativePlatformShowBuilder.CountdownConfig
+                {
+                    CountdownDurationSeconds = AdsManager.Instance.adsConfigs.nativeMetaCountdownTimerDuration,
+                    CloseButtonDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaCloseClickableDelay,
+                    InitialDelaySeconds = AdsManager.Instance.adsConfigs.nativeMetaDelayBeforeCountdown
+                });
     }
 
     private void LoadBanner()

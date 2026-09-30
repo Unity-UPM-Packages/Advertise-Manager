@@ -356,18 +356,32 @@ namespace TheLegends.Base.Ads
 #if USE_ADMOB
                 var admob = (AdmobMediationController)GetMediation(AdsMediation.Admob);
 
-                AdsCaller.ShowNativeAppOpenNoLoop(PlacementOrder.One, "native_inter_open", null, null, null,
-                new NativePlatformShowBuilder.CountdownConfig
+                var defaultCountdownConfig = new NativePlatformShowBuilder.CountdownConfig
                 {
                     InitialDelaySeconds = adsConfigs.nativeVideoDelayBeforeCountdown,
                     CountdownDurationSeconds = adsConfigs.nativeVideoCountdownTimerDuration,
                     CloseButtonDelaySeconds = adsConfigs.nativeVideoCloseClickableDelay
-                }, new NativePlatformShowBuilder.CountdownConfig
+                };
+
+                var metaCountdownConfig = new NativePlatformShowBuilder.CountdownConfig
                 {
                     InitialDelaySeconds = adsConfigs.nativeMetaDelayBeforeCountdown,
                     CountdownDurationSeconds = adsConfigs.nativeMetaCountdownTimerDuration,
                     CloseButtonDelaySeconds = adsConfigs.nativeMetaCloseClickableDelay
-                });
+                };
+
+                switch (adsConfigs.nativeAppOpenLoopType)
+                {
+                    case NativeLoopType.None:
+                        AdsCaller.ShowNativeAppOpenNoLoop(PlacementOrder.One, "native_inter_open", null, null, null, defaultCountdownConfig, metaCountdownConfig);
+                        break;
+                    case NativeLoopType.Loop2:
+                        AdsCaller.ShowNativeAppOpenLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null, defaultCountdownConfig, metaCountdownConfig);
+                        break;
+                    case NativeLoopType.LoopMax:
+                        AdsCaller.ShowNativeAppOpenLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter_open", null, null, defaultCountdownConfig, metaCountdownConfig);
+                        break;
+                }
 
                 mediation.ShowAppOpen(order, position, OnClose);
 
@@ -1490,6 +1504,13 @@ namespace TheLegends.Base.Ads
         MAX,
     }
 
+    public enum NativeLoopType
+    {
+        None = 0,
+        Loop2 = 1,
+        LoopMax = 2,
+    }
+
     [System.Serializable]
     public class AdsConfigs
     {
@@ -1522,8 +1543,11 @@ namespace TheLegends.Base.Ads
 
 
         public float nativeBannerTimeReload = 15f;
-        public int maxNativeFullScreenLoadLoop = 20;
+        public int maxNativeFullScreenLoadLoop = 2;
         public int maxNativeRewardLoadLoop = 0;
+
+        public NativeLoopType nativeInterOpenLoopType = NativeLoopType.LoopMax;
+        public NativeLoopType nativeAppOpenLoopType = NativeLoopType.None;
 
     }
 

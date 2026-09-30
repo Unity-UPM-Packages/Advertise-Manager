@@ -659,4 +659,16 @@ namespace TheLegends.Base.Ads
     }
 }
 
+#else
+
+using UnityEngine;
+
+namespace TheLegends.Base.Ads
+{
+    // Giữ class tồn tại khi không có USE_MAX để prefab AdsManager (GameObject "Max") vẫn lưu được
+    public class MaxMediationController : MonoBehaviour
+    {
+    }
+}
+
 #endif
