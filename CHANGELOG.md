@@ -1,3 +1,13 @@
+## [1.1.78](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.77...v1.1.78) (2026-09-30)
+
+
+### Bug Fixes
+
+* change headline + layout no media ([09ac874](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/09ac8749983e8e8b04712092202068fa0a6aa615))
+* refactor AdsCaller ([7a9465b](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/7a9465b7ddaad55099c87b59ab096d768a09f1ec))
+* refactor native appopen + default maxLoop = 2 ([c02a17d](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/c02a17def530185697908c5b55c3f7e0ec1d6c05))
+* update native reward for IsCanShowAds ([c548ffc](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/c548ffc745743957bf52c1ae49a293250af5727a))
+
 ## [1.1.77](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.76...v1.1.77) (2026-09-23)
 
 
