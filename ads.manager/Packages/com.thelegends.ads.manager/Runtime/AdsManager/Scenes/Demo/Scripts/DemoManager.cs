@@ -164,7 +164,7 @@ public class DemoManager : MonoBehaviour
         // });
 #if USE_ADMOB
 
-        AdsCaller.ShowNativeInterLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+        AdsCaller.ShowNativeInterLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
         {
             AdsManager.Instance.Log("AAAAA NativeInter show");
         }, () =>
@@ -213,7 +213,7 @@ public class DemoManager : MonoBehaviour
         //     AdsManager.Instance.Log("Rewarded successfully");
         // });
 
-        AdsCaller.ShowNativeRewardLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+        AdsCaller.ShowNativeRewardLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
                 {
                     AdsManager.Instance.Log("AAAAA NativeReward show");
                 }, () =>
@@ -241,7 +241,7 @@ public class DemoManager : MonoBehaviour
     private void ShowAppOpen()
     {
         // AdsManager.Instance.ShowAppOpen(order, "Default");
-        AdsCaller.ShowNativeAppOpenLoop2(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
+        AdsCaller.ShowNativeAppOpenLoopMax(PlacementOrder.One, PlacementOrder.Two, "native_inter", () =>
                 {
                     AdsManager.Instance.Log("AAAAA NativeAppOpen show");
                 }, () =>
