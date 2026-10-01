@@ -126,11 +126,11 @@ public struct NativeAdCallbacks {
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class BaseNativeAdLayoutView : GoogleMobileAds.GADNativeAdView {
   @_Concurrency.MainActor @preconcurrency final public let cardContainerView: UIKit.UIView
   @_Concurrency.MainActor @preconcurrency final public let adMediaView: GoogleMobileAds.GADMediaView
-  @_Concurrency.MainActor @preconcurrency final public let headlineLbl: UIKit.UILabel
+  @_Concurrency.MainActor @preconcurrency final public let headlineLbl: Admob_Native_iOS.InsetLabel
   @_Concurrency.MainActor @preconcurrency final public let bodyLbl: UIKit.UILabel
   @_Concurrency.MainActor @preconcurrency final public let callToActionBtn: UIKit.UIButton
   @_Concurrency.MainActor @preconcurrency final public let iconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency final public let advertiserLbl: UIKit.UILabel
+  @_Concurrency.MainActor @preconcurrency final public let advertiserLbl: Admob_Native_iOS.InsetLabel
   @_Concurrency.MainActor @preconcurrency final public let storeLbl: UIKit.UILabel
   @_Concurrency.MainActor @preconcurrency final public let priceLbl: UIKit.UILabel
   @_Concurrency.MainActor @preconcurrency final public let mainImgView: UIKit.UIImageView
@@ -141,9 +141,6 @@ public struct NativeAdCallbacks {
   @_Concurrency.MainActor @preconcurrency final public let countdownContainerView: UIKit.UIView
   @_Concurrency.MainActor @preconcurrency final public let circularProgressView: Admob_Native_iOS.CircularCountdownView
   @_Concurrency.MainActor @preconcurrency final public let dividerView: UIKit.UIView
-  @_Concurrency.MainActor @preconcurrency open var landscapeCloseButton: UIKit.UIButton? {
-    get
-  }
   @_Concurrency.MainActor @preconcurrency public var portraitConstraints: [UIKit.NSLayoutConstraint]
   @_Concurrency.MainActor @preconcurrency public var landscapeConstraints: [UIKit.NSLayoutConstraint]
   @_Concurrency.MainActor @preconcurrency public var isLineFill: Swift.Bool
@@ -154,6 +151,8 @@ public struct NativeAdCallbacks {
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency open func setupLayout()
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency public func applySkipPillStyle()
+  @_Concurrency.MainActor @preconcurrency public static func createSkipIcon(size: CoreFoundation.CGFloat) -> UIKit.UIImage
   @_Concurrency.MainActor @preconcurrency public func updateOrientationConstraints()
   @_Concurrency.MainActor @preconcurrency open func populate(nativeAd: GoogleMobileAds.GADNativeAd)
   @_Concurrency.MainActor @preconcurrency public static func createSolidColorImage(color: UIKit.UIColor) -> UIKit.UIImage?
@@ -173,6 +172,20 @@ public struct NativeAdCallbacks {
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency @objc override final public func layoutSubviews()
   @_Concurrency.MainActor @preconcurrency final public func setProgress(_ progress: Swift.Float)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency final public class InsetLabel : UIKit.UILabel {
+  @_Concurrency.MainActor @preconcurrency final public var contentInsets: UIKit.UIEdgeInsets {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override final public func drawText(in rect: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc override final public var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override final public func textRect(forBounds bounds: CoreFoundation.CGRect, limitedToNumberOfLines numberOfLines: Swift.Int) -> CoreFoundation.CGRect
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @objc deinit
 }
 public struct LayoutDimensions {
@@ -209,6 +222,60 @@ public struct LayoutDimensions {
   public static var ctaHeight: CoreFoundation.CGFloat {
     get
   }
+  public static var fsBarHeight: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsIconSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsNoMediaIconSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsCtaWidth: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsCtaHeight: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsCtaTextSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsHeadlineTextSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsSecondaryTextSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsAdBadgeTextSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsAdBadgeWidth: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsAdBadgeHeight: CoreFoundation.CGFloat {
+    get
+  }
+  public static var fsSideMargin: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipTextSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipIconSize: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipPaddingHorizontal: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipPaddingVertical: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipIconSpacing: CoreFoundation.CGFloat {
+    get
+  }
+  public static var skipMarginTop: CoreFoundation.CGFloat {
+    get
+  }
 }
 extension UIKit.UIColor {
   convenience public init(hex: Swift.String, alpha: CoreFoundation.CGFloat = 1.0)
@@ -228,25 +295,25 @@ extension UIKit.UIColor {
   public static let gntPillBg: UIKit.UIColor
   public static let gntBorderDark: UIKit.UIColor
 }
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeAppOpenMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeAppOpenNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
-  @objc deinit
-}
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeBannerLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
   @_Concurrency.MainActor @preconcurrency public init(layoutName: Swift.String = "native_banner")
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency @objc override final public func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
+  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
+  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
+  @objc deinit
+}
+@objc @_Concurrency.MainActor @preconcurrency final public class NativeFullScreenMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
+  @objc deinit
+}
+@objc @_Concurrency.MainActor @preconcurrency final public class NativeFullScreenNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
   @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
   @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
@@ -270,46 +337,6 @@ extension UIKit.UIColor {
   @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
   @objc deinit
 }
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeInterMedia2LayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let landscapeCloseBtn: UIKit.UIButton
-  @_Concurrency.MainActor @preconcurrency override final public var landscapeCloseButton: UIKit.UIButton? {
-    get
-  }
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeInterMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeInterNoMedia2LayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency final public let landscapeCloseBtn: UIKit.UIButton
-  @_Concurrency.MainActor @preconcurrency override final public var landscapeCloseButton: UIKit.UIButton? {
-    get
-  }
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeInterNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
-  @objc deinit
-}
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeMrecMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
@@ -323,38 +350,6 @@ extension UIKit.UIColor {
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency @objc override final public func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
   @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeRewardMedia2LayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeRewardMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeRewardNoMedia2LayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
-  @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
-  @objc deinit
-}
-@objc @_Concurrency.MainActor @preconcurrency final public class NativeRewardNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
-  @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
-  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
-  @_Concurrency.MainActor @preconcurrency override final public func updateOrientationConstraints()
   @_Concurrency.MainActor @preconcurrency override final public func populate(nativeAd: GoogleMobileAds.GADNativeAd)
   @objc deinit
 }
