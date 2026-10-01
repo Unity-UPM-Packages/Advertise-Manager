@@ -1,3 +1,12 @@
+## [1.1.79](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.78...v1.1.79) (2026-10-01)
+
+
+### Bug Fixes
+
+* add support ios ([e0b7651](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/e0b765177dd6eec611e1a667d116a22d2a6ceac6))
+* edit headline/advertise "..." ([2ea1f37](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/2ea1f37d72f3b3be7dc8b35b2ae82485ba51de38))
+* fix ios top/bot layout ([3455917](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/3455917f6b96c5736e50017117d84b127b4409a2))
+
 ## [1.1.78](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.77...v1.1.78) (2026-09-30)
 
 
