@@ -1,3 +1,10 @@
+## [1.1.80](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.79...v1.1.80) (2026-10-20)
+
+
+### Bug Fixes
+
+* ios layout order render ([393681e](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/393681e477d13c8ae1654bb2b1c2917c4575be2e))
+
 ## [1.1.79](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.78...v1.1.79) (2026-10-01)
 
 
