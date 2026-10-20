@@ -10,11 +10,11 @@
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		ffMndIxj048WCMseZUE2Lep+ISY=
+		E7q/a36VAzZUXV9sqGUrv8LbRmo=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		mxnw2bYSbP1k0tfcE8US5KCVy6o=
+		h5iKVJPha4ky3IMpITS6qI/xzWU=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -22,19 +22,19 @@
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		mxnw2bYSbP1k0tfcE8US5KCVy6o=
+		h5iKVJPha4ky3IMpITS6qI/xzWU=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		xub+JBKZZZFcS9f5FtcNxBHZxXg=
+		pl/j7ov3x+OHW/SM2bQMPzenmvc=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		ffMndIxj048WCMseZUE2Lep+ISY=
+		E7q/a36VAzZUXV9sqGUrv8LbRmo=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		z/rGXRLWK/0IiwgRCBOwkb+4LTk=
+		PgmJEutgdGbO+fVBQ0dmom/vfiY=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -42,11 +42,11 @@
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		z/rGXRLWK/0IiwgRCBOwkb+4LTk=
+		PgmJEutgdGbO+fVBQ0dmom/vfiY=
 		</data>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		5lS7rigcvjwDlZqx/P2I7JH2evU=
+		ibaIMlgqsqWie0c1CkjWyULavs8=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -55,14 +55,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8De1P20SzhjUq0pIBMyNJ8nm+xa44dEPxNRTxNE1DUM=
+			mZpWmT+4HCWIbSMWhoCgXQDj19/mMvH4692LNTjN2qo=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			G4G/xcaaf/bkm6H1vpQKeD2P3pagRRashk4FKvAzcOM=
+			FoUT5WlRvF1NQmR3B4LsFHpuhdniSlEu4IdxU9n4IeQ=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -76,28 +76,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			G4G/xcaaf/bkm6H1vpQKeD2P3pagRRashk4FKvAzcOM=
+			FoUT5WlRvF1NQmR3B4LsFHpuhdniSlEu4IdxU9n4IeQ=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HJps6giDzrnI5ykIQEJdzx1K7iiZQCjO5fDIS8OHB0A=
+			gA8mRWNVOUMbcgUpCiBM4TZU3UQFFaWSbt4UUXHjSHI=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8De1P20SzhjUq0pIBMyNJ8nm+xa44dEPxNRTxNE1DUM=
+			mZpWmT+4HCWIbSMWhoCgXQDj19/mMvH4692LNTjN2qo=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			996+kW+qBEl7qBed+SIxmf6RqPlrtm9ymk5uufhTQUY=
+			/tO4Ed2M5HP0PCnwNcoABqNuphpSZCfhUeLolHaP1FU=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -111,14 +111,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			996+kW+qBEl7qBed+SIxmf6RqPlrtm9ymk5uufhTQUY=
+			/tO4Ed2M5HP0PCnwNcoABqNuphpSZCfhUeLolHaP1FU=
 			</data>
 		</dict>
 		<key>Modules/Admob_Native_iOS.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			d3dNrJYHCjAFXLCb68R9R0NFHP0lPLBSWTIGULTJFc8=
+			mpY6DYTH7mRHM0V9wkto+bQ9GCDKfPky21Ws5FpTrh0=
 			</data>
 		</dict>
 	</dict>

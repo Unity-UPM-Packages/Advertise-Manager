@@ -7426,6 +7426,51 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS04BaseB12AdLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS04BaseB12AdLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "isOpen": true,
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS04BaseB12AdLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS04BaseB12AdLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init(frame:)",
@@ -10380,6 +10425,55 @@
         "printedName": "NativeFullScreenMediaLayoutView",
         "children": [
           {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS0B25FullScreenMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS0B25FullScreenMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "overriding": true,
+            "declAttributes": [
+              "Final",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS0B25FullScreenMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS0B25FullScreenMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "overriding": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init()",
@@ -10643,6 +10737,55 @@
         "name": "NativeFullScreenNoMediaLayoutView",
         "printedName": "NativeFullScreenNoMediaLayoutView",
         "children": [
+          {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS0B27FullScreenNoMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS0B27FullScreenNoMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "overriding": true,
+            "declAttributes": [
+              "Final",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS0B27FullScreenNoMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS0B27FullScreenNoMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "overriding": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
           {
             "kind": "Var",
             "name": "largeIconImgView",
@@ -11016,6 +11159,55 @@
         "printedName": "NativeHalfScreenMediaLayoutView",
         "children": [
           {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS0B25HalfScreenMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS0B25HalfScreenMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "overriding": true,
+            "declAttributes": [
+              "Final",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS0B25HalfScreenMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS0B25HalfScreenMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "overriding": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init()",
@@ -11361,6 +11553,55 @@
         "name": "NativeHalfScreenNoMediaLayoutView",
         "printedName": "NativeHalfScreenNoMediaLayoutView",
         "children": [
+          {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS0B27HalfScreenNoMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS0B27HalfScreenNoMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "overriding": true,
+            "declAttributes": [
+              "Final",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS0B27HalfScreenNoMediaLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS0B27HalfScreenNoMediaLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "overriding": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
           {
             "kind": "Var",
             "name": "largeIconImgView",
@@ -12516,6 +12757,55 @@
         "printedName": "NativeVideoLayoutView",
         "children": [
           {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS0B15VideoLayoutViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS0B15VideoLayoutViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "overriding": true,
+            "declAttributes": [
+              "Final",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS0B15VideoLayoutViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS0B15VideoLayoutViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "overriding": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init(layoutName:)",
@@ -12853,6 +13143,95 @@
         "name": "PassthroughContainerView",
         "printedName": "PassthroughContainerView",
         "children": [
+          {
+            "kind": "Var",
+            "name": "displayLevel",
+            "printedName": "displayLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16Admob_Native_iOS24PassthroughContainerViewC12displayLevel14CoreFoundation7CGFloatVvp",
+            "mangledName": "$s16Admob_Native_iOS24PassthroughContainerViewC12displayLevel12CoreGraphics7CGFloatVvp",
+            "moduleName": "Admob_Native_iOS",
+            "declAttributes": [
+              "HasInitialValue",
+              "Preconcurrency",
+              "Custom",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS24PassthroughContainerViewC12displayLevel14CoreFoundation7CGFloatVvg",
+                "mangledName": "$s16Admob_Native_iOS24PassthroughContainerViewC12displayLevel12CoreGraphics7CGFloatVvg",
+                "moduleName": "Admob_Native_iOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGFloat",
+                    "printedName": "CoreGraphics.CGFloat",
+                    "usr": "s:14CoreFoundation7CGFloatV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS24PassthroughContainerViewC12displayLevel14CoreFoundation7CGFloatVvs",
+                "mangledName": "$s16Admob_Native_iOS24PassthroughContainerViewC12displayLevel12CoreGraphics7CGFloatVvs",
+                "moduleName": "Admob_Native_iOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16Admob_Native_iOS24PassthroughContainerViewC12displayLevel14CoreFoundation7CGFloatVvM",
+                "mangledName": "$s16Admob_Native_iOS24PassthroughContainerViewC12displayLevel12CoreGraphics7CGFloatVvM",
+                "moduleName": "Admob_Native_iOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
           {
             "kind": "Function",
             "name": "hitTest",
@@ -15189,9 +15568,16 @@
     {
       "filePath": "\/Users\/macbf\/Unity Project\/Admob Native iOS\/Admob Native iOS\/Layouts\/Layouts\/NativeVideoLayoutView.swift",
       "kind": "StringLiteral",
-      "offset": 332,
+      "offset": 391,
       "length": 14,
       "value": "\"native_video\""
+    },
+    {
+      "filePath": "\/Users\/macbf\/Unity Project\/Admob Native iOS\/Admob Native iOS\/ShowBehavior\/BaseShowBehavior.swift",
+      "kind": "IntegerLiteral",
+      "offset": 420,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/macbf\/Unity Project\/Admob Native iOS\/Admob Native iOS\/Admob_Native_iOS.swift",

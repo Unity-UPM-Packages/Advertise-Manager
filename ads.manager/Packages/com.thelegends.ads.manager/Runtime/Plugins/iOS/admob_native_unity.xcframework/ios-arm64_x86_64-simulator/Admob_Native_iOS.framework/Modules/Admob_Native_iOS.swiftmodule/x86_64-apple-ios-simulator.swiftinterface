@@ -147,6 +147,9 @@ public struct NativeAdCallbacks {
   @_Concurrency.MainActor @preconcurrency public var isCircularProgress: Swift.Bool
   @_Concurrency.MainActor @preconcurrency public var isRemainingSuffix: Swift.Bool
   @_Concurrency.MainActor @preconcurrency public var onCloseClicked: (() -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency open func setupLayout()
@@ -305,12 +308,18 @@ extension UIKit.UIColor {
   @objc deinit
 }
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeFullScreenMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency override final public var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
   @objc deinit
 }
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeFullScreenNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency override final public var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
   @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
@@ -320,6 +329,9 @@ extension UIKit.UIColor {
   @objc deinit
 }
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeHalfScreenMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency override final public var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency @objc override final public func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
@@ -328,6 +340,9 @@ extension UIKit.UIColor {
   @objc deinit
 }
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeHalfScreenNoMediaLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency override final public var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency final public let largeIconImgView: UIKit.UIImageView
   @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
@@ -354,6 +369,9 @@ extension UIKit.UIColor {
   @objc deinit
 }
 @objc @_Concurrency.MainActor @preconcurrency final public class NativeVideoLayoutView : Admob_Native_iOS.BaseNativeAdLayoutView {
+  @_Concurrency.MainActor @preconcurrency override final public var displayLevel: CoreFoundation.CGFloat {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency public init(layoutName: Swift.String = "native_video")
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor @preconcurrency override final public func setupLayout()
@@ -364,6 +382,7 @@ extension UIKit.UIColor {
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class PassthroughContainerView : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency public var displayLevel: CoreFoundation.CGFloat
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
