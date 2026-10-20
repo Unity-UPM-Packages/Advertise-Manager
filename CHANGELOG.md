@@ -1,3 +1,10 @@
+## [1.1.81](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.80...v1.1.81) (2026-10-20)
+
+
+### Bug Fixes
+
+* change banner height to 40 Android/iOS ([69b6096](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/69b60965e51cd833027499beadb068fc29c22d84))
+
 ## [1.1.80](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.79...v1.1.80) (2026-10-20)
 
 
