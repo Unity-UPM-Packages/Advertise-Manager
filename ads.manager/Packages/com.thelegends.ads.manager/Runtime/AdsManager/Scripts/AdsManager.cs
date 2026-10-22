@@ -600,7 +600,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeBanner(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
+        internal NativePlatformShowBuilder ShowNativeBanner(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -722,7 +722,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeInter(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
+        internal NativePlatformShowBuilder ShowNativeInter(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -774,7 +774,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeReward(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
+        internal NativePlatformShowBuilder ShowNativeReward(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -826,7 +826,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeMrec(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        internal NativePlatformShowBuilder ShowNativeMrec(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
         {
             if (!IsInitialized())
             {
@@ -888,7 +888,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeAppOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
+        internal NativePlatformShowBuilder ShowNativeAppOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -940,7 +940,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeInterOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
+        internal NativePlatformShowBuilder ShowNativeInterOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null, Action OnClick = null)
         {
             if (!IsInitialized())
             {
@@ -992,7 +992,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeMrecOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        internal NativePlatformShowBuilder ShowNativeMrecOpen(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
         {
             if (!IsInitialized())
             {
@@ -1044,7 +1044,7 @@ namespace TheLegends.Base.Ads
             }
         }
 
-        public NativePlatformShowBuilder ShowNativeVideo(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
+        internal NativePlatformShowBuilder ShowNativeVideo(PlacementOrder order, string position, string layoutName, Action OnShow = null, Action OnClose = null, Action OnAdDismissedFullScreenContent = null)
         {
             if (!IsInitialized())
             {

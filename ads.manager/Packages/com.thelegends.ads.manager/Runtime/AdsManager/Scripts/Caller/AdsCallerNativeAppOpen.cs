@@ -16,6 +16,11 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (!IsTimeToShowAds(onClose))
+            {
+                return;
+            }
+
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) != AdsEvents.LoadAvailable &&
                 AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, currentPlacement) != AdsEvents.LoadAvailable)
             {
@@ -95,6 +100,11 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (!IsTimeToShowAds(onClose))
+            {
+                return;
+            }
+
             int remainingLoops = AdsManager.Instance.adsConfigs.maxNativeFullScreenLoadLoop;
 
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, nextPlacement) != AdsEvents.LoadAvailable &&
@@ -170,6 +180,11 @@ namespace TheLegends.Base.Ads
             NativePlatformShowBuilder.CountdownConfig defaultCountdownConfig,
             NativePlatformShowBuilder.CountdownConfig metaCountdownConfig)
         {
+            if (!IsTimeToShowAds(onClose))
+            {
+                return;
+            }
+
             if (AdsManager.Instance.GetAdsStatus(AdsType.NativeAppOpen, placementOrder) != AdsEvents.LoadAvailable)
             {
                 if (AdsManager.Instance.SettingsAds.preloadSettings.nativeAds.preloadNativeAppOpen)
