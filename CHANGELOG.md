@@ -1,3 +1,11 @@
+## [1.1.82](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.81...v1.1.82) (2026-10-22)
+
+
+### Bug Fixes
+
+* Apply TimeToShowAds for AdsCaller ([0f14ef6](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/0f14ef6f9254dcd4ad41be45f7cce259a45e457b))
+* remove retry after load fail ([eb4d7f6](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/eb4d7f650a4cedffb8218790ad045e7667ddd7ab))
+
 ## [1.1.81](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.80...v1.1.81) (2026-10-20)
 
 
