@@ -135,7 +135,6 @@ namespace TheLegends.Base.Ads
             else
             {
                 AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
-                reloadCount = 0;
                 LoadAds();
             }
 
@@ -155,7 +154,6 @@ namespace TheLegends.Base.Ads
             else
             {
                 AdsManager.Instance.LogWarning($"{AdsMediation}_{AdsType} " + "is not ready --> Load Ads");
-                reloadCount = 0;
                 LoadAds();
             }
 #endif

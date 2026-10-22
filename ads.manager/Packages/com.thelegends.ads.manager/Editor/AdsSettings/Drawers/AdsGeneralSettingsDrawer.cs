@@ -12,7 +12,6 @@ namespace TheLegends.Base.Ads.Editor
 
             instance.bannerPosition = (BannerPos)EditorGUILayout.EnumPopup("Banner Position", instance.bannerPosition);
             instance.fixBannerSmallSize = EditorGUILayout.Toggle("Fix Banner Small Size 320x50", instance.fixBannerSmallSize);
-            instance.autoReLoadMax = EditorGUILayout.IntField("Max Auto Reload If No Ads", instance.autoReLoadMax);
             instance.isTest = EditorGUILayout.Toggle("Is Testing", instance.isTest);
 
             EditorGUILayout.Space(6);

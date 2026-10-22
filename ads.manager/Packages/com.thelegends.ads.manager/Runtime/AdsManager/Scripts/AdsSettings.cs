@@ -101,7 +101,6 @@ namespace TheLegends.Base.Ads
         public BannerPos bannerPosition = BannerPos.Bottom;
         public bool fixBannerSmallSize;
 
-        public int autoReLoadMax = 2;
         public bool isTest = false;
 
 

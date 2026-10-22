@@ -23,8 +23,6 @@ namespace TheLegends.Base.Ads
         protected string adsUnitID = string.Empty;
         protected string position = "default";
 
-        protected int reloadCount = 0;
-
         protected string _loadRequestId = "";
 
         protected string _currentLoadRequestId = "";
@@ -142,7 +140,6 @@ namespace TheLegends.Base.Ads
         public virtual void OnAdsLoadAvailable()
         {
             Status = AdsEvents.LoadAvailable;
-            reloadCount = 0;
 
             loadEndTime = DateTime.UtcNow;
 
@@ -185,43 +182,11 @@ namespace TheLegends.Base.Ads
             // });
 #endif
 
-            float timeWait = 5f;
-
-            switch (GetAdsType())
-            {
-                case AdsType.InterOpen:
-                case AdsType.MrecOpen:
-                case AdsType.NativeMrecOpen:
-                case AdsType.NativeInterOpen:
-                case AdsType.NativeInter:
-                    timeWait = 0.125f;
-                    break;
-            }
-
-            string extendString = "";
-
-            if (reloadCount < AdsManager.Instance.SettingsAds.autoReLoadMax && timeWait > 0)
-            {
-                extendString = " re-trying in " + (timeWait * (reloadCount + 1)) + " seconds " + (reloadCount + 1) + "/" + AdsManager.Instance.SettingsAds.autoReLoadMax;
-            }
-
-
             AdsManager.Instance.LogError($"{AdsMediation.ToString()}_{AdsType.ToString()} " +
-                                         "OnAdsLoadFailed " + adsUnitID + " Error: " + message + extendString);
+                                         "OnAdsLoadFailed " + adsUnitID + " Error: " + message);
 
-            if (reloadCount < AdsManager.Instance.SettingsAds.autoReLoadMax)
-            {
-                AdsUnitIDIndex++;
-                reloadCount++;
-                Invoke(nameof(LoadAds), timeWait * reloadCount);
-            }
-            else
-            {
-                Status = AdsEvents.LoadNotAvailable;
-                AdsUnitIDIndex = 0;
-                reloadCount = 0;
-            }
-
+            Status = AdsEvents.LoadNotAvailable;
+            AdsUnitIDIndex = 0;
         }
 
         public virtual void ShowAds(string showPosition)
