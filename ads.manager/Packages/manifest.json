@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.thelegends.tiktok.manager": "1.0.0",
     "com.thelegends.facebook.manager": "1.0.1",
     "com.thelegends.databuckets.manager": "1.0.0",
     "com.thelegends.appsflyer.manager": "1.0.10",

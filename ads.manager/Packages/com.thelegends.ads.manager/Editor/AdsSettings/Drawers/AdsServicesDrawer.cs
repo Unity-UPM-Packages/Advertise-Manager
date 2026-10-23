@@ -22,6 +22,8 @@ namespace TheLegends.Base.Ads.Editor
                 DrawAdsTypeMultiSelect(instance.databucketsTrackedTypes, "Databuckets Tracked Types", editor);
             if (instance.useFacebook)
                 DrawAdsTypeMultiSelect(instance.facebookTrackedTypes, "Facebook Tracked Types", editor);
+            if (instance.useTikTok)
+                DrawAdsTypeMultiSelect(instance.tiktokTrackedTypes, "TikTok Tracked Types", editor);
         }
 
         private void DrawServicesGrid(AdsSettings instance)
@@ -32,6 +34,7 @@ namespace TheLegends.Base.Ads.Editor
                 ("AppsFlyer",  instance.useAppsFlyer, v => instance.useAppsFlyer = v),
                 ("Databuckets",instance.useDatabuckets,v => instance.useDatabuckets = v),
                 ("Facebook",   instance.useFacebook,  v => instance.useFacebook = v),
+                ("TikTok",     instance.useTikTok,    v => instance.useTikTok = v),
             };
 
             const int columns = 3;

@@ -16,6 +16,9 @@ using TheLegends.Base.Databuckets;
 #if USE_FACEBOOK
 using TheLegends.Base.Facebook;
 #endif
+#if USE_TIKTOK
+using TheLegends.Base.TikTok;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -101,6 +104,10 @@ namespace TheLegends.Base.Ads
 
 #if USE_FACEBOOK
             yield return InitFacebook();
+#endif
+
+#if USE_TIKTOK
+            yield return InitTikTok();
 #endif
 
             // Initialize Ads Manager
@@ -328,6 +335,13 @@ namespace TheLegends.Base.Ads
         private IEnumerator InitFacebook()
         {
             yield return FacebookManager.Instance.DoInit();
+        }
+#endif
+
+#if USE_TIKTOK
+        private IEnumerator InitTikTok()
+        {
+            yield return TikTokManager.Instance.DoInit();
         }
 #endif
 

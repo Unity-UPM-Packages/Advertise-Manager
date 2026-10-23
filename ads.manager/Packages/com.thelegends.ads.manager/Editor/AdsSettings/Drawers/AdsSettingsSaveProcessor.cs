@@ -21,6 +21,7 @@ namespace TheLegends.Base.Ads.Editor
                 PackagesManagerIntergration.SetSymbolEnabled("USE_APPSFLYER", instance.useAppsFlyer);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_DATABUCKETS", instance.useDatabuckets);
                 PackagesManagerIntergration.SetSymbolEnabled("USE_FACEBOOK", instance.useFacebook);
+                PackagesManagerIntergration.SetSymbolEnabled("USE_TIKTOK", instance.useTikTok);
 
                 PackagesManagerIntergration.SetSymbolEnabled("USE_ADMOB_NATIVE_UNITY",
                     instance.showADMOB && instance.isUseNativeUnity);

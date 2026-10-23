@@ -222,6 +222,14 @@ namespace TheLegends.Base.Ads
                 activeTrackers.Add(facebookTracker);
             }
 #endif
+#if USE_TIKTOK
+            if (SettingsAds.useTikTok)
+            {
+                var tiktokTracker = new Tracking.TikTokImpressionTracker();
+                tiktokTracker.Initialize(SettingsAds);
+                activeTrackers.Add(tiktokTracker);
+            }
+#endif
         }
 
 

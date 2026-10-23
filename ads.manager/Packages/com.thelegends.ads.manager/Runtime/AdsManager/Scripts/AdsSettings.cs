@@ -91,6 +91,9 @@ namespace TheLegends.Base.Ads
         public bool useFacebook = false;
         public List<AdsType> facebookTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
 
+        public bool useTikTok = false;
+        public List<AdsType> tiktokTrackedTypes = Enum.GetValues(typeof(AdsType)).Cast<AdsType>().Where(t => t != AdsType.None).ToList();
+
         public string appsFlyerDevKey = "Qhno4yJY6KHmZp9uS9DRe4";
         public string appleAppId = "";
 

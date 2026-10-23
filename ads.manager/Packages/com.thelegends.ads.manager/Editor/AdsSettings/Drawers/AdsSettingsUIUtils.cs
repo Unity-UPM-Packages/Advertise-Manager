@@ -43,6 +43,9 @@ namespace TheLegends.Base.Ads.Editor
 
             if (instance.useFacebook && !PackagesManagerIntergration.IsSymbolEnabled("USE_FACEBOOK"))
                 EditorGUILayout.HelpBox("Press SAVE to add scripting define \"USE_FACEBOOK\"", MessageType.Warning);
+
+            if (instance.useTikTok && !PackagesManagerIntergration.IsSymbolEnabled("USE_TIKTOK"))
+                EditorGUILayout.HelpBox("Press SAVE to add scripting define \"USE_TIKTOK\"", MessageType.Warning);
         }
     }
 }
