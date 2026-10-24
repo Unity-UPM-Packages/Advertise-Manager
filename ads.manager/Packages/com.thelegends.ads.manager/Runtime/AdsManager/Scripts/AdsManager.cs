@@ -21,6 +21,9 @@ using UnityEngine;
 #if USE_FACEBOOK
 using TheLegends.Base.Facebook;
 #endif
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
 
 namespace TheLegends.Base.Ads
 {
@@ -170,6 +173,53 @@ namespace TheLegends.Base.Ads
 
             Log("RequestConsent via " + mediation.GetMediationType());
             yield return mediation.RequestConsent();
+        }
+
+        // App Tracking Transparency (iOS 14.5+). Asked once, after consent and before the tracking SDKs start.
+        public IEnumerator RequestATT()
+        {
+#if UNITY_IOS && !UNITY_EDITOR
+            var minVersion = new Version("14.5");
+            var currentVersion = minVersion;
+            try
+            {
+                currentVersion = new Version(UnityEngine.iOS.Device.systemVersion);
+            }
+            catch (Exception e)
+            {
+                LogError("Cannot parse iOS version: " + e.Message);
+            }
+
+            if (currentVersion < minVersion)
+            {
+                Log("ATT not required on iOS " + currentVersion);
+                yield break;
+            }
+
+            var status = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+            if (status != ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+            {
+                Log("ATT already determined: " + status);
+                yield break;
+            }
+
+            // iOS only shows the ATT prompt while the app is active
+            while (!Application.isFocused)
+            {
+                yield return null;
+            }
+
+            bool isDone = false;
+            ATTrackingStatusBinding.RequestAuthorizationTracking(result => isDone = true);
+
+            while (!isDone)
+            {
+                yield return null;
+            }
+
+            Log("ATT result: " + ATTrackingStatusBinding.GetAuthorizationTrackingStatus());
+#endif
+            yield break;
         }
 
         public IEnumerator DoInit()

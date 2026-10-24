@@ -18,11 +18,12 @@
   },
   "dependencies": {
     "com.thelegends.unity.ui": "1.0.6",
-    "com.thelegends.unity.patterns": "1.0.1"
+    "com.thelegends.unity.patterns": "1.0.1",
+    "com.unity.ads.ios-support": "1.2.0"
   },
   "optionalDependencies": {
     "com.thelegends.firebase.manager": "1.0.11",
-    "com.thelegends.appsflyer.manager": "1.0.10",
+    "com.thelegends.appsflyer.manager": "1.0.11",
     "com.google.ads.mobile": "9.6.0",
     "com.applovin.mediation.ads": "8.1.0",
     "com.thelegends.databuckets.manager": "1.0.0",

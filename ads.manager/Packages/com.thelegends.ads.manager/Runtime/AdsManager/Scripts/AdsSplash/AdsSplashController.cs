@@ -84,6 +84,7 @@ namespace TheLegends.Base.Ads
 
             // Gather consent before any tracking SDK is initialized
             yield return AdsManager.Instance.RequestConsent();
+            yield return AdsManager.Instance.RequestATT();
 
 #if USE_FIREBASE
             // Initialize Firebase with remote config
