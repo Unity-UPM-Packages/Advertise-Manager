@@ -82,6 +82,9 @@ namespace TheLegends.Base.Ads
         {
             UILoadingController.SetProgress(0.2f, null);
 
+            // Gather consent before any tracking SDK is initialized
+            yield return AdsManager.Instance.RequestConsent();
+
 #if USE_FIREBASE
             // Initialize Firebase with remote config
             yield return InitializeFirebase();

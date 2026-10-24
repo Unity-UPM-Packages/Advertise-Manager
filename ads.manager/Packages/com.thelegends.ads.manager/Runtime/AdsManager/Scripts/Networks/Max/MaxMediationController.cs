@@ -14,6 +14,7 @@ namespace TheLegends.Base.Ads
     public class MaxMediationController : AdsMediationBase
     {
         private InitiationStatus status = InitiationStatus.NotInitialized;
+        private InitiationStatus sdkStatus = InitiationStatus.NotInitialized;
 
         private List<MaxInterstitialController> interList = new List<MaxInterstitialController>();
         private List<MaxInterstitialOpenController> interOpenList = new List<MaxInterstitialOpenController>();
@@ -53,15 +54,52 @@ namespace TheLegends.Base.Ads
             var appOpenIds = GetAdUnitIds(isIOS, AdsManager.Instance.SettingsAds.MAX_iOS.appOpenIds, AdsManager.Instance.SettingsAds.MAX_Android.appOpenIds);
             CreateAdController(appOpenIds, appOpenList);
 
+            yield return InitMaxSdk();
 
+            status = sdkStatus;
+
+#endif
+            yield break;
+        }
+
+        // MAX shows its Terms and Privacy Policy (CMP) flow during MaxSdk.InitializeSdk(),
+        // so gathering consent means initializing the SDK early.
+        public override IEnumerator RequestConsent()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            yield return InitMaxSdk();
+#endif
+            yield break;
+        }
+
+        private IEnumerator InitMaxSdk()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
+            if (sdkStatus == InitiationStatus.NotInitialized)
+            {
+                sdkStatus = InitiationStatus.Initializing;
+                StartMaxSdk();
+            }
+
+            while (sdkStatus == InitiationStatus.Initializing)
+            {
+                yield return null;
+            }
+#endif
+            yield break;
+        }
+
+        private void StartMaxSdk()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && USE_MAX
             MaxSdkCallbacks.OnSdkInitializedEvent += (sdkConfiguration) =>
             {
                 PimDeWitte.UnityMainThreadDispatcher.UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
                     if (sdkConfiguration.IsSuccessfullyInitialized)
                     {
-                        status = InitiationStatus.Initialized;
-                        AdsManager.Instance.Log($"{TagLog.MAX} " + "Max SDK initialized");
+                        sdkStatus = InitiationStatus.Initialized;
+                        AdsManager.Instance.Log($"{TagLog.MAX} " + "Max SDK initialized. ConsentFlowUserGeography: " + sdkConfiguration.ConsentFlowUserGeography);
 
                         if (AdsManager.Instance.SettingsAds.isShowMediationDebugger)
                         {
@@ -70,7 +108,7 @@ namespace TheLegends.Base.Ads
                     }
                     else
                     {
-                        status = InitiationStatus.Failed;
+                        sdkStatus = InitiationStatus.Failed;
                         AdsManager.Instance.Log($"{TagLog.MAX} " + "Max SDK initialization failed");
                     }
                 });
@@ -89,14 +127,7 @@ namespace TheLegends.Base.Ads
             }
 
             MaxSdk.InitializeSdk();
-
-            while (status == InitiationStatus.Initializing)
-            {
-                yield return null;
-            }
-
 #endif
-            yield break;
         }
 
         private List<Placement> GetAdUnitIds(bool isIOS, List<Placement> iosIds, List<Placement> androidIds)

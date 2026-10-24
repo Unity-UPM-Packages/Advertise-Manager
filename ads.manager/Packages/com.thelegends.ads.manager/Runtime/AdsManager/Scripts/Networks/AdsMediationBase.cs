@@ -11,6 +11,12 @@ namespace TheLegends.Base.Ads
         public AdsMediation MediationType { get => GetMediationType(); }
         public abstract IEnumerator DoInit();
 
+        // Gather user consent (CMP). Called once, before tracking SDKs are initialized.
+        public virtual IEnumerator RequestConsent()
+        {
+            yield break;
+        }
+
         public abstract void LoadInterstitial(AdsType interType, PlacementOrder order);
         public abstract void ShowInterstitial(AdsType interType, PlacementOrder order, string position, Action OnClose = null);
 

@@ -152,6 +152,26 @@ namespace TheLegends.Base.Ads
 
         Dictionary<string, object> impressionParameters = new Dictionary<string, object>();
 
+        // Consent is gathered once, through the primary mediation's CMP; the other SDKs read the stored IAB TCF data.
+        public IEnumerator RequestConsent()
+        {
+            var mediations = GetComponentsInChildren<AdsMediationBase>();
+            var mediation = mediations.FirstOrDefault(x => x.GetMediationType() == SettingsAds.primaryMediation);
+            if (mediation == null)
+            {
+                mediation = mediations.FirstOrDefault();
+            }
+
+            if (mediation == null)
+            {
+                LogError("No mediation found --> skip RequestConsent");
+                yield break;
+            }
+
+            Log("RequestConsent via " + mediation.GetMediationType());
+            yield return mediation.RequestConsent();
+        }
+
         public IEnumerator DoInit()
         {
             if (SettingsAds.AdsMediations == null || SettingsAds.AdsMediations.Count == 0)

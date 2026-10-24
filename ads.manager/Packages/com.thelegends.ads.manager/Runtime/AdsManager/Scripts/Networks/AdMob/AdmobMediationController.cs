@@ -115,8 +115,6 @@ namespace TheLegends.Base.Ads
                 }
             }
 
-            yield return RequestUMP();
-
             MobileAds.SetRequestConfiguration(new RequestConfiguration
             {
                 TestDeviceIds = testDevicesIDAds
@@ -182,6 +180,11 @@ namespace TheLegends.Base.Ads
 
 
 
+        public override IEnumerator RequestConsent()
+        {
+            yield return RequestUMP();
+        }
+
         private IEnumerator RequestUMP()
         {
 #if (UNITY_ANDROID || UNITY_IOS) && USE_ADMOB
@@ -236,7 +239,6 @@ namespace TheLegends.Base.Ads
                         {
                             // Consent gathering failed.
                             AdsManager.Instance.LogError($"{TagLog.UMP} " + ConsentInformation.ConsentStatus.ToString().ToUpper() + " --> " + formError.Message);
-                            return;
                         }
                         else
                         {
