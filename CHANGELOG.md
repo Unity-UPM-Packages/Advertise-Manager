@@ -1,3 +1,12 @@
+## [1.1.83](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.82...v1.1.83) (2026-10-24)
+
+
+### Bug Fixes
+
+* implement tiktok sdk ([1416c70](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/1416c70653d322df1f1e9bff85acbbacdf1321c6))
+* improve ATT ([d396e7c](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/d396e7c4c28306a1ba4689e15a74012a1e53f142))
+* improve UMP consent ([ce0a526](https://github.com/Unity-UPM-Packages/Advertise-Manager/commit/ce0a5267f51dec4603995e617b2e45f7780a5fd0))
+
 ## [1.1.82](https://github.com/Unity-UPM-Packages/Advertise-Manager/compare/v1.1.81...v1.1.82) (2026-10-22)
 
 
